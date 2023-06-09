@@ -64,7 +64,7 @@
     <!-- Navbar Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
-            <a href="{{ route('app_accueil') }}" class="navbar-brand">
+            <a href="" class="navbar-brand">
                 {{-- <h1 class="m-0 text-white"><img class="" src="{{ asset('logo-site-as.jpg') }}" height="30" width="160" alt=""></h1> --}}
                 <h1 class="m-0 text-white"><img class="" src="{{ asset('logo1.png') }}" width="210" alt=""></h1>
             </a>
@@ -73,10 +73,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="{{ route('app_accueil') }}" class="nav-item nav-link active">Accueil</a>
-                    <a href="{{ route('app_presentation') }}" class="nav-item nav-link">Présentation</a>
-                    <a href="{{ route('app_nosprestation') }}" class="nav-item nav-link">Nos prestations</a>
-                    <a href="{{ route('app_prestation') }}" class="nav-item nav-link">Demandez une prestation</a>
+                    <a href="" class="nav-item nav-link active">Accueil</a>
+                    <a href="{{ url('home/about') }}" class="nav-item nav-link">Présentation</a>
+                    <a href="{{ url('all/prestation') }}" class="nav-item nav-link">Nos prestations</a>
+                    <a href="{{ route('ask.prestation') }}" class="nav-item nav-link">Demandez une prestation</a>
                     <a href="{{ route('app_devenirprestataire') }}" class="nav-item nav-link">Devenir un prestataire</a>
                     <a href="{{ route('app_contact') }}" class="nav-item nav-link">Contact</a>
                 </div>
@@ -158,12 +158,13 @@
                                     <h3 class="text-light mb-0">Liens rapides</h3>
                                 </div>
                                 <div class="link-animated d-flex flex-column justify-content-start">
-                                    <a class="text-light mb-2" href="{{ route('app_accueil') }}"><i class=" bi bi-arrow-right text-primary me-2"></i>Accueil</a>
-                                    <a class="text-light mb-2" href="{{ route('app_presentation') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Présentation</a>
-                                    <a class="text-light mb-2" href="{{ route('app_nosprestation') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Nos prestations</a>
-                                    <a class="text-light mb-2" href="{{ route('app_prestation') }} "><i class="bi bi-arrow-right text-primary me-2"></i>Demande de prestation</a>
-                                    <a class="text-light mb-2" href="{{ route('app_devenirprestataire') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Devenir un prestataire</a>
-                                    <a class="text-light" href="{{ route('app_contact') }}"><i class=" bi bi-arrow-right text-primary me-2"></i>Contact</a>
+                                    <a class="text-light mb-2" href="{{ url('/')}}"><i class=" bi bi-arrow-right text-primary me-2"></i>Accueil</a>
+                                    <a class="text-light mb-2" href=""><i class="bi bi-arrow-right text-primary me-2"></i>Présentation</a>
+                                    <a class="text-light mb-2" href=""><i class="bi bi-arrow-right text-primary me-2"></i>
+                                        Nos prestations</a>
+                                    <a class="text-light mb-2" href=""><i class="bi bi-arrow-right text-primary me-2"></i>Demande de prestation</a>
+                                    <a class="text-light mb-2" href=""><i class="bi bi-arrow-right text-primary me-2"></i>Devenir un prestataire</a>
+                                    <a class="text-light" href="{{ route('front.contact') }}"><i class=" bi bi-arrow-right text-primary me-2"></i>Contact</a>
 
                                 </div>
                             </div>
@@ -187,7 +188,7 @@
                 <div class="row justify-content-end">
                     <div class="col-lg-8 col-md-6">
                         <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
-                            <p class="mb-0">&copy; <a class="text-white border-bottom" href="#"></a>Copyright © 2022 | Allô Service- Services & Prestations | Tous droits réservés.
+                            <p class="mb-0">&copy; <a class="text-white border-bottom" href="#"></a>Copyright © 2023 | Allô Service- Services & Prestations | Tous droits réservés.
                         </div>
                     </div>
                 </div>
@@ -288,6 +289,8 @@
             }
 
         </script>
+
+    </div>
 </body>
 
 </html>

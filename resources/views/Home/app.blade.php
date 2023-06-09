@@ -57,10 +57,7 @@
 </div>
 <!-- Facts Start -->
 
-
-
-
-
+<!-- section prestations -->
 <!-- Team Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container py-5">
@@ -73,8 +70,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/team-1.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -87,8 +84,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/team-2.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -101,8 +98,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/team-3.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -115,8 +112,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/menuisie.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -129,8 +126,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/mecano.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -144,8 +141,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/jardinier.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -159,8 +156,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/coif.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -174,8 +171,8 @@
                     <div class="team-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="{{ asset('assets/img/chauf.jpg') }}" alt="">
                         <div class="team-social">
-                            <a href="{{ route('app_prestation') }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
-                            <a href="{{ route('app_devenirprestataire') }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
+                            <a href="" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander une prestation</a>
+                            <a href="" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir un prestataire</a>
                         </div>
                     </div>
                     <div class="text-center py-3">
@@ -184,18 +181,16 @@
                 </div>
             </div>
         </div>
-        <a href="{{ route('app_nosprestation') }}" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">Voir toutes nos prestations</a>
+        <a href="" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">Voir toutes nos prestations</a>
     </div>
 </div>
 
 
 
 
-
-
 <!-- About Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container py-5">
+    {{-- <div class="container py-5">
         <div class="row g-5">
             <div class="col-lg-7">
                 <div class="section-title position-relative pb-3 mb-5">
@@ -221,7 +216,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+    @include('Home.presentation')
 </div>
 <!-- About End -->
 

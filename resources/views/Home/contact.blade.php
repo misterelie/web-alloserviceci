@@ -212,46 +212,58 @@
                 NB: Les champs marqués par une étoile sont obligatoires .
             </p>
         </div>
-        <form action="{{ route('store.contact') }}" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+        <form action="{{ route('save_contact')}}" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
             @csrf
 
             <div class="row">
                 <div class="col-lg-6 col-md-6 form-group mt-3 mt-md-0">
-                    <label class="form-label" for="form4Example1">Nom</label>
-                    <input type="text" id="form4Example1" class="form-control" name="nom" />
+                    <label class="form-label" for="form1Example2"><span style="color: red">*</span> Nom :</label>
+                    <input type="text" id="form4Example1" class="form-control @error('nom') is-invalid @enderror" name="nom" placeholder="Saisissez votre nom" required/>
+                    @error('nom')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                @error('nom')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
+               
+                <div class="col-lg-6 col-md-6 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="form1Example2"><span style="color: red">*</span> Prénoms :</label>
+                    <input type="text" id="form4Example2" class="form-control @error('prenoms') is-invalid @enderror"  placeholder="Saisissez votre prénom" name="prenoms" required/>
+                    @error('prenoms')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+              
 
                 <div class="col-lg-6 col-md-6 form-group mt-3 mt-md-0">
-                    <label class="form-label" for="form4Example2">Adresse Email</label>
-                    <input type="email" id="form4Example2" class="form-control" name="adresse_mail" />
+                    <label class="form-label" for="form1Example2"><span style="color: red">*</span> Email :</label>
+                    <input type="email" id="form4Example1" class="form-control @error('email') is-invalid @enderror" name="email" 
+                    placeholder="Saisissez votre email" required/>
+                    @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                @error('adresse_mail')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
 
+                <div class="col-lg-6 col-md-6 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="form1Example2"><span style="color: red">*</span> Objet :</label>
+                    <input type="text" id="form4Example2" class="form-control @error('objet') is-invalid @enderror"  
+                      placeholder="Saisissez l'objet du message" name="objet" required/>
+                    @error('objet')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+               
                 <!-- Message input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example3">Message</label>
-                    <textarea class="form-control" id="form4Example3" rows="4" name="message"></textarea>
+                    <textarea class="form-control" id="form4Example3" rows="4" placeholder="Ecrivez votre message ici !" name="message"></textarea>
                 </div>
                 @error('message')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
-
-
-
             </div>
-
             <!-- Submit button -->
             <div class="text-center"><button type="submit" class="btn btn-primary btn-block mb-4">Envoyez</button></div>
         </form>
     </div><br><br>
 </section>
-
-
 <!--Fin du formulaire-->
-
 @endsection

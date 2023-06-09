@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
+use App\Models\Assistance;
+use App\Models\Prestation;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,10 +14,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -23,11 +26,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // $prestations = Prestation::latest()->limit(10)->get();
+        $prestations = Prestation::orderBy('created_at')->get();
+        $abouts = About::all();
+        $assistances = Assistance::all();
+        return view('frontweb.index', compact('prestations', 'abouts', 'assistances'));
     }
 
-    public function adminIndex()
+    public function vu_about()
     {
-        return view('back.index');
+        $assistances = Assistance::all();
+        $abouts = About::all();
+        return view('frontweb.presentation', compact('abouts', 'assistances'));
     }
+
 }

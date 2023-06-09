@@ -1,9 +1,13 @@
 <?php
 
-use App\Http\Controllers\FrontController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Interfaces\FrontController  as InterfacesFrontController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,48 +20,40 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('Home.app');
-})->name('app_accueil');
 
-Route::get('/presentation', function () {
-    return view('Home.presentation');
-})->name('app_presentation');
+// FRONT
+Route::get('/', [HomeController::class, 'index'])->name("Home.app");
 
-Route::get('/nosPrestation', function () {
-    return view('Home.nosprestation');
-})->name('app_nosprestation');
+Route::get('/presentation', [InterfacesFrontController::class, 'vu_about'])->name("front.presentaion");
+route::get('/nos-prestations', [InterfacesFrontController::class, 'all_prestations'])->name("front.nos-prestations");
+Route::get('/ask.prestation', [InterfacesFrontController::class, 'demande_prestation'])->name("ask.prestation");
+Route::post('/save.demandeprestation', [InterfacesFrontController::class, 'store'])->name("save.demandeprestation");
+Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+Route::get('/nous-contacter', [InterfacesFrontController::class, 'send_contact'])->name("front.contact");
+Route::post('/save_contact', [InterfacesFrontController::class, 'store_contact'])->name("save_contact");
+Route::get('/ask.prestataire', [InterfacesFrontController::class, 'prestataire'])->name("ask.prestataire");
+Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+Route::get('/demande-prest/{id}', [InterfacesFrontController::class, 'demande_prest'])->name("front.prest");
+Route::get('/devenir-presta/{id}', [InterfacesFrontController::class, 'demande_presta'])->name("front.presta");
 
-Route::get('/nosPrestation', function () {
-    return view('Home.nosprestation');
-})->name('app_nosprestation');
+//ADMINISTRATION
+//nos prestations
 
-Route::get('/prestation', function () {
-    return view('Home.demandedeprestation');
-})->name('app_prestation');
+Route::get('/liste/prestation', [AdminController::class, 'liste_prestation'])->name("liste-prestation");
+Route::post('/save.prestation', [AdminController::class, 'save_prestation'])->name("save.prestation");
+Route::put('/prestation.upate/{prestation}', [AdminController::class, 'update'])->name("prestation.upate");
+Route::delete('/delete.prestation/{demandeprestation}', [AdminController::class, 'delete'])->name("delete.prestation");
 
-Route::post('/store.prestation', [FrontController::class, 'save_prestation'])->name("store.prestation");
+//MESSAGE CONTACTS
+Route::get('/message/contact', [ContactController::class, 'message_contact'])->name("message/contact");
+Route::delete('/delete.messagecontact/{id}', [ContactController::class, 'destroy_message_contact'])->name("delete.messagecontact");
 
-Route::get('/devenirprestataire', function () {
-    return view('Home.devenirprestataire');
-})->name('app_devenirprestataire');
-
-Route::post('/store.devenir', [FrontController::class, 'save_devenir'])->name("store.devenir");
-
-Route::get('/contact', function () {
-    return view('Home.contact');
-})->name('app_contact');
-
-
-Route::get('/tabeau-de-bord', [HomeController::class, 'adminIndex'])->name("admin.index");
-
-Route::post('/store.contact', [FrontController::class, 'save_contact'])->name("store.contact");
+//LISTE DES DEMANDES DE PRESTATIONS
+Route::get('/liste/demande_prestation', [AdminController::class, 'liste_demande_prestation'])->name("liste/demande_prestation");
+Route::put('/update.demande/{demandeprestation}', [AdminController::class, 'update_demande'])->name("update.demande");
+Route::delete('/delete.demande/{id}', [AdminController::class, 'deletedemande'])->name("delete.demande");
 
 
 
-// Route::get('/admin', function () {
-//     return view('dashboard.admin');
-// })->name('app_admin');
-// Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/administration', [AdminController::class, 'dasboard']);
