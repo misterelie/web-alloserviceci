@@ -215,7 +215,7 @@
 
 
             <!-- Modal suppression-->
-            @if(!is_null($modes))
+            {{-- @if(!is_null($modes))
             @foreach($modes as $mode)
                 <div class="modal fade zoomIn" id="deleteModal_{{$mode->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -241,7 +241,7 @@
                 </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
         </div>
         <!-- container-fluid -->
     </div>

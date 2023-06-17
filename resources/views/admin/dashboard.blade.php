@@ -8,12 +8,12 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>TABLEAU DE BOARD | ALLO SERVICE</title>
+    <title>Tableau de bord | Allô service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
     <!--datatable css-->
     <link rel="stylesheet" href="{{ asset('backend_admin/assets/cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css') }}" />
@@ -54,10 +54,10 @@
         </header>
 
         <!-- removeNotificationModal -->
-        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+        {{-- <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
             @include('partials-admin.remove_notification')
             <!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+        </div><!-- /.modal --> --}}
 
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
@@ -1640,9 +1640,9 @@
     </div>
 
     <!-- Theme Settings -->
-    <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
+    {{-- <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
         @include('partials-admin.theme')
-    </div>
+    </div> --}}
 
     <!-- JAVASCRIPT -->
    <!-- JAVASCRIPT -->

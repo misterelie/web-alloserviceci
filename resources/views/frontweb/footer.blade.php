@@ -73,6 +73,8 @@
                         <a class="text-light mb-2" href="{{ route('ask.prestation') }} "><i class="bi bi-arrow-right text-primary me-2"></i>Demande de prestation</a>
                         <a class="text-light mb-2" href="{{ route('ask.prestataire') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Devenir un prestataire</a>
                         <a class="text-light" href="{{ route('front.contact') }}"><i class=" bi bi-arrow-right text-primary me-2"></i>Contact</a>
+                        <a class="text-light" href="http://www.vintage.alloservice.ci/"><i class=" bi bi-arrow-right text-primary me-2"></i>Consulter vintage.ci</a>
+                        <a class="text-light" href="https://technologies.alloservice.ci/"><i class=" bi bi-arrow-right text-primary me-2"></i>Consulter As technologies</a>
 
                     </div>
                 </div>

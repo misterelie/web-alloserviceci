@@ -141,7 +141,7 @@
 
                                                                 <button class="btn btn-sm btn-danger remove-item-btn"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal_{{ $message->id }}">Delete</button>
+                                                                    data-bs-target="#deleteModal_{{ $message->id }}">Supprimer</button>
                                                             </form>
                                                         </ul>
                                                     </td>
@@ -241,7 +241,7 @@
                             @endforeach
                         @endif
 
-                        @if(!is_null($messages))
+                        {{-- @if(!is_null($messages))
                         @foreach($messages as $message)
                             <div class="modal fade zoomIn" id="detailModal_{{ $message->id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -272,7 +272,7 @@
                             </div>
                         <!--end delete modal -->
                         @endforeach
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
                 <!--end card-->

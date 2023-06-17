@@ -216,7 +216,7 @@
 
 
             <!-- Modal suppression-->
-            @if(!is_null($ethnies))
+            {{-- @if(!is_null($ethnies))
             @foreach($ethnies as $ethnie)
                 <div class="modal fade zoomIn" id="deleteethnieModal_{{ $ethnie->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -242,7 +242,7 @@
                 </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
         </div>
         <!-- container-fluid -->
     </div>

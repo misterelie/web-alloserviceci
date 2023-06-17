@@ -11,7 +11,7 @@ class DemandePrestation extends Model
     protected $table = "demande_prestations";
     protected $guarded = ['id'];
     protected $fillable = 
-           ["nom", "prenoms", "telephone", "email", "prestation_id", "mode_id", "salaire_propose", "age_demande", "ethnie_id", "date_demande", "heure_demande", "observation"];
+           ["nom", "prenoms", "telephone", "email", "prestation_id", "mode_id", "salaire_propose", "age_demande", "ethnie_id", "date_demande", "heure_demande", "observation", "etat", "motif_de_rejet"];
 
 
            //* Ethnie
@@ -25,5 +25,10 @@ class DemandePrestation extends Model
     //* Mode
     public function mode(){
         return $this->belongsTo(Mode::class, "mode_id")->where(["deleted" => 0]);
+    }
+
+    public function etatStatus($etatId){
+        $etat = Etat::find($etatId);
+        return $etat;
     }
 }

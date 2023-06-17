@@ -26,8 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $prestations = Prestation::latest()->limit(10)->get();
-        $prestations = Prestation::orderBy('created_at')->get();
+        // $prestations = Prestation::latest()->limit(12)->get();
+        //$prestations = Prestation::orderBy('created_at')->get();
+        $prestations = Prestation::orderBy('created_at')->limit(12)->get();
+        //$prestations = Prestation::all();
         $abouts = About::all();
         $assistances = Assistance::all();
         return view('frontweb.index', compact('prestations', 'abouts', 'assistances'));

@@ -11,4 +11,9 @@ class Etat extends Model
     protected $table = "etats";
     protected $guarded = ['id'];
     protected $fillable = ["status"];
+
+    // public function demandes(){
+    //     return   $this->hasMany(DemandePrestation::class, 'demandeur_prestation_id','id');
+    //  }
+
 }

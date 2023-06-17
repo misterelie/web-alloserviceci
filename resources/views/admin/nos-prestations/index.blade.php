@@ -98,9 +98,7 @@
                                                             <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $prestation->id }}">Modifier</button>
                                                         </div>
 
-                                                        <div class="detail">
-                                                            <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="">Détail</button>
-                                                        </div>
+                                                       
 
                                                         <div class="remove">
                                                         </div>
@@ -240,7 +238,7 @@
                                     <label for="email-field" class="form-label">Mettre à jour</label>
                                     <input  type="file" id="image_prestation" name="image_prestation" class="form-control" 
                                     placeholder="Ajouter une image pour la prestation"/> <br>
-                                    <img src="../uploadsprestation/{{ $prestation->image_prestation}}" alt="" 
+                                    <img src="/uploadsprestation/{{ $prestation->image_prestation}}" alt="" 
                                     class="img-fluid justify-center text-center" width="70px" height="70px">
                                     <div class="invalid-feedback">Ajouter une image pour la prestation.</div>
                                 </div>
@@ -261,7 +259,7 @@
 
 
             <!-- Modal suppression prestation-->
-            @if(!is_null($prestations))
+            {{-- @if(!is_null($prestations))
             @foreach($prestations as $prestation)
                 <div class="modal fade zoomIn" id="deleteModal_{{ $prestation->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -286,7 +284,7 @@
                     </div>
                 </div>
             @endforeach
-            @endif
+            @endif --}}
             <!--end modal -->
 
         </div>

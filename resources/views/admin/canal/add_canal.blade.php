@@ -228,7 +228,7 @@
              @endif 
 
 
-             @if(!is_null($canals))
+             {{-- @if(!is_null($canals))
              @foreach($canals as $canal)
             <!-- Modal suppression-->
             <div class="modal fade zoomIn" id="deleteModal_{{ $canal->id }}" tabindex="-1" aria-hidden="true">
@@ -255,7 +255,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
 
         </div>
         <!-- container-fluid -->

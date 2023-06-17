@@ -230,7 +230,7 @@
              @endif 
 
 
-             @if(!is_null($alphabets))
+             {{-- @if(!is_null($alphabets))
              @foreach($alphabets as $alphabet)
             <!-- Modal suppression-->
             <div class="modal fade zoomIn" id="deleteModal_{{ $alphabet->id }}" tabindex="-1" aria-hidden="true">
@@ -257,7 +257,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
 
         </div>
         <!-- container-fluid -->

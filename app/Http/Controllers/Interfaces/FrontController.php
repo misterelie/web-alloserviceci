@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Interfaces;
 
 use Exception;
 use App\Models\Mode;
+use App\Mail\Demande;
 use App\Models\About;
 use App\Models\Canal;
 use App\Models\Dispo;
@@ -15,14 +16,15 @@ use App\Models\Diplome;
 use App\Models\Domaine;
 use App\Models\Alphabet;
 use App\Models\Quartier;
+use App\Models\Assistance;
 use App\Models\Prestation;
+use App\Models\Temoignage;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\New_;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
 use App\Http\Controllers\Controller;
-use App\Models\Assistance;
-use App\Models\Temoignage;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -69,6 +71,7 @@ class FrontController extends Controller
         $assistances = Assistance::all();
         return view('frontweb.contact', compact('assistances'));
     }
+
 
     public function store(Request $request)
     {

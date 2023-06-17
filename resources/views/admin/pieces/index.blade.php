@@ -227,7 +227,7 @@
              @endforeach
              @endif 
 
-
+{{-- 
              @if(!is_null($naturepieces))
              @foreach($naturepieces as $naturepiece)
             <!-- Modal suppression-->
@@ -255,7 +255,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
 
         </div>
         <!-- container-fluid -->

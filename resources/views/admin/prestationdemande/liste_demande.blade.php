@@ -78,6 +78,7 @@
                                                 <th class="sort" data-sort="customer_presta">Prestations</th>
                                                 <th class="sort" data-sort="customer_salaire">Salaires</th>
                                                 <th class="sort" data-sort="customer_ethnie">Modes travail</th>
+                                                <th class="sort" data-sort="customer_ethnie">Statuts</th>
                                                 <th class="sort" data-sort="action" style="max-width: 260px !important">Actions</th>
                                             </tr>
                                         </thead>
@@ -92,17 +93,26 @@
                                                 <td class="customer_prenoms">{{ $demandeprestation->prenoms }}</td>
                                                 <td class="phone">{{ $demandeprestation->telephone }}</td>
                                                 <td class="date">{{ $demandeprestation->ethnie->ethnie ?? '' }}</td>
-                                                <td class="date">{{ $demandeprestation->prestation->libelle ?? '' }}</td>
+                                                <td class="date">{{ $demandeprestation->prestation->libelle ?? '' }}
+                                                </td>
+
                                                 <td class="date">{{ $demandeprestation->salaire_propose }} FCFA</td>
                                                 <td class="date">{{ $demandeprestation->mode->mode ?? '' }}</td>
+                                                <td class="status">
+                                                   <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '1' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '1' ? 'acceptée' : 'refusée' }}</span>     
+                                                </td>
                                                 <td>
                                                     <div class="d-flex gap-2">
                                                         <div class="edit">
                                                             <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $demandeprestation->id }}">Modifier</button>
                                                         </div>
-
+                                                    
                                                         <div class="detail">
-                                                            <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#detailModal_{{ $demandeprestation->id }}">Détail</button>
+                                                            <button class="btn btn-sm btn-secondary edit-item-btn" data-bs-toggle="modal" data-bs-target="#accepterlModal_{{ $demandeprestation->id }}">Statuts</button>
+                                                        </div>
+                                                
+                                                        <div class="detail">
+                                                        <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#detailModal_{{ $demandeprestation->id }}">Détails</button>
                                                         </div>
 
                                                         <div class="remove">
@@ -123,15 +133,7 @@
                                         </tbody>
                                     </table>
 
-                                    {{-- <div class="noresult" style="display: none">
-                                        <div class="text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px">
-                                            </lord-icon>
-                                            <h5 class="mt-2">Désolé ! Aucun résultat trouvé</h5>
-                                            <p class="text-muted mb-0">Nous avons recherché plus de 150+ Commandes Nous n'avons trouvé aucune
-                                                pour votre recherche.</p>
-                                        </div>
-                                    </div> --}}
+                                   
                                 </div>
 
                                 <div class="d-flex justify-content-end">
@@ -154,16 +156,22 @@
             </div>
             <!-- end row -->
 
-            {{-- <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <!-- statu de la demande-->
+            @if(!is_null($demandeprestations))
+            @foreach($demandeprestations as $demandeprestation)
+            <div class="modal fade" id="accepterlModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
                             <h5 class="modal-title" id="exampleModalLabel"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
-                        <form action="" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
+                        <form action="{{ url('accepterDemandeur', $demandeprestation->id) }}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
                             @csrf
 
+                            @method('PUT')
+                            <input type="hidden" name="_method" value="put">
+                            <input type="hidden" name="etat" value="accepter">
                             <div class="modal-body">
                                 <div class="mb-3" id="modal-id" style="display: none;">
                                     <label for="id-field" class="form-label">ID</label>
@@ -171,36 +179,61 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label"> Nom</label>
-                                    <input type="text" id="customername-field" 
-                                        class="form-control @error('libelle') is-invalid @enderror" name="libelle"
-                                        placeholder="Entrez le nom de la prestation"/>
-                                    @error('libelle')
-                                        <div class="alert alert-danger">Veuillez saisir le nom de la prestation</div>
-                                    @enderror
+                                    <fieldset class="sm">
+                                        <legend for="customername-field" class="form-label">Staut de la demande</legend><br><br>
+                                        <div class="row g-3 align-items-center px-3 mb-2">
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                        id="decisionOff{{ $demandeprestation->id }}" name="etat"
+                                                        value="2">
+                                                    <label class="form-check-label text-red pointer"
+                                                        for="decisionOff{{ $demandeprestation->id }}">
+                                                        Demande refusée
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                        id="decisionOk{{ $demandeprestation->id }}" name="etat"
+                                                        value="1">
+                                                    <label class="form-check-label text-success pointer"
+                                                        for="decisionOk{{ $demandeprestation->id }}">
+                                                        Demande acceptée
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="email-field" class="form-label">Ajouter une image</label>
-                                    <input type="file" id="image_prestation" name="image_prestation" 
-                                    class="form-control  @error('image_prestation') is-invalid @enderror" 
-                                    placeholder="Ajouter une image pour la prestation" />
-                                    @error('image_prestation')
-                                        <div class="alert alert-danger">Ajouter une image pour la prestation.</div>
-                                    @enderror
+                                    <div>
+                                        <label for="exampleFormControlTextarea5" class="form-label">Motif</label>
+                                        <textarea name="motif_de_rejet"  class="form-control" id="exampleFormControlTextarea5" rows="3">{!!$demandeprestation->motif_de_rejet!!}</textarea>
+                                    </div>
                                 </div>
+
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn btn-success" id="add-btn">Ajouter la prestation</button>
-                                    <button type="button" class="btn btn-success" id="edit-btn">Update</button>
+                                    @if($demandeprestation->etat !=  NULL)
+                                        <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
+                                    @else
+
+                                    
+                                    <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
+                                   @endif
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div> --}}
+            </div> 
+            @endforeach
+            @endif 
 
               <!-- modifier prestation-->
               @if(!is_null($demandeprestations))
@@ -321,37 +354,6 @@
                @endforeach
               @endif
               <!-- fin modifier -->
-
-              @if(!is_null($demandeprestations))
-              @foreach($demandeprestations as $demandeprestation)
-            <!-- Modal suppression prestation-->
-                <div class="modal fade zoomIn" id="deleteModal_{{ $demandeprestation->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mt-2 text-center">
-                                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                        <h4>Êtes-vous sûr ?</h4>
-                                        <p class="text-muted mx-4 mb-0">Êtes-vous sûr de vouloir supprimer cet enregistrement ? </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Fermer</button>
-                                        <button type="submit" class="btn w-sm btn-danger" id="">
-                                            Oui, supprimez-le !</button>
-                                
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!--end modal -->
-            @endforeach
-            @endif
 
             @if(!is_null($demandeprestations))
             @foreach($demandeprestations as $demandeprestation)

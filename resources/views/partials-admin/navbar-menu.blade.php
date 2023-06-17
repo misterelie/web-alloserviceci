@@ -1,6 +1,6 @@
 <div class="navbar-brand-box">
     <!-- Dark Logo-->
-    <a href="index.html" class="logo logo-dark">
+    <a href="{{ route('administration')}}" class="logo logo-dark">
         <span class="logo-sm">
             <img src="{{ asset('assets/images/logo.png') }}" alt="" height="22">
         </span>
@@ -9,7 +9,7 @@
         </span>
     </a>
     <!-- Light Logo-->
-    <a href="index.html" class="logo logo-light">
+    <a href="{{ route('administration')}}" class="logo logo-light">
         <span class="logo-sm">
             <img src="{{ asset('assets/images/logo.png') }}" alt="" height="22">
         </span>
@@ -29,7 +29,7 @@
         <div id="two-column-menu">
         </div>
         <ul class="navbar-nav" id="navbar-nav">
-            <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+            <li class="menu-title"><span data-key="t-menu">Accueil</span></li>
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse"
                     role="button" aria-expanded="false" aria-controls="sidebarDashboards">
@@ -38,7 +38,7 @@
                 <div class="collapse menu-dropdown" id="sidebarDashboards">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics">
+                            <a href="{{ route('administration')}}" class="nav-link" data-key="t-analytics">
                                 Statistiques </a>
                         </li>
                     
@@ -463,21 +463,35 @@
                 </div>
             </li> <!-- end Dashboard Menu --> --}}
 
-            <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pages</span></li>
+            <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Demandes</span></li>
 
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarPages">
-                    <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Prestations demandées</span>
+                    <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Demandes de prest</span>
                 </a>
                 <div class="collapse menu-dropdown" id="sidebarPages">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{{ url('liste/demande_prestation')}}" class="nav-link" data-key="t-starter">gestion des demandes</a>
+                            <a href="{{ url('liste/demande_prestation')}}" class="nav-link" data-key="t-starter">Gestion des demandes</a>
                         </li>
                        
                     </ul>
                 </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarLanding">
+                    <i class="mdi mdi-account-circle-outline"></i> <span data-key="t-landing">Devenir prestataires</span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarLanding">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ url('liste/devenirprestataire')}}" class="nav-link" data-key="t-one-page">Gestion des prestataires</a>
+                        </li>
+                    </ul>
+                </div> 
             </li>
 
             {{-- <li class="nav-item">
@@ -671,48 +685,8 @@
                     </ul>
                 </div> 
             </li> --}}
-
-            <li class="nav-item">
-                <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
-                    aria-expanded="false" aria-controls="sidebarPages">
-                    <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Nos prestations</span>
-                </a>
-                <div class="collapse menu-dropdown" id="sidebarPages">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{{ url('liste/prestation') }}" class="nav-link" data-key="t-starter">Ajouter une prestation</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button"
-                    aria-expanded="false" aria-controls="sidebarLanding">
-                    <i class="mdi mdi-account-circle-outline"></i> <span data-key="t-landing">Prestataires</span>
-                </a>
-                <div class="collapse menu-dropdown" id="sidebarLanding">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{{ url('liste/devenirprestataire')}}" class="nav-link" data-key="t-one-page">gestion des prestataires</a>
-                        </li>
-                    </ul>
-                </div> 
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button"
-                    aria-expanded="false" aria-controls="sidebarLanding">
-                    <i class="mdi mdi-help-circle-outline"></i> <span data-key="t-landing">Assistances</span>
-                </a>
-                <div class="collapse menu-dropdown" id="sidebarLanding">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="" class="nav-link" data-key="t-one-page">Voir liste</a>
-                        </li>
-                    </ul>
-                </div> 
-            </li>
+            <li class="menu-title"><i class="ri-more-fill"></i> <span
+                data-key="t-components">Pages</span></li>
 
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
@@ -723,7 +697,7 @@
                 <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="" class="nav-link"
+                            <a href="{{ route('liste.temoignages')}}" class="nav-link"
                                 data-key="t-sweet-alerts">Consulter</a>
                         </li>
                     </ul>
@@ -747,7 +721,7 @@
             </li> 
 
             <li class="menu-title"><i class="ri-more-fill"></i> <span
-                    data-key="t-components">Autres</span></li>
+                    data-key="t-components">Réglages</span></li>
 
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarUI" data-bs-toggle="collapse" role="button"
@@ -758,50 +732,61 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <ul class="nav nav-sm flex-column">
+
+                                
                                 <li class="nav-item">
-                                    <a href="" class="nav-link" data-key="t-alerts">Ethnies</a>
+                                    <a href="{{ url('liste/prestation') }}" class="nav-link" data-key="t-alerts">Nos prestations</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('ajout.assistance')}}" class="nav-link" data-key="t-alerts">Assistances</a>
+                                </li>
+                    
+                    
+                                <li class="nav-item">
+                                    <a href="{{ route('liste.ethnie')}}" class="nav-link" data-key="t-alerts">Ethnies</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link" data-key="t-badges">Modes de travail</a>
+                                    <a href="{{ route('liste.modes')}}" class="nav-link" data-key="t-badges">Modes de travail</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link"
+                                    <a href="{{ url('ajout/diplome')}}" class="nav-link"
                                         data-key="t-buttons">Diplômes</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url('ajout/alphabetisation') }}" class="nav-link" data-key="t-buttons">Alplabétisations</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link" data-key="t-buttons">Canals</a>
+                                    <a href="{{ route('ajout.rencontre') }}" class="nav-link" data-key="t-buttons">Canaux de prospection</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ url('ajout.disponibilite') }}" class="nav-link" data-key="t-buttons">Dispobilités</a>
+                                    <a href="{{ route('ajout.disponibilite') }}" class="nav-link" data-key="t-buttons">Dispobilités</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('ajout.commune') }}" class="nav-link"
+                                    <a href="{{ route('ajout.commune') }}" class="nav-link"
                                         data-key="t-carousel">Communes</a>
                                 </li>
                                 
                                 <li class="nav-item">
-                                    <a href="{{ url('nature.piece') }}" class="nav-link"
+                                    <a href="{{ route('nature.piece') }}" class="nav-link"
                                         data-key="t-carousel">Nature pièces</a>
                                 </li>
 
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="{{ url('ajout/quartier') }}" class="nav-link" data-key="t-cards">Quartiers</a>
+                                </li> --}}
+
+                                <li class="nav-item">
+                                    <a href="{{ route('ajout.about') }}" class="nav-link" data-key="t-cards">Présentation</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ url('ajout.about') }}" class="nav-link" data-key="t-cards">Présentation</a>
+                                    <a href="{{ route('activity.domaine') }}" class="nav-link" data-key="t-cards">Domaines activité</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ url('activity.domaine') }}" class="nav-link" data-key="t-cards">Domaines activité</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ url('statut') }}" class="nav-link" data-key="t-cards">Statuts</a>
+                                    <a href="{{ route('statut') }}" class="nav-link" data-key="t-cards">Statuts</a>
                                 </li>
                                 {{-- <li class="nav-item">
                                     <a href="ui-colors.html" class="nav-link" data-key="t-colors">Colors</a>

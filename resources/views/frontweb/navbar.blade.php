@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
-    <a href="" class="navbar-brand">
+    <a href="{{ url('/') }}" class="navbar-brand">
         {{-- <h1 class="m-0 text-white"><img class="" src="{{ asset('logo-site-as.jpg') }}" height="30" width="160" alt=""></h1> --}}
         <h1 class="m-0 text-white"><img class="" src="{{ asset('logo1.png') }}" width="210" alt=""></h1>
     </a>

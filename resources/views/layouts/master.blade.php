@@ -30,34 +30,51 @@
     <!-- Template Stylesheet -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
-
 </head>
 
 <body>
+
     <!-- Topbar Start -->
-<div class="container-fluid bg-dark px-5 d-none d-lg-block">
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
         @include('frontweb.topbar')
-</div>
+    </div>
     <!-- Topbar End -->
 
     <!-- Navbar Start -->
-<div class="container-fluid position-relative p-0">
-    @include('frontweb.navbar')
-</div>
+    <div class="container-fluid position-relative p-0">
+        @include('frontweb.navbar')
+        <!-- Navbar End -->
 
-<!-- Facts Start -->
-    @yield('content')
-<!-- Team End -->
+        <!-- Full Screen Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center justify-content-center">
+                        <div class="input-group" style="max-width: 600px;">
+                            <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+                            <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Full Screen Search End -->
+
+        @yield('content')
+
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
-            @include('frontweb.footer')
+           @include('frontweb.footer')
         </div>
         <div class="container-fluid text-white" style="background: #061429;">
             <div class="container text-center">
                 <div class="row justify-content-end">
                     <div class="col-lg-8 col-md-6">
                         <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
-                            <p class="mb-0">&copy; <a class="text-white border-bottom" href="#"></a>Copyright © 2023 | Allô Service- Services & Prestations | Tous droits réservés.
+                            <p class="mb-0">&copy; <a class="text-white border-bottom" href="#"></a>Copyright © 2022 | Allô Service- Services & Prestations | Tous droits réservés.
                         </div>
                     </div>
                 </div>
@@ -76,6 +93,7 @@
         <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
         <script src="{{ asset('assets/lib/counterup/counterup.min.js') }}"></script>
         <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
         <!-- Template Javascript -->
         <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -83,6 +101,7 @@
         <script>
             var currentTab = 0; // Current tab is set to be the first tab (0)
             showTab(currentTab); // Display the current tab
+
             function showTab(n) {
                 // This function will display the specified tab of the form...
                 var x = document.getElementsByClassName("tab");
@@ -101,11 +120,12 @@
                 //... and run a function that will display the correct step indicator:
                 fixStepIndicator(n)
             }
+
             function nextPrev(n) {
                 // This function will figure out which tab to display
                 var x = document.getElementsByClassName("tab");
                 // Exit the function if any field in the current tab is invalid:
-                if (n == 0 && !validateForm()) return false;
+                if (n == 1 && !validateForm()) return false;
                 // Hide the current tab:
                 x[currentTab].style.display = "none";
                 // Increase or decrease the current tab by 1:
@@ -119,6 +139,7 @@
                 // Otherwise, display the correct tab:
                 showTab(currentTab);
             }
+
             function validateForm() {
                 // This function deals with validation of the form fields
                 var x, y, i, valid = true;
@@ -140,6 +161,7 @@
                 }
                 return valid; // return the valid status
             }
+
             function fixStepIndicator(n) {
                 // This function removes the "active" class of all steps...
                 var i, x = document.getElementsByClassName("step");
@@ -149,7 +171,8 @@
                 //... and adds the "active" class on the current step:
                 x[n].className += " active";
             }
+
         </script>
-        
 </body>
+
 </html>

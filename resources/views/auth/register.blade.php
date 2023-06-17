@@ -1,88 +1,52 @@
-@extends('layouts.app')
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
 
-@section('content')
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Nom')" />
+            <x-text-input id="name" class="block mt-1 w-full form-control" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
 
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Adresse email')" />
+            <x-text-input id="email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-<main>
-    <div class="container">
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Mot de passe')" />
 
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
 
-                        <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                <img src="{{ asset('logo1.png') }}" alt="">
-                                <span class="d-none d-lg-block">Création de compte</span>
-                            </a>
-                        </div><!-- End Logo -->
+            <x-input-error :messages="$errors->get('password')" class="mt-2 form-control" />
+        </div>
 
-                        <div class="card mb-3">
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirmez le mot de passe')" />
 
-                            <div class="card-body">
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password" />
 
-                                <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Nouveau compte</h5>
-                                    <p class="text-center small">Entrez vos informations personnelles</p>
-                                </div>
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
 
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+                {{ __('Vous êtes déjà inscrit ?') }}
+            </a>
 
-                                <form method="POST" action="{{ route('register') }}" class="row g-3 needs-validation" novalidate>
-                                    @csrf
-
-                                    <div class="col-12">
-                                        <label for="yourName" class="form-label">Votre nom</label>
-                                        <input type="text" name="name" class="form-control" id="yourName" required>
-                                        <div class="invalid-feedback">Entrez votre nom svp</div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Votre Email</label>
-                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                        <div class="invalid-feedback">Entrez une adresse mail valide</div>
-                                    </div>
-
-
-
-                                    <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Mot de passe</label>
-                                        <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                        <div class="invalid-feedback">Entrer votre mot de passe!</div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Confirmer votre mot de passe</label>
-                                        <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
-                                        <div class="invalid-feedback">Entrer le mot de passe de confirmation!</div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                                            <label class="form-check-label" for="acceptTerms">Je suis d'accord et j'accepte les <a href="#">termes et conditions</a></label>
-                                            <div class="invalid-feedback">Vous devez accepter avant de soumettre.</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Créer un compte</button>
-                                    </div>
-                                    <div class="col-12">
-                                        <p class="small mb-0">Vous avez déjà un compte? <a href="{{ route('login') }}">Connexion</a></p>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-    </div>
-</main><!-- End #main -->
-@endsection
+            <x-primary-button class="ml-4" style="background-color: #1b9c1e">
+                {{ __('Enregistrez-vous') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>

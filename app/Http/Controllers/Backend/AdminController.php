@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Etat;
 use App\Models\Mode;
+use App\Helpers\File;
+use App\Mail\Demande;
 use App\Models\Canal;
 use App\Models\Dispo;
 use App\Models\Piece;
 use App\Models\Ethnie;
+use App\Helpers\Helper;
 use App\Models\Commune;
 use App\Models\Diplome;
 use App\Models\Domaine;
@@ -19,13 +23,17 @@ use PhpParser\Node\Expr\Cast;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
 use App\Http\Controllers\Controller;
+use App\Mail\RefuserDemande;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth');
+      }
 
-    public function dasboard(){
-        // $services = Service::count();
+    public function dashboard(){
         $prestations = Prestation::count();
         $prestataires = DevenirPrestataire::count();
         $demandeprestations = DemandePrestation::count();
@@ -81,21 +89,31 @@ class AdminController extends Controller
     }
     //NOS PRESTATION
     public function liste_prestation(){
-        $prestations = Prestation::orderBy('id','asc')->get();
+        $prestations = Prestation::all();
         return view('admin.nos-prestations.index', compact('prestations'));
     }
     // TOUTES NOS DE DEMANDE DE PRESTATIONS
     public function liste_demande_prestation(){
         $modes = Mode::all();
+        $etats = Etat::all();
         $prestations = Prestation::all();
         $ethnies = Ethnie::all();
         $demandeprestations = DemandePrestation::orderBy('id','asc')->get();
-        return view('admin.prestationdemande.liste_demande', compact('demandeprestations', 'modes', 'prestations', 'ethnies'));
+        return view('admin.prestationdemande.liste_demande', compact('demandeprestations', 'modes', 'prestations', 'ethnies', 'etats'));
     }
     //LA LISTE DES PRESTATAIRES
     public function list_prestataire(){
+        $prestations = Prestation::all();
+        $canals = Canal::all();
+        $pieces = Piece::all();
+        $dispos = Dispo::all();
+        $modes = Mode::all();
+        $alphabets = Alphabet::all();
+        $diplomes = Diplome::all();
+        $ethnies = Ethnie::all();
+        $communes = Commune::all();
         $prestataires = DevenirPrestataire::orderBy('id', 'asc')->get();
-        return view('admin.devenir-prestataire.devenir_presta', compact('prestataires'));
+        return view('admin.devenir-prestataire.devenir_presta', compact('prestataires', 'modes', 'ethnies', 'communes', 'prestations', 'alphabets', 'diplomes', 'dispos', 'pieces', 'canals'));
     }
 
 
@@ -112,7 +130,7 @@ class AdminController extends Controller
         if ($request->hasFile('image_prestation')) {
             $filename = $request->image_prestation;
             $fileprestation = time() . '.' . $filename->Extension();
-            $filename->move(public_path("ImagesPrestaion"), $fileprestation);
+            $filename->move(public_path("uploadsprestation"), $fileprestation);
             $prestations->image_prestation = $fileprestation;
         }
         $prestations->save();
@@ -129,7 +147,7 @@ class AdminController extends Controller
                 if ($request->hasFile('image_prestation')) {
                     $filename = $request->image_prestation;
                     $fileprestation = time() . '.' . $filename->Extension();
-                    $filename->move(public_path("ImagesPrestaion"), $fileprestation);
+                    $filename->move(public_path("uploadsprestation"), $fileprestation);
                     $prestation->image_prestation = $fileprestation;
                 }
                 $prestation->update();
@@ -244,7 +262,6 @@ class AdminController extends Controller
                         return redirect()->back()->with('success', 'Félicitations!  Votre mise  a été effectué avec succès ');
                 }
 
-
                 public function deletedemande($id){
                     $demandeprestation = DemandePrestation::find($id);
                     $delete = $demandeprestation->delete($id);
@@ -253,7 +270,301 @@ class AdminController extends Controller
                     }
                     return abort(500);
                 }
+              
 
+                // Envoie email d'acceptation
+                //ACCEPTER LA DEMANDE
+                public function AccepterDemande(Request $request, DemandePrestation $demandeprestation){
+
+                    $request->validate([
+                        'etat' => 'required',
+                        'motif_de_rejet' => 'required',
+                    ]);
+
+                if ($request->etat) {
+                    $demandeprestation->etat = $request->etat;
+                    $demandeprestation->motif_de_rejet = $request->motif_de_rejet;
+                }
+
+                    if($demandeprestation->update())
+                    {
+                        //*Envoyer le mail de notification à l'utilisateur
+                        if (!is_null($demandeprestation->email)) {
+                            Mail::to($demandeprestation->email)->send(new Demande($demandeprestation));
+                        }
+                        
+                        return redirect()->back()->with('success', "Réussite ! Opération effectuée avec succès. L'utilisateur recevra un Email de notification sur votre décision");
+                    }
+
+
+
+                    // if (!is_null($request->etat == 'accepter')) {
+                    //     $demandeprestation->etat = $request->etat;
+                    // }
+
+
+
+
+                    // if (!is_null($demandeprestation->email)) {
+                    //     Mail::to($demandeprestation->email)->send(new Demande($demandeprestation, $action));
+                    //     return redirect()->back()->with('success', 'Félicitations!  Vous accepté avec succès');
+                    // }else {
+                    //     return redirect()->back()->with('error', 'une erreur est surnevue');
+                    // }
+
+                   
+
+                    //TRAITER LE STATUT ACCEPTER DE LA DEMANDE
+                    // $etat = Etat::where('status', 'Accepter')->first();
+                    // $demandeprestation->etat = $etat->status;
+                    // if (!is_null($request->motif_de_rejet)) {
+                    //     $demandeprestation->motif_de_rejet = $request->motif_de_rejet;
+                    // }
+                    
+                   
+                    
+                }
+
+               
+
+
+
+                //update prestataire
+                public function update_prestataire(Request $request, DevenirPrestataire $prestataire ){
+                    //dd($request->all());
+
+                    $request->validate([
+                        'nom' => 'required',
+                        'prenoms' => 'required',
+                        'date_naiss' => 'required',
+                        'nbre_enfant' => 'nullable',
+                        'telephone1' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                        'telephone2' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                        'whatsapp' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                        'email' => 'nullable|email:unique',
+                        'ethnie_id' => 'required',
+                        'commune_id' => 'nullable',
+                        'quartier' => 'nullable',
+                        'prestation_id' => 'nullable',
+                        'annee_experience' => 'nullable',
+                        'pretention_salairiale' => 'required|numeric|min:0',
+                        'zone' => 'nullable',
+                        'contact_urgence' => 'nullable',
+                        'reference' => 'nullable',
+                        'contact_reference' => 'nullable',
+                        'alphabet_id' => 'required',
+                        'diplome_id' => 'nullable',
+                        'mode_id' => 'required',
+                        'dispo_id' => 'nullable',
+                        'piece_id' => 'required',
+                        'numero_piece' => 'required',
+                        'copy_piece' => 'nullable|mimes:png,jpg,jpeg,csv,txt,pdf',
+                        'canal_id' => 'nullable',
+                        'copy_last_diplome' => 'nullable|mimes:png,jpg,jpeg,csv,txt,pdf', 
+                        'avis' => 'nullable',
+                    ]);
+
+                    if (!is_null($request->nom)) {
+                        $prestataire->nom = $request->nom;
+                    }
+
+                    if (!is_null($request->prenoms)) {
+                        $prestataire->prenoms = $request->prenoms;
+                    }
+
+                    if (!is_null($request->date_naiss)) {
+                        $prestataire->date_naiss = $request->date_naiss;
+                    }
+
+                    if (!is_null($request->nbre_enfant)) {
+                        $prestataire->nbre_enfant = $request->nbre_enfant;
+                    }
+
+                    if (!is_null($request->telephone1)) {
+                        $prestataire->telephone1 = $request->telephone1;
+                    }
+
+                    if (!is_null($request->telephone2)) {
+                        $prestataire->telephone2 = $request->telephone2;
+                    }
+
+                    if (!is_null($request->whatsapp)) {
+                        $prestataire->whatsapp = $request->whatsapp;
+                    }
+
+                    if (!is_null($request->email)) {
+                        $prestataire->email = $request->email;
+                    }
+
+                    if (!is_null($request->ethnie_id)) {
+                        $prestataire->ethnie_id = $request->ethnie_id;
+                    }
+
+                    if (!is_null($request->commune_id)) {
+                        $prestataire->commune_id = $request->commune_id;
+                    }
+
+                    if (!is_null($request->quartier)) {
+                        $prestataire->quartier = $request->quartier;
+                    }
+
+                    if (!is_null($request->prestation_id)) {
+                        $prestataire->prestation_id = $request->prestation_id;
+                    }
+
+                    if (!is_null($request->annee_experience)) {
+                        $prestataire->annee_experience = $request->annee_experience;
+                    }
+
+                    if (!is_null($request->pretention_salairiale)) {
+                        $prestataire->pretention_salairiale = $request->pretention_salairiale;
+                    }
+
+                    if (!is_null($request->zone)) {
+                        $prestataire->zone = $request->zone;
+                    }
+
+                    if (!is_null($request->contact_urgence)) {
+                        $prestataire->contact_urgence = $request->contact_urgence;
+                    }
+
+                    if (!is_null($request->reference)) {
+                        $prestataire->reference = $request->reference;
+                    }
+
+                    if (!is_null($request->contact_reference)) {
+                        $prestataire->contact_reference = $request->contact_reference;
+                    }
+
+                    if (!is_null($request->alphabet_id)) {
+                        $prestataire->alphabet_id = $request->alphabet_id;
+                    }
+
+                    if (!is_null($request->diplome_id)) {
+                        $prestataire->diplome_id = $request->diplome_id;
+                    }
+
+                    if (!is_null($request->mode_id)) {
+                        $prestataire->mode_id = $request->mode_id;
+                    }
+
+                    if (!is_null($request->dispo_id)) {
+                        $prestataire->dispo_id = $request->dispo_id;
+                    }
+
+                    if (!is_null($request->piece_id)) {
+                        $prestataire->piece_id = $request->piece_id;
+                    }
+
+                    if (!is_null($request->numero_piece)) {
+                        $prestataire->numero_piece = $request->numero_piece;
+                    }
+                    if (!is_null($request->copy_piece)) {
+                        $prestataire->copy_piece = $request->copy_piece;
+                    }
+
+                    if (!is_null($request->canal_id)) {
+                        $prestataire->canal_id = $request->canal_id;
+                    }
+
+                    if (!is_null($request->avis)) {
+                        $prestataire->avis = $request->avis;
+                    }
+
+
+                    // $array = [
+                    //     "nom"            => $request->nom,
+                    //     "prenoms"        => $request->prenoms,
+                    //     "nbre_enfant"    => $request->nbre_enfant,
+                    //     "date_naiss"     => $request->date_naiss,
+                    //     "telephone1"     => $request->telephone1,
+                    //     "telephone2"     => $request->telephone2,
+                    //     "whatsapp"       => $request->whatsapp,
+                    //     "email"          => $request->email,
+                    //     "ethnie_id"      => $request->ethnie_id,
+                    //     "commune_id"     => $request->commune_id,
+                    //     "prestation_id"     => $request->prestation_id,
+                    //     "quartier"       => $request->quartier,
+                    //     "diplome_id"     => $request->diplome_id,
+                    //     "annee_experience"   => $request->annee_experience,
+                    //     "pretention_salairiale"   => $request->pretention_salairiale,
+                    //     "zone"          => $request->zone,
+                    //     "contact_urgence"  => $request->contact_urgence,
+                    //     "reference"             => $request->reference,
+                    //     "contact_reference"     => $request->contact_reference,
+                    //     "alphabet_id"           => $request->alphabet_id,
+                    //     "mode_id"               => $request->mode_id,
+                    //     "dispo_id"              => $request->dispo_id,
+                    //     "piece_id"              => $request->piece_id,
+                    //     "numero_piece"          => $request->numero_piece,
+                    //     "canal_id"              => $request->canal_id,
+                    //     "avis"            => $request->observation,
+                    // ];
+
+
+                    if ($request->hasFile('photo')) {
+                        $imag = $request->photo;
+                        $imageName = time() . '.' . $imag->Extension();
+                        $imag->move(public_path("PrestatairePhoto"), $imageName);
+                        $prestataire->photo = $imageName;
+                    }
+                    //TRAITEMENT COPIER DE LA PIECE
+            
+                    if ($request->hasFile('copy_piece')) {
+                        $filename = $request->copy_piece;
+                        //dd($filename);
+                        $imageName = time() . '.' . $filename->Extension();
+                        $filename->move(public_path("FichierCopiepiece"), $imageName);
+                        $prestataire->copy_piece = $imageName;
+                    }
+                    //TRAITEMENT COPIE DU DERNIER DIPLOME
+                    if ($request->hasFile('copy_last_diplome')) {
+                        $filename = $request->copy_last_diplome;
+                        $filepiece = time() . '.' . $filename->Extension();
+                        $filename->move(public_path("uploads"), $filepiece);
+                        $prestataire->copy_last_diplome = $filepiece;
+                    }
+
+                   
+
+                    // if (!is_null($request->photo)) {
+                    //     $photo = File::compress("photo", "uploads/Prestataires/", $request->nom . "_" . $request->prenom, 220, 255);
+                    //     $array = array_merge($array, ["photo" => $photo]);
+                    // }
+            
+                    // $copy_piece = NULL;
+                    // if (!is_null($request->copy_piece)) {
+                    //     $copy_piece = File::upload("copy_piece", "uploads/Prestataires/", "piece_identite_" . $request->nom . "_" . $request->prenom);
+                    //     $array = array_merge($array, ["copy_piece" => $copy_piece]);
+                    // }
+            
+                    // $copy_last_diplome = NULL;
+                    // if (!is_null($request->copy_last_diplome)) {
+                    //     $copy_last_diplome = File::upload("copy_last_diplome", "uploads/Prestataires/", "dernier_diplome_" . $request->nom . "_" . $request->prenom);
+                    //     $array = array_merge($array, ["copy_last_diplome" => $copy_last_diplome]);
+                    // }
+
+                    // $prestataire->update();
+                    // return redirect()->back()->with("success", "Réussite! Données mises à jour avec succès.");
+            
+                    if ($prestataire->update()) {
+                        return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+                    } else {
+                        return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue");
+                    }
+
+                }
+
+                public function delete_prestataire($id){
+                    $prestataire = DevenirPrestataire::find($id);
+                    $delete = $prestataire->delete($id);
+                    if ($delete) {
+                        return back()->with("success", "Vous avez supprimé avec succès !");
+                    }
+                    return abort(500);
+                }
+
+                
                 public function enregis_diplome(Request $request){
                     $request->validate([
                         'diplome' => 'required',
@@ -469,5 +780,7 @@ class AdminController extends Controller
                                         }
                                         return abort(500);
                                     }
+
+
 
 }

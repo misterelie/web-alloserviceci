@@ -115,9 +115,9 @@
         </div>
 
         <!-- Theme Settings -->
-        <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
+        {{-- <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
             @include('partials-admin.theme')
-        </div>
+        </div> --}}
 
 
         <!-- JAVASCRIPT -->

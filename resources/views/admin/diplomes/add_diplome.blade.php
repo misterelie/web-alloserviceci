@@ -229,7 +229,7 @@
              @endforeach
              @endif
 
-
+{{-- 
              @if(!is_null($diplomes))
              @foreach($diplomes as $diplome)
             <!-- Modal suppression-->
@@ -257,7 +257,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif 
+            @endif  --}}
 
         </div>
         <!-- container-fluid -->

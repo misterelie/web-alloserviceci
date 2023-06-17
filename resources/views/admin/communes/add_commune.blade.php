@@ -228,7 +228,7 @@
              @endif
 
 
-             @if(!is_null($communes))
+             {{-- @if(!is_null($communes))
              @foreach($communes as $comm)
             <!-- Modal suppression-->
             <div class="modal fade zoomIn" id="deleteModal_{{ $comm->id }}" tabindex="-1" aria-hidden="true">
@@ -255,7 +255,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif 
+            @endif  --}}
 
         </div>
         <!-- container-fluid -->

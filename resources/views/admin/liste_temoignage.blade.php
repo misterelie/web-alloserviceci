@@ -332,7 +332,7 @@
       @endforeach
       @endif
 
-
+{{-- 
         @if(!is_null($temoignages))
         @foreach($temoignages as $temoignage)
         <!-- Modal suppresseion -->
@@ -363,7 +363,7 @@
         </div>
         <!--end modal -->
         @endforeach
-        @endif
+        @endif --}}
     </div>
     <!-- container-fluid -->
 </div>

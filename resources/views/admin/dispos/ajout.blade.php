@@ -231,7 +231,7 @@
              @endif
 
 
-             @if(!is_null($dispos))
+             {{-- @if(!is_null($dispos))
              @foreach($dispos as $dispo)
             <!-- Modal suppression-->
             <div class="modal fade zoomIn" id="deleteModal_{{ $dispo->id }}" tabindex="-1" aria-hidden="true">
@@ -258,7 +258,7 @@
             </div>
             <!--end modal -->
             @endforeach
-            @endif
+            @endif --}}
 
         </div>
         <!-- container-fluid -->
