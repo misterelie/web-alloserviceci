@@ -79,7 +79,8 @@
                                                 <th class="sort" data-sort="customer_salaire">Salaires</th>
                                                 <th class="sort" data-sort="customer_ethnie">Modes travail</th>
                                                 <th class="sort" data-sort="customer_ethnie">Statuts</th>
-                                                <th class="sort" data-sort="action" style="max-width: 260px !important">Actions</th>
+                                                <th class="sort" data-sort="action" 
+                                                style="max-width: 260px !important">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -132,8 +133,6 @@
                                            @endif
                                         </tbody>
                                     </table>
-
-                                   
                                 </div>
 
                                 <div class="d-flex justify-content-end">

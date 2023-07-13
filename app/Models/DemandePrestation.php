@@ -18,6 +18,7 @@ class DemandePrestation extends Model
     public function ethnie(){
         return $this->belongsTo(Ethnie::class, "ethnie_id")->where(["deleted" => 0]);
     }
+    
     public function prestation(){
         return $this->belongsTo(Prestation::class);
     }

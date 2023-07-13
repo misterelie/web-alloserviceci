@@ -1,6 +1,6 @@
-@extends('layouts.master')
-
+@extends('layouts.base-front')
 @section('content')
+
 
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <style>

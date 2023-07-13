@@ -10,6 +10,7 @@ use App\Models\Canal;
 use App\Models\Dispo;
 use App\Models\Piece;
 use App\Models\Ethnie;
+use App\Models\Menage;
 use App\Models\Commune;
 use App\Models\Contact;
 use App\Models\Diplome;
@@ -24,6 +25,7 @@ use PhpParser\Node\Expr\New_;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
 use App\Http\Controllers\Controller;
+use App\Models\Descrptmenageregulier;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
@@ -42,10 +44,24 @@ class FrontController extends Controller
         return view('front.index', compact('abouts', 'prestations','demandeprestations', 'prestataires', 'domaines'));
     }
 
+    public function newindex(){
+        $assistances = Assistance::all();
+        $abouts = About::all();
+        $temoignages = Temoignage::all();
+        $prestations = Prestation::orderBy('created_at')->limit(12)->get();
+        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages'));
+    }
+
     public function vu_about(){
         $abouts = About::all();
         $assistances = Assistance::all();
         return view('frontweb.about', compact('abouts', 'assistances'));
+    }
+
+    public function temoignages(){
+        $assistances = Assistance::all();
+        $temoignages = Temoignage::orderBy('created_at')->get();
+        return view('newfront.temoignage', compact('temoignages', 'assistances'));
     }
 
     /* DEMANDE DE PRESTATION */
@@ -55,7 +71,7 @@ class FrontController extends Controller
         $assistances = Assistance::all();
         $ethnies = Ethnie::all();
         $modes = Mode::all();
-        return view('frontweb.demande', compact('prestations', 'ethnies', 'modes', 'assistances'));
+        return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances'));
     }
 
     public function demande_prest($id){
@@ -69,7 +85,7 @@ class FrontController extends Controller
 
     public function send_contact(){
         $assistances = Assistance::all();
-        return view('frontweb.contact', compact('assistances'));
+        return view('newfront.contact', compact('assistances'));
     }
 
 
@@ -316,7 +332,7 @@ class FrontController extends Controller
         $dispos = Dispo::all();
         $pieces = Piece::all();
         $diplomes = Diplome::all();
-        return view('frontweb.devenir_prestataire', 
+        return view('newfront.devenir_prestataire', 
               compact('ethnies', 'pieces','communes', 'assistances', 'quartiers', 'prestations', 'domaines', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals'));
     }
 
@@ -342,7 +358,7 @@ class FrontController extends Controller
     public function all_prestations(){
         $prestations = Prestation::orderBy('created_at')->get();
         $assistances = Assistance::all();
-        return view('frontweb.all_prestation', compact('prestations', 'assistances'));
+        return view('newfront.all_prestations', compact('prestations', 'assistances'));
     }
 
     public function help(){
@@ -356,10 +372,27 @@ class FrontController extends Controller
         $temoignages = Temoignage::all();
         return view('front.temoignage', compact('temoignages'));
     }
+
+    
+    public function realisations(){
+        $assistances = Assistance::all();
+        return view('newfront.realisation', compact('assistances'));
+    }
+
+
     public function detail_temoignage($id){
         $temoignage = Temoignage::find($id);
         return view('front.detail_temoignage', compact('temoignage'));
     }
+
+
+    public function details($slug){
+        $assistances = Assistance::all();
+        // $regul = Menage::fin($slug);
+        $regul = Menage::where('slug', $slug)->first();
+        return view('newfront.detail-menage-regulier', compact('assistances', 'regul'));
+    }
+
 
     public function temoignage_form(){
         return view('front.form-temoignage');
@@ -396,6 +429,15 @@ class FrontController extends Controller
         $temoignages->save();
         return redirect()->back()->with('success', 'Merci pour votre témoignage!');
         
+    }
+
+
+    //MENAGES 
+    public function menage_regulier(){
+        $assistances = Assistance::all();
+        $reguliers = Menage::latest()->get();
+        $describes = Descrptmenageregulier::all();
+        return view('newfront.menage-regulier', compact('assistances', 'describes', 'reguliers'));
     }
 
 

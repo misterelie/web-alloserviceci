@@ -162,24 +162,23 @@
 
                                             <label class="form-label" for="password-input">Mot de passe</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password"  name="password" autocomplete="current-password"  class="form-control pe-5 password-input @error('password') is-invalid @enderror" placeholder="Entrer le mot de passe" id="password-input">
+                                                <input type="password" required="" name="password" autocomplete="current-password"  class="form-control pe-5 password-input @error('password') is-invalid @enderror" placeholder="Entrer le mot de passe" id="password-input">
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 @error('password')
-                                                    <span class="text-danger">Veuillez saisir le mot de passe</span>
+                                                    <span class="text-danger">Cet email est incorrect</span>
                                                  @enderror
                                             </div>
                                         </div>
 
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" name="remember" id="auth-remember-check">
-                                            <label class="form-check-label" for="auth-remember-check">Souvenez-vous de moi</label>
-                                           
+                                            <label class="form-check-label" for="auth-remember-check">
+                                                Souvenez-vous de moi</label>
                                         </div>
 
                                         <div class="mt-4">
                                             <button class="btn btn-success w-100" type="submit">Se connecter</button>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>

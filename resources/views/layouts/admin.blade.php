@@ -15,6 +15,17 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
+
+    <!-- quill css -->
+    <link href="{{ asset('backend_admin/assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('backend_admin/assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend_admin/assets/assets/libs/quill/quill.snow.css')}}" rel="stylesheet" type="text/css" />
+
+   <!-- quill css -->
+   <link href="{{ asset('backend_admin/assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+   <link href="{{ asset('backend_admin/assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
+   <link href="{{ asset('backend_admin/assets/libs/quill/quill.snow.css') }}" rel="stylesheet" type="text/css" />
+
     <!--datatable css-->
     <link rel="stylesheet"
         href="{{ asset('backend_admin/assets/cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css') }}" />
@@ -204,6 +215,15 @@
 
         <script src="{{ asset('backend_admin/assets/js/pages/datatables.init.js') }}">
         </script>
+
+        <!-- ckeditor -->
+    <script src="{{ asset('backend_admin/assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+
+    <!-- quill js -->
+    <script src="{{ asset('backend_admin/assets/libs/quill/quill.min.js')}}"></script>
+
+    <!-- init js -->
+    <script src="{{ asset('backend_admin/assets/js/pages/form-editor.init.js')}}"></script>
 
         <!-- App js -->
         <script src="{{ asset('backend_admin/assets/js/app.js') }}"></script>

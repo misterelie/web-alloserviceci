@@ -38,7 +38,11 @@ class AdminController extends Controller
         $prestataires = DevenirPrestataire::count();
         $demandeprestations = DemandePrestation::count();
         $temoignages = Temoignage::count();
-        return view('admin.dashboard', compact('prestations', 'demandeprestations', 'prestataires', 'temoignages'));
+        $communes = Commune::count();
+        $modes = Mode::count();
+        $ethnies = Ethnie::count();
+        $canaux = Canal::count();
+        return view('admin.dashboard', compact('prestations', 'demandeprestations', 'prestataires', 'temoignages', 'communes', 'modes', 'ethnies', 'canaux'));
     }
 
     //AJOUT 
@@ -295,40 +299,10 @@ class AdminController extends Controller
                         
                         return redirect()->back()->with('success', "Réussite ! Opération effectuée avec succès. L'utilisateur recevra un Email de notification sur votre décision");
                     }
-
-
-
-                    // if (!is_null($request->etat == 'accepter')) {
-                    //     $demandeprestation->etat = $request->etat;
-                    // }
-
-
-
-
-                    // if (!is_null($demandeprestation->email)) {
-                    //     Mail::to($demandeprestation->email)->send(new Demande($demandeprestation, $action));
-                    //     return redirect()->back()->with('success', 'Félicitations!  Vous accepté avec succès');
-                    // }else {
-                    //     return redirect()->back()->with('error', 'une erreur est surnevue');
-                    // }
-
-                   
-
-                    //TRAITER LE STATUT ACCEPTER DE LA DEMANDE
-                    // $etat = Etat::where('status', 'Accepter')->first();
-                    // $demandeprestation->etat = $etat->status;
-                    // if (!is_null($request->motif_de_rejet)) {
-                    //     $demandeprestation->motif_de_rejet = $request->motif_de_rejet;
-                    // }
-                    
-                   
                     
                 }
 
-               
-
-
-
+            
                 //update prestataire
                 public function update_prestataire(Request $request, DevenirPrestataire $prestataire ){
                     //dd($request->all());

@@ -5,15 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\MenageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DomaineController;
-use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Backend\AdminController;
-use App\Http\Controllers\Interfaces\FrontController  as InterfacesFrontController ;
-use App\Http\Controllers\Backend\AdminController as BackendAdminController;
-
+use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\TemoignageController;
+use App\Http\Controllers\Backend\AdminController;
+
+use App\Http\Controllers\Backend\AdminController as BackendAdminController;
+use App\Http\Controllers\Interfaces\FrontController  as InterfacesFrontController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,14 +39,16 @@ require __DIR__.'/auth.php';
 
 
 // FRONT
-Route::get('/', [HomeController::class, 'index'])->name("Home.app");
+// Route::get('/', [HomeController::class, 'index'])->name("Home.app");
+
+Route::get('/', [InterfacesFrontController::class, 'newindex'])->name("newfront.index");
 
 Route::get('/presentation', [InterfacesFrontController::class, 'vu_about'])->name("front.presentaion");
 route::get('/nos-prestations', [InterfacesFrontController::class, 'all_prestations'])->name("front.nos-prestations");
 Route::get('/ask.prestation', [InterfacesFrontController::class, 'demande_prestation'])->name("ask.prestation");
 Route::post('/save.demandeprestation', [InterfacesFrontController::class, 'store'])->name("save.demandeprestation");
 Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
-Route::get('/nous-contacter', [InterfacesFrontController::class, 'send_contact'])->name("front.contact");
+Route::get('/contactez/nous', [InterfacesFrontController::class, 'send_contact'])->name("front.contact");
 Route::post('/save_contact', [InterfacesFrontController::class, 'store_contact'])->name("save_contact");
 Route::get('/ask.prestataire', [InterfacesFrontController::class, 'prestataire'])->name("ask.prestataire");
 Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
@@ -53,10 +56,25 @@ Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'stor
 Route::get('/demande-prest/{id}', [InterfacesFrontController::class, 'demande_prest'])->name("front.prest");
 Route::get('/devenir-presta/{id}', [InterfacesFrontController::class, 'demande_presta'])->name("front.presta");
 
+//temoignages
+Route::get('/temoignages/clients', [InterfacesFrontController::class, 'temoignages'])->name("temoignages.clients");
+
+//Nos realisations
+Route::get('/nos/realisations', [InterfacesFrontController::class, 'realisations'])->name("newfront.realisation");
+
+//Menage regulier
+Route::get('/menage-regulier', [InterfacesFrontController::class, 'menage_regulier'])->name("newfront.menage-regulier");
+Route::get('/details/menage-regulier/{slug}', [InterfacesFrontController::class, 'details']);
+
+
+
+
+
+
+
 
 //ADMINISTRATION
 //nos prestations
-
 
 //ENVOIE EMAIL D'ACCEPTATION
 Route::put('/accepterDemandeur/{demandeprestation}', [BackendAdminController::class, 'AccepterDemande']);
@@ -179,3 +197,16 @@ Route::get('/statut', [TemoignageController::class, 'etat'])->name("statut");
 Route::post('/save.statut', [TemoignageController::class, 'store_statut'])->name("save.statut");
 Route::put('update.temoignage/{temoignage}', [TemoignageController::class, 'update_temoignage'])->name("update.temoignage");
 Route::delete('delete.temoignage/{id}', [TemoignageController::class, 'destroy_temoignage'])->name("delete.temoignage");
+
+//MENAGE
+Route::get('/description/menage/regulier', [MenageController::class, 'presentation_menage_regulier'])->name("admin.menages.presentation");
+Route::post('/description.regulier', [MenageController::class, 'save_descript_menage_regulier'])->name("description.regulier");
+Route::put('/decription/regulier/menage/{describe}', [MenageController::class, 'update_desciption_regulier'])->name("describe.update");
+
+
+Route::get('/menage/regulier', [MenageController::class, 'index'])->name("menages");
+Route::post('/store/menage/regulier', [MenageController::class, 'store'])->name("menage.regulier");
+Route::put('/update.menagesregulier/{regul}', [MenageController::class, 'update'])->name("update.menagesregulier");
+Route::delete('/delete/menage/regulier/{regul}', [MenageController::class, 'destroy'])->name("destroy.regulier");
+
+Route::get('/menage.occasionnel', [MenageController::class, 'index_occacionnel'])->name('menage.occasionnel');
