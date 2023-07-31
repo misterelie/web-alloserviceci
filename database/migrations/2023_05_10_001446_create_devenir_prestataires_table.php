@@ -44,7 +44,8 @@ return new class extends Migration
             $table->string('copy_piece')->default(NULL)->nullable();
             $table->string('copy_last_diplome')->nullable();
             $table->string('catalogue_realisa')->nullable();
-            $table->text('avis')->default(NULL)->nullable();;
+            $table->text('avis')->default(NULL)->nullable();
+            $table->integer('prestation_id')->default(NULL)->nullable();
             $table->timestamps();
         });
     }

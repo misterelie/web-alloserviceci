@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    @if ($message = Session::get('success'))
+                @if ($message = Session::get('success'))
                     <div class="alert alert-success text-center">
                         <p>{{ $message }}</p>
                     </div>
@@ -42,10 +42,10 @@
                         </ul>
                     </div>
                 @endif
-    
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title mb-0">Modification & Suppression d'une demande</h4>
+                            <h4 class="card-title mb-0">
+                                Modification & Suppression d'une demande</h4>
                         </div><!-- end card header -->
                         <div class="card-body">
                             <div class="listjs-table" id="customerList">
@@ -97,8 +97,9 @@
                                                 <td class="date">{{ $demandeprestation->prestation->libelle ?? '' }}
                                                 </td>
 
-                                                <td class="date">{{ $demandeprestation->salaire_propose }} FCFA</td>
-                                                <td class="date">{{ $demandeprestation->mode->mode ?? '' }}</td>
+                                                <td class="date"> <span class="p-2 badge badge-soft-success text-primary fs-12 fw-bolder">{{ $demandeprestation->salaire_propose }} <sup><small>FCFA</small></sup></span></td>
+                                                <td class="date"><span class="p-2 badge badge-soft-danger fw-bold">{{ $demandeprestation->mode->mode ?? '' }}</span></td>
+
                                                 <td class="status">
                                                    <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '1' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '1' ? 'acceptée' : 'refusée' }}</span>     
                                                 </td>
@@ -155,7 +156,9 @@
             </div>
             <!-- end row -->
 
-             <!-- statu de la demande-->
+            
+
+             <!-- statut de la demande-->
             @if(!is_null($demandeprestations))
             @foreach($demandeprestations as $demandeprestation)
             <div class="modal fade" id="accepterlModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -221,8 +224,6 @@
                                     @if($demandeprestation->etat !=  NULL)
                                         <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
                                     @else
-
-                                    
                                     <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
                                    @endif
                                 </div>
@@ -233,6 +234,9 @@
             </div> 
             @endforeach
             @endif 
+
+
+
 
               <!-- modifier prestation-->
               @if(!is_null($demandeprestations))
@@ -354,10 +358,13 @@
               @endif
               <!-- fin modifier -->
 
+
+
+
             @if(!is_null($demandeprestations))
             @foreach($demandeprestations as $demandeprestation)
           <!-- Modal detail-->
-              <div class="modal fade zoomIn" id="detailModal_{{ $demandeprestation->id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal fade zoomIn" id="detailModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="detailModal{{ $demandeprestation->id }}Label" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                           <div class="modal-header">
@@ -366,7 +373,9 @@
                           </div>
                           <div class="modal-body">
                               <div class="">
-                                <h5 class="text-center" style="font-weight: bold"> VOIR TOUTES LES INFORMATIONS DU DEMANDEUR</h5>
+                                <h5 class="text-center" style="font-weight: bold"> 
+                                    VOIR TOUTES LES INFORMATIONS DU DEMANDEUR
+                                </h5>
                                   <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                                       <p class="">Nom: {{ $demandeprestation->nom }}</p>
                                       <p class="">Prénoms: {{ $demandeprestation->prenoms }}</p>
@@ -374,13 +383,15 @@
                                       <p>Email: {{ $demandeprestation->email }}</p>
                                       <p>Mode travail: {{  $demandeprestation->mode->mode ?? '' }}</p>
                                       <p>Prestation: {{  $demandeprestation->prestation->libelle ?? ''}}</p>
-                                      <p>salaire: {{  $demandeprestation->salaire_propose}}</p>
-                                      <p>Age: {{ $demandeprestation->age_demande }} ans</p>
+                                      <p class="btn btn-dark">salaire: {{  $demandeprestation->salaire_propose}} <sup><small>FCFA</small></sup></p>
+                                      <p>Age: {{ $demandeprestation->age_demande }} Ans</p>
                                       <p>Ethnie: {{  $demandeprestation->ethnie->ethnie ?? ''}}</p>
                                       <p>Date de demande: {{  $demandeprestation->date_demande }}</p>
                                       <p>Heure de la demande: {{  $demandeprestation->heure_demande }}</p>
                                       <p>Observation: <br> {{  $demandeprestation->observation }}</p>
                                   </div>
+
+                                  
                               </div>
                           </div>
                       </div>

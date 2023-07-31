@@ -132,7 +132,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <h5 class="modal-title text-primary" id="exampleModalLabel">Enregistrer le mode de prestation</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form action="{{ route('store.mode') }}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
@@ -145,14 +145,46 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label">Nom</label>
-                                    <input type="text" id="customername-field" 
-                                        class="form-control @error('mode') is-invalid @enderror" name="mode"
-                                        placeholder="Entrez le nom"/>
+                                    <label for="status-field" class="form-label fw-bold">Le département: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($departements))
+                                        @foreach($departements as $departement)
+                                            <option value="{{$departement->id}}">{{$departement->libelle}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
 
-                                    @error('mode')
-                                        <div class="alert alert-danger">Veuillez saisir le mode</div>
-                                    @enderror
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Mode</label>
+                                    <input type="text" id="customername-field" 
+                                        class="form-control" name="mode"
+                                        placeholder="Entrez le nom"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Titre</label>
+                                    <input type="text" id="customername-field" 
+                                        class="form-control" name="titre"
+                                        placeholder="Entrez le nom"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Photos</label>
+                                    <input type="file" id="customername-field" 
+                                        class="form-control" name="image_prestation"
+                                        placeholder="Entrez le nom"/>
+                                </div><br>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold"
+                                        for="gen-info-description-input">Description</label>
+                                    <textarea class="form-control ckeditor-classic" name="description"
+                                        placeholder="Entrez une description"
+                                        id="gen-info-description-input" rows="2"
+                                        required="">
+                                    </textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -191,6 +223,21 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="status-field" class="form-label fw-bold">Le département: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($departements))
+                                            @foreach($departements as $departement)
+                                                <option value="{{ $departement->id }}" 
+                                                    @if((int) $mode->departement_id == (int)$departement->id) selected @endif>
+                                                            {{ $departement->libelle }}
+                                                </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="customername-field" class="form-label">Nom</label>
                                     <input type="text" id="customername-field" 
                                     class="form-control" name="mode" 
@@ -198,6 +245,25 @@
                                     placeholder="Mettre à jour le nom"/>
                                    
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label">Titre</label>
+                                    <input type="text" id="customername-field" 
+                                    class="form-control" name="titre" 
+                                    value="{{ $mode->titre }}"
+                                    placeholder="Mettre à jour le nom"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold"
+                                        for="gen-info-description-input">Description</label>
+                                    <textarea class="form-control" name="description"
+                                        placeholder="Entrez une description"
+                                        id="gen-info-description-input" rows="2">
+                                        {!!$mode->description!!}
+                                    </textarea>
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
@@ -212,36 +278,6 @@
             @endforeach
             @endif
               <!-- fin modifier -->
-
-
-            <!-- Modal suppression-->
-            {{-- @if(!is_null($modes))
-            @foreach($modes as $mode)
-                <div class="modal fade zoomIn" id="deleteModal_{{$mode->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mt-2 text-center">
-                                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                        <h4>Êtes-vous sûr ?</h4>
-                                        <p class="text-muted mx-4 mb-0">Êtes-vous sûr de vouloir supprimer cet enregistrement ? </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn w-sm btn-danger" id="delete-record">Oui, supprimez-le !</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!--end modal -->
-            @endforeach
-            @endif --}}
         </div>
         <!-- container-fluid -->
     </div>

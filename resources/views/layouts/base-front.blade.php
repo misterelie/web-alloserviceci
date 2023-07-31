@@ -10,6 +10,8 @@
 
     <link href="img/favicon.html" rel="icon">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link
@@ -82,13 +84,12 @@
     <script data-cfasync="false"
         src="{{ asset('new-assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}">
     </script>
-    <script src="{{ asset('new-assets/code.jquery.com/jquery-3.4.1.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+    {{-- <script src="{{ asset('new-assets/code.jquery.com/jquery-3.4.1.min.js') }}"
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script> --}}
     <script src="{{ asset('new-assets/cdn.jsdelivr.net/npm/bootstrap%405.0.0/dist/js/bootstrap.bundle.min.js') }}"
         type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
     <script src="{{ asset('new-assets/lib/wow/wow.min.js') }}" type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
-    <script src="{{ asset('new-assets/lib/easing/easing.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+    <script src="{{ asset('new-assets/lib/easing/easing.min.js') }}" type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
     <script src="{{ asset('new-assets/lib/waypoints/waypoints.min.js') }}"
         type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
     <script src="{{ asset('new-assets/lib/counterup/counterup.min.js') }}"
@@ -105,8 +106,7 @@
     <script
         src="{{ asset('new-assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js') }}"
         data-cf-settings="2e4e4b8a462ae5e81adbf0d1-|49" defer></script>
-
-
+        
         <script>
             var currentTab = 0; // Current tab is set to be the first tab (0)
             showTab(currentTab); // Display the current tab
@@ -177,10 +177,10 @@
                 x[n].className += " active";
             }
         </script>
-        
-        <script>
-            function initMap() {
-                var map = new google.maps.Map(document.getElementById('map'), {
+
+    <script>
+        function initMap() {
+         var map = new google.maps.Map(document.getElementById('map'), {
                   center: {lat: 48.8566, lng: 2.3522},
                   zoom: 12
                 });
@@ -191,7 +191,56 @@
                   title: 'Tour Eiffel'
                 });
               }
-        </script>
+    </script>
+
+<script>
+    $('#mode_id').on('change', function () {
+        let modeId = $(this).val();
+
+        console.log(modeId)
+        
+        var userURL = "{{url('/getSpecificates')}}";
+        $.ajax({
+            url: userURL,
+            data: {"data": modeId},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+               
+                HTML = $.parseHTML(data);
+                $("#ajaxRoot").html(HTML)
+            }
+        });
+    });
+</script>
+
+
+<script>
+   $(document).on('change','#ville_id',function(){  
+      var ville_id=$(this).val();
+      
+      var op=" ";  
+      a = '/getCommunes'           
+      $.ajax({
+         type:'get',
+         url:a,
+         data:{'id':ville_id},
+         success:function(communes){
+            console.log(communes);
+            op+='<option label=""></option>'; 
+            for(var i=0;i<communes.length;i++){    
+               op+='<option value="'+communes[i].id+'">'+communes[i].commune+'</option>';     
+            }
+            $('.commune_id').html(" ");
+            $('.commune_id').append(op);
+         },
+         error:function(){
+         }
+      });                    
+   });
+</script>
+
 </body>
 
 </html>

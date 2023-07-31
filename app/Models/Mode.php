@@ -19,4 +19,16 @@ class Mode extends Model
     public function prestataires(){
         return $this->hasMany(DevenirPrestataire::class, "mode_id")->where(["deleted" => 0]);
     }
+
+    public function prestations(){
+        return $this->hasMany(Prestation::class);
+    }
+
+    public function departement(){
+        return $this->belongsTo(Departement::class, "departement_id");
+    }
+
+    public function devis(){
+        return $this->hasMany(Devi::class, "mode_id");
+    }
 }

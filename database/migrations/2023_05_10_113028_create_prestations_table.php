@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('titre_banner')->nullable();
             $table->string('libelle');
             $table->string('image_prestation')->nullable();
+            $table->integer('departement_id')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('mode_id')->nullable();
             $table->timestamps();
         });
     }

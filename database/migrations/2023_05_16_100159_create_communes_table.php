@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('communes', function (Blueprint $table) {
             $table->id()->autoIncrement;
             $table->string("commune");
+            $table->integer('ville_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

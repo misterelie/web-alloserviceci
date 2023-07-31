@@ -4,15 +4,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\DevisController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MenageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JardinageController;
+use App\Http\Controllers\RepassageController;
+
 use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\TemoignageController;
+use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\Backend\AdminController;
-
 use App\Http\Controllers\Backend\AdminController as BackendAdminController;
 use App\Http\Controllers\Interfaces\FrontController  as InterfacesFrontController ;
 
@@ -48,11 +52,14 @@ route::get('/nos-prestations', [InterfacesFrontController::class, 'all_prestatio
 Route::get('/ask.prestation', [InterfacesFrontController::class, 'demande_prestation'])->name("ask.prestation");
 Route::post('/save.demandeprestation', [InterfacesFrontController::class, 'store'])->name("save.demandeprestation");
 Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+
 Route::get('/contactez/nous', [InterfacesFrontController::class, 'send_contact'])->name("front.contact");
 Route::post('/save_contact', [InterfacesFrontController::class, 'store_contact'])->name("save_contact");
 Route::get('/ask.prestataire', [InterfacesFrontController::class, 'prestataire'])->name("ask.prestataire");
 Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+
 Route::post('/save.devenirprestataire', [InterfacesFrontController::class, 'store_prestataire'])->name("save.devenirprestataire");
+
 Route::get('/demande-prest/{id}', [InterfacesFrontController::class, 'demande_prest'])->name("front.prest");
 Route::get('/devenir-presta/{id}', [InterfacesFrontController::class, 'demande_presta'])->name("front.presta");
 
@@ -62,15 +69,17 @@ Route::get('/temoignages/clients', [InterfacesFrontController::class, 'temoignag
 //Nos realisations
 Route::get('/nos/realisations', [InterfacesFrontController::class, 'realisations'])->name("newfront.realisation");
 
-//Menage regulier
-Route::get('/menage-regulier', [InterfacesFrontController::class, 'menage_regulier'])->name("newfront.menage-regulier");
-Route::get('/details/menage-regulier/{slug}', [InterfacesFrontController::class, 'details']);
+
+//REPASSAGE
+Route::get('/nos-type-service/{id}', [InterfacesFrontController::class, 'section_repassage'])->name("repassage");
+Route::get('/details/repassage/{slug}', [InterfacesFrontController::class, 'details_repassage']);
 
 
-
-
-
-
+//FRONT DEVIS*
+Route::get('/demander-un-devis', [DevisController::class, 'devis'])->name("newfront.devis");
+Route::post('/store/devis', [DevisController::class, 'store'])->name("store.devis");
+Route::get('/getSpecificates', [DevisController::class, 'getSpecificates']);
+Route::get('/getCommunes', [DevisController::class, 'getCommunes']);
 
 
 //ADMINISTRATION
@@ -103,6 +112,7 @@ Route::post('/save.prestation', [BackendAdminController::class, 'save_prestation
 Route::put('/prestation.upate/{prestation}', [BackendAdminController::class, 'update'])->name("prestation.upate");
 // Route::delete('/delete.prestation/{prestation}', [BackendAdminController::class, 'delete'])->name("delete.prestation");
 
+
 //LISTE DES DEMANDES DE PRESTATIONS
 Route::get('/liste/demande_prestation', [BackendAdminController::class, 'liste_demande_prestation'])->name("liste/demande_prestation");
 Route::put('/update.demande/{demandeprestation}', [BackendAdminController::class, 'update_demande'])->name("update.demande");
@@ -125,6 +135,13 @@ Route::get('/liste.modes', [BackendAdminController::class, 'liste_mode'])->name(
 Route::post('/store.mode', [BackendAdminController::class, 'enregis_mode'])->name("store.mode");
 Route::put('/update.mode/{mode}', [BackendAdminController::class, 'update_mode'])->name("update.mode");
 Route::delete('/delete.mode/{id}', [BackendAdminController::class, 'delete_mode'])->name("delete.mode");
+
+//MODE DE PRESTATIONS
+Route::get('/backends/modes/prestations', [BackendAdminController::class, 'mode_presta'])->name("admin.mode_prestations.index");
+Route::post('/modeprestation', [BackendAdminController::class, 'save_mode_prestation'])->name("modeprestation");
+Route::put('/update/mode/prestation/{mode_presta}', [BackendAdminController::class, 'update_mode_prestation']);
+Route::delete('/delete/{mode_presta}', [BackendAdminController::class, 'destroy_mode_presta'])->name("delete");
+
 
 //AJOUT DIPLOMES
 Route::get('/ajout/diplome', [BackendAdminController::class, 'liste_diplome'])->name("ajout/diplome");
@@ -168,6 +185,30 @@ Route::post('/store.quartier', [BackendAdminController::class, 'save_quartier'])
 Route::put('/update.quartier/{quartier}', [BackendAdminController::class, 'update_tiek'])->name("update.quartier");
 Route::delete('/destroy.quartier/{id}', [BackendAdminController::class, 'destroy'])->name("destroy.quartier");
 
+//VILLES
+Route::get('/backends/villes', [BackendAdminController::class, 'cities'])->name('admin.villes.cities');
+Route::post('/admin/villes/cities', [BackendAdminController::class, 'save_ville'])->name('admin/villes/cities');
+Route::put('/update.ville/{city}', [BackendAdminController::class, 'update_ville'])->name('update.ville');
+Route::delete('/delete.ville/{city}', [BackendAdminController::class, 'destroy_ville'])->name("delete.ville");
+
+//DEVIS
+Route::get('/backends/devis', [BackendAdminController::class, 'listedevis'])->name('backends.devis');
+Route::put('/update.devis/{id}', [BackendAdminController::class, 'update_devis'])->name('update.devis');
+Route::delete('/delete/devis/{devi}', [BackendAdminController::class, 'delete_devis'])->name('delete.devis');
+
+
+//REALISATIONS
+Route::get('/backends/realisations', [BackendAdminController::class, 'realisation'])->name('realisations');
+Route::post('/realisation/store', [BackendAdminController::class, 'store'])->name('realisation.store');
+Route::put('/realisation/update/{real}', [BackendAdminController::class, "update_realisation"])->name('realisation.update');
+Route::delete('/realisation/destroy/{real}', [BackendAdminController::class, "destroy_realisation"])->name('realisation.destroy');
+
+
+
+
+
+
+
 //ABOUT
 Route::get('/ajout.about', [AboutController::class, 'presentation'])->name("ajout.about");
 Route::post('/save.about', [AboutController::class, 'store'])->name("save.about");
@@ -198,15 +239,12 @@ Route::post('/save.statut', [TemoignageController::class, 'store_statut'])->name
 Route::put('update.temoignage/{temoignage}', [TemoignageController::class, 'update_temoignage'])->name("update.temoignage");
 Route::delete('delete.temoignage/{id}', [TemoignageController::class, 'destroy_temoignage'])->name("delete.temoignage");
 
-//MENAGE
-Route::get('/description/menage/regulier', [MenageController::class, 'presentation_menage_regulier'])->name("admin.menages.presentation");
-Route::post('/description.regulier', [MenageController::class, 'save_descript_menage_regulier'])->name("description.regulier");
-Route::put('/decription/regulier/menage/{describe}', [MenageController::class, 'update_desciption_regulier'])->name("describe.update");
+//DEPARTEMENTS
+Route::get('/backends/departements', [DepartementController::class, 'index']);
+Route::post('/backends/store/departements', [DepartementController::class, 'store'])->name('admin.departement.index');
+Route::put('/departement.update/{id}', [DepartementController::class, 'update'])->name('departement.update');
+Route::delete('/delete.departement/{id}', [DepartementController::class, 'delete'])->name('delete.departement');
+
+//REALISATIONS
 
 
-Route::get('/menage/regulier', [MenageController::class, 'index'])->name("menages");
-Route::post('/store/menage/regulier', [MenageController::class, 'store'])->name("menage.regulier");
-Route::put('/update.menagesregulier/{regul}', [MenageController::class, 'update'])->name("update.menagesregulier");
-Route::delete('/delete/menage/regulier/{regul}', [MenageController::class, 'destroy'])->name("destroy.regulier");
-
-Route::get('/menage.occasionnel', [MenageController::class, 'index_occacionnel'])->name('menage.occasionnel');

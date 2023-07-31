@@ -10,11 +10,24 @@ class Commune extends Model
     use HasFactory;
     protected $table = "communes";
     protected $guarded = ['id'];
-    protected $fillable = ["commune"];
+    protected $fillable = ["commune", "user_id", "ville_id"];
 
     public function adhesions(){
         return $this->hasMany(Adhesion::class, "commune_id");
     }
+
+    // public function ville()
+    // {
+    //     return $this->belongsTo(Ville::class, "ville_id");
+    // }
+
+    public function ville(){
+        return $this->belongsTo(ville::class, "ville_id");
+    }
+
+    // public function villes(){
+    //     return $this->belongsToMany(Ville::class);
+    // }
 
     
 }

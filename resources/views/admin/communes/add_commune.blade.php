@@ -80,6 +80,7 @@
                                                     </div>
                                                 </th>
                                                 <th class="sort" data-sort="customer_name">Communes</th>
+                                                <th class="sort" data-sort="customer_name">Villes</th>
                                                 <th class="sort" data-sort="email">Dates d'ajout</th>
                                                 <th class="sort" data-sort="action">Actions</th>
                                             </tr>
@@ -95,6 +96,7 @@
                                                 </th>
                                                 
                                                 <td class="customer_name">{{ $comm->commune}}</td>
+                                                <td class="customer_name">{{ $comm->ville->libelle ?? ''}}</td>
                                                 <td class="date">{{ $comm->created_at}}</td>
                                                 <td>
                                                     <div class="d-flex gap-2">
@@ -165,10 +167,23 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label">Nom</label>
+                                        <label for="ville_id" class="form-label fw-bold">Villes</label>
+                                        <select name="ville_id" class="form-select" id="ville_id">
+                                            <option value="">--- Sélectionnez une option ---</option>
+                                            @if(!is_null($villes))
+                                                @foreach($villes as $city)
+                                                <option value="{{$city->id}}">{{$city->libelle}}</option>>
+                                                @endforeach
+                                        @endif
+                                        </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Nom</label>
                                     <input type="text" id="customername-field" class="form-control" name="commune" 
                                     placeholder="Entrez le nom" required/>
                                 </div>
+
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">

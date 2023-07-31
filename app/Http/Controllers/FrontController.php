@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\DevenirPrestataire;
-use App\Models\DemandeDePrestation;
+use App\Models\DemandePrestation;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 
@@ -32,7 +32,7 @@ class Frontcontroller extends Controller
             'observation' => "required",
              ]);
 
-            $prestations = new DemandeDePrestation();
+            $prestations = new DemandePrestation();
             $prestations->prestation_demande = $request->prestation_demande;
             $prestations->mode_travail = $request->mode_travail;
             $prestations->salaire_propose = $request->salaire_propose;
@@ -42,7 +42,7 @@ class Frontcontroller extends Controller
             $prestations->date_appel = $request->date_appel;
             $prestations->observation = $request->observation;
             $prestations->save();
-        return redirect()->back()->with('success', 'Votre demande à été reçue avec succès .');
+            return redirect()->back()->with('success', 'Votre demande à été reçue avec succès .');
     }
 
     public function save_devenir(Request $request){

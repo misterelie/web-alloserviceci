@@ -468,7 +468,9 @@
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarPages">
-                    <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">Demandes de prest</span>
+                    <i class="mdi mdi-sticker-text-outline"></i> <span data-key="t-pages">
+                        Demandes prestations
+                    </span>
                 </a>
                 <div class="collapse menu-dropdown" id="sidebarPages">
                     <ul class="nav nav-sm flex-column">
@@ -495,30 +497,65 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="sidebarAuth">
+                    <i class="mdi mdi-form-select"></i> <span data-key="t-forms">Devis</span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarAuth">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ url('backends/devis') }}" class="nav-link" data-key="t-basic-elements">Liste Devis</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+          
+
+            <li class="menu-title"><i class="ri-more-fill"></i> <span
+                data-key="t-components">Pages</span></li>
+
+            <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
+                    role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                    <i class="mdi mdi-bullhorn-variant-outline"></i> <span data-key="t-advance-ui">Témoignages
+                    </span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ route('liste.temoignages')}}" class="nav-link"
+                                data-key="t-sweet-alerts">Consulter</a>
+                        </li>
+                    </ul>
+                </div>
+            </li> 
+
+            <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarForms">
-                    <i class="mdi mdi-form-select"></i> <span data-key="t-forms">Ménages</span>
+                    <i class="mdi mdi-form-select"></i> <span data-key="t-forms">Départements</span>
                 </a>
                 <div class="collapse menu-dropdown" id="sidebarForms">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{{ url('menage/regulier') }}" class="nav-link" data-key="t-basic-elements">ménage régulier</a>
+                            <a href="{{ url('backends/departements') }}" class="nav-link" data-key="t-basic-elements">Gestion départemments</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="forms-select.html" class="nav-link" data-key="t-form-select">
-                                ménage occasionnel 
-                             </a>
-                        </li>
-                        
                     </ul>
                 </div>
             </li>
 
-            {{-- <li class="nav-item">
+             <li class="nav-item">
+                <a class="nav-link menu-link" href="{{ url('backends/realisations') }}">
+                    <i class="mdi mdi-puzzle-outline"></i> <span data-key="t-widgets">Réalisations</span>
+                </a>
+            </li> 
+
+             {{-- <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="sidebarAuth">
                     <i class="mdi mdi-account-circle-outline"></i> <span
-                        data-key="t-authentication">Prestations demandées</span>
+                        data-key="t-authentication">Repassages</span>
                 </a>
                 <div class="collapse menu-dropdown" id="sidebarAuth">
                     <ul class="nav nav-sm flex-column">
@@ -704,25 +741,8 @@
                         </li>
                     </ul>
                 </div> 
-            </li> --}}
-            <li class="menu-title"><i class="ri-more-fill"></i> <span
-                data-key="t-components">Pages</span></li>
+            </li>  --}}
 
-            <li class="nav-item">
-                <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
-                    role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
-                    <i class="mdi mdi-bullhorn-variant-outline"></i> <span data-key="t-advance-ui">Témoignages
-                    </span>
-                </a>
-                <div class="collapse menu-dropdown" id="sidebarAdvanceUI">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{{ route('liste.temoignages')}}" class="nav-link"
-                                data-key="t-sweet-alerts">Consulter</a>
-                        </li>
-                    </ul>
-                </div>
-            </li> 
 
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
@@ -759,6 +779,7 @@
                                     <a href="{{ url('liste/prestation') }}" class="nav-link" data-key="t-alerts">Nos prestations</a>
                                 </li>
 
+            
                                 <li class="nav-item">
                                     <a href="{{ route('ajout.assistance')}}" class="nav-link" data-key="t-alerts">Assistances</a>
                                 </li>
@@ -802,18 +823,14 @@
                                     <a href="{{ route('ajout.about') }}" class="nav-link" data-key="t-cards">Présentation</a>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a href="{{ url('description/menage/regulier') }}" class="nav-link" data-key="t-cards">Ménage régulier</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('menage.occasionnel') }}" class="nav-link" data-key="t-cards">Ménage occasionnel</a>
-                                </li>
-
-
 
                                 <li class="nav-item">
                                     <a href="{{ route('activity.domaine') }}" class="nav-link" data-key="t-cards">Domaines activité</a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="{{ url('backends/villes') }}" class="nav-link" data-key="t-cards">Villes</a>
                                 </li>
 
                                 <li class="nav-item">

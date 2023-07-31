@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+    <div class="section-title text-center position-relative pb-3  mx-auto" style="max-width: 600px;">
         <h5 class="fw-bold text-uppercase text-primary">Nos prestations</h5>
     </div>
     {{-- <div class="section-title-2 text-center position-relative pb-2 mb-5 mx-auto" style="max-width: 600px;">

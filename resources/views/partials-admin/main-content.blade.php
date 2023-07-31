@@ -165,9 +165,7 @@
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p
-                                                            class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                            Témoignages</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Témoignages</p>
                                                     </div>
                                                     {{-- <div class="flex-shrink-0">
                                                         <h5 class="text-muted fs-14 mb-0">
@@ -269,9 +267,7 @@
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p
-                                                            class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                            Ethnies</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Ethnies</p>
                                                     </div>
                                                     {{-- <div class="flex-shrink-0">
                                                         <h5 class="text-success fs-14 mb-0">
@@ -303,9 +299,7 @@
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p
-                                                            class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                            Canaux</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Canaux</p>
                                                     </div>
                                                     {{-- <div class="flex-shrink-0">
                                                         <h5 class="text-muted fs-14 mb-0">
@@ -317,6 +311,37 @@
                                                     <div>
                                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
                                                                 class="counter-value" data-target="{{$canaux}}">{{$canaux}}</span>
+                                                        </h4>
+                                                        {{-- <a href="#" class="text-decoration-underline">Withdraw money</a> --}}
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-danger rounded fs-3">
+                                                            <i class="las la-microphone"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+
+                                    <div class="col-xl-3 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Devis</p>
+                                                    </div>
+                                                    {{-- <div class="flex-shrink-0">
+                                                        <h5 class="text-muted fs-14 mb-0">
+                                                            +0.00 %
+                                                        </h5>
+                                                    </div> --}}
+                                                </div>
+                                                <div class="d-flex align-items-end fw-bold justify-content-between mt-4">
+                                                    <div>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary fw-bold mb-4"><span
+                                                                class="counter-value fw-bold" data-target="{{$devis}}">{{$devis}}</span>
                                                         </h4>
                                                         {{-- <a href="#" class="text-decoration-underline">Withdraw money</a> --}}
                                                     </div>

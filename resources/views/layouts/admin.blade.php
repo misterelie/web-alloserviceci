@@ -14,8 +14,7 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-
+    
     <!-- quill css -->
     <link href="{{ asset('backend_admin/assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('backend_admin/assets/libs/quill/quill.bubble.css') }}" rel="stylesheet" type="text/css" />
@@ -67,6 +66,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+   
 
 </head>
 
@@ -292,9 +292,12 @@ window.intlTelInput(inputWhatsapp, {
   utilsScript: "/intl-tel-input/js/utils.js?1684676252775" // just for formatting/placeholders etc
 });
 
+</script>
 
-    
-    
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').selectpicker();
+    });
 </script>
 
 </html>

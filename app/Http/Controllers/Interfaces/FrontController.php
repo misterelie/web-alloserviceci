@@ -17,15 +17,18 @@ use App\Models\Diplome;
 use App\Models\Domaine;
 use App\Models\Alphabet;
 use App\Models\Quartier;
+use App\Models\Repassage;
 use App\Models\Assistance;
 use App\Models\Prestation;
 use App\Models\Temoignage;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\New_;
 use App\Models\DemandePrestation;
+use App\Models\MenageOccasionnel;
 use App\Models\DevenirPrestataire;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Descrptmenageregulier;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
@@ -38,54 +41,60 @@ class FrontController extends Controller
         $abouts = About::all();
         $demandeprestations = DemandePrestation::count();
         $prestataires = Prestation::count();
-        // $domaine = Domaine::all();
         $domaines = Domaine::orderBy('id','asc')->get();
         // $prestations = Prestation::latest()->limit(3)->get();
-        return view('front.index', compact('abouts', 'prestations','demandeprestations', 'prestataires', 'domaines'));
+        return view('front.index', compact('abouts', 'prestations','demandeprestations', 'prestataires', 'domaines', ));
     }
 
     public function newindex(){
         $assistances = Assistance::all();
         $abouts = About::all();
         $temoignages = Temoignage::all();
+        $mode = Mode::OrderBy('mode')->first();
         $prestations = Prestation::orderBy('created_at')->limit(12)->get();
-        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages'));
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages', 'mode', 'departements'));
     }
 
     public function vu_about(){
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $abouts = About::all();
         $assistances = Assistance::all();
-        return view('frontweb.about', compact('abouts', 'assistances'));
+        return view('frontweb.about', compact('abouts', 'assistances', 'departements'));
     }
 
     public function temoignages(){
         $assistances = Assistance::all();
         $temoignages = Temoignage::orderBy('created_at')->get();
-        return view('newfront.temoignage', compact('temoignages', 'assistances'));
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        return view('newfront.temoignage', compact('temoignages', 'assistances', 'departements'));
     }
 
     /* DEMANDE DE PRESTATION */
 
     public function demande_prestation(){
         $prestations = Prestation::orderBy('id','asc')->get();
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $assistances = Assistance::all();
         $ethnies = Ethnie::all();
         $modes = Mode::all();
-        return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances'));
+        return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances', 'departements'));
     }
 
     public function demande_prest($id){
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $recup_pres = Prestation::find($id);
         $assistances = Assistance::all();
         $prestations = Prestation::orderBy('id','asc')->get();
         $ethnies = Ethnie::all();
         $modes = Mode::all();
-        return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances'));
+        return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances', 'departements'));
     }
 
     public function send_contact(){
         $assistances = Assistance::all();
-        return view('newfront.contact', compact('assistances'));
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        return view('newfront.contact', compact('assistances', 'departements'));
     }
 
 
@@ -322,6 +331,7 @@ class FrontController extends Controller
      public function prestataire(){
         $assistances = Assistance::all();
         $prestations = Prestation::all();
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $ethnies = Ethnie::all();
         $communes = Commune::all();
         $quartiers = Quartier::all();
@@ -333,11 +343,12 @@ class FrontController extends Controller
         $pieces = Piece::all();
         $diplomes = Diplome::all();
         return view('newfront.devenir_prestataire', 
-              compact('ethnies', 'pieces','communes', 'assistances', 'quartiers', 'prestations', 'domaines', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals'));
+              compact('ethnies', 'pieces','communes', 'assistances', 'quartiers', 'prestations', 'domaines', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals', 'departements'));
     }
 
     public function demande_presta($id){
         $prestations = Prestation::orderBy('id','asc')->get();
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $recup_pres = Domaine::find($id);
         $assistances = Assistance::all();
         $ethnies = Ethnie::all();
@@ -351,14 +362,15 @@ class FrontController extends Controller
         $pieces = Piece::all();
         $diplomes = Diplome::all();
         return view('frontweb.file-prestataire', 
-              compact('ethnies', 'pieces','communes', 'quartiers', 'prestations', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals', 'recup_pres', 'assistances'));
+              compact('ethnies', 'pieces','communes', 'quartiers', 'prestations', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals', 'recup_pres', 'assistances', 'departements'));
     }
 
     //all prestations
     public function all_prestations(){
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
         $prestations = Prestation::orderBy('created_at')->get();
         $assistances = Assistance::all();
-        return view('newfront.all_prestations', compact('prestations', 'assistances'));
+        return view('newfront.all_prestations', compact('prestations', 'assistances', 'departements'));
     }
 
     public function help(){
@@ -375,8 +387,10 @@ class FrontController extends Controller
 
     
     public function realisations(){
+        $realisations = DB::table('realisations')->get();
         $assistances = Assistance::all();
-        return view('newfront.realisation', compact('assistances'));
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        return view('newfront.realisation', compact('assistances', 'departements', 'realisations'));
     }
 
 
@@ -388,9 +402,20 @@ class FrontController extends Controller
 
     public function details($slug){
         $assistances = Assistance::all();
-        // $regul = Menage::fin($slug);
         $regul = Menage::where('slug', $slug)->first();
         return view('newfront.detail-menage-regulier', compact('assistances', 'regul'));
+    }
+
+    public function details_menage_occasionnel($slug){
+        $assistances = Assistance::all();
+        $menage_occasionnel = MenageOccasionnel::where('slug', $slug)->first();
+        return view('newfront.details-menage-occas', compact('assistances', 'menage_occasionnel'));
+    }
+
+    public function details_repassage($slug){
+        $assistances = Assistance::all();
+        $repassage = Repassage::where('slug', $slug)->first();
+        return view('newfront.detail-repassage', compact('assistances', 'repassage'));
     }
 
 
@@ -431,13 +456,29 @@ class FrontController extends Controller
         
     }
 
-
     //MENAGES 
-    public function menage_regulier(){
+    public function  menage_regulier($id){
         $assistances = Assistance::all();
-        $reguliers = Menage::latest()->get();
-        $describes = Descrptmenageregulier::all();
-        return view('newfront.menage-regulier', compact('assistances', 'describes', 'reguliers'));
+        $modes = Mode::all();
+        $mode = Mode::find($id);
+        $prestations = Prestation::all();
+        return view('newfront.menage-regulier', compact('assistances', 'mode', 'modes', 'prestations'));
+    }
+
+    // public function menageoccasionnel($id){
+    //     $assistances = Assistance::all();
+    //     $mode = Mode::find($id);
+    //     // $menage_occasionnels = MenageOccasionnel::latest()->get();
+    //     return view('newfront.menage-regulier', compact('assistances', 'mode'));
+    // }
+
+    public function section_repassage($id){
+        $assistances = Assistance::all();
+        $modes = Mode::all();
+        $mode = Mode::find($id);
+        $prestations = Prestation::all();
+        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        return view('newfront.repassages', compact('assistances', 'mode', 'modes', 'prestations', 'departements'));
     }
 
 

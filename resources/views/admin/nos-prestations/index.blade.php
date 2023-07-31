@@ -72,8 +72,12 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>N°</th>
-                                                <th class="sort" data-sort="customer_name">Images</th>
-                                                <th class="sort" data-sort="email">Noms prestations</th>
+                                                <th class="sort text-uppercase" data-sort="customer_name">Images</th>
+                                                <th class="sort text-uppercase" data-sort="email">prestations</th>
+                                                <th class="sort text-uppercase" data-sort="mode">départements</th>
+                                                <th class="sort text-uppercase" data-sort="mode">Modes</th>
+                                                <th class="sort" data-sort="email">ENREGISTRÉ PAR</th>
+                                                <th class="sort text-uppercase" data-sort="date">ENREGISTRÉ LE</th>
                                                 <th class="sort" data-sort="action" style="width: 120px !important">Action</th>
                                             </tr>
                                         </thead>
@@ -89,7 +93,32 @@
                                                     <img src="../uploadsprestation/{{ $prestation->image_prestation}}" alt="" 
                                                     class="img-fluid" width="40px" height="40px">
                                                 </td>
-                                                <td class="email">{{ $prestation->libelle }}</td>
+
+                                                <td class="email fw-bold">{{ $prestation->libelle }}</td>
+
+                                                <td class="email">
+                                                   
+                                                        <span class="p-2 badge badge-soft-success text-uppercase fs-8 fw-bolder"> 
+                                                            {{ $prestation->departement->libelle  }}
+                                                        </span>
+                                                 </td>
+
+                                                 <td class="mode">
+                                                   
+                                                    <span class="p-2 badge badge-soft-danger text-uppercase fs-8 fw-bolder"> 
+                                                        {{ $prestation->mode->mode ?? ''  }}
+                                                    </span>
+                                                 </td>
+
+                                                <td class="email">
+                                                    @if(!is_null($prestation->user_id))
+                                                        <span class="p-2 badge badge-soft-secondary text-uppercase fs-8 fw-bolder"> 
+                                                            {{ $prestation->user->name ?? '' }}
+                                                        </span>
+                                                    @endif
+                                                </td>
+
+                                                <td class="email">{{ $prestation->created_at }}</td>
                                     
                                                 {{-- <td class="status"><span class="badge badge-soft-success text-uppercase"></span></td> --}}
                                                 <td>
@@ -97,8 +126,6 @@
                                                         <div class="edit">
                                                             <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $prestation->id }}">Modifier</button>
                                                         </div>
-
-                                                       
 
                                                         <div class="remove">
                                                         </div>
@@ -155,7 +182,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <h5 class="modal-title text-primary text-uppercase" id="exampleModalLabel">Ajout de prestation</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form action="{{ route('save.prestation')}}" class="" autocomplete="off" method="POST"  
@@ -169,19 +196,41 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label"> Nom</label>
-                                    <input type="text" id="customername-field" 
-                                        class="form-control @error('libelle') is-invalid @enderror" name="libelle"
-                                        placeholder="Entrez le nom de la prestation"/>
-
-                                    @error('libelle')
-                                        <div class="alert alert-danger">Veuillez saisir le nom de la prestation</div>
-                                    @enderror
-                                    {{-- <div class="invalid-feedback">Veuillez saisir le nom de la prestation.</div> --}}
+                                    <label for="status-field" class="form-label fw-bold">Le département: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($departements))
+                                        @foreach($departements as $departement)
+                                            <option value="{{$departement->id}}">{{$departement->libelle}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="status-field fw-bold" class="form-label fw-bold">Le mode: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="mode_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($modes))
+                                        @foreach($modes as $mode)
+                                            <option value="{{$mode->id}}">{{$mode->mode}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="email-field" class="form-label">Ajouter une image</label>
+                                    <label for="customername-field" class="form-label fw-bold">Nom</label>
+                                    <input type="text" id="customername-field" 
+                                        class="form-control @error('libelle') is-invalid @enderror" name="libelle"
+                                        placeholder="Entrez le nom de la prestation"/>
+                                    @error('libelle')
+                                        <div class="alert alert-danger">Veuillez saisir le nom de la prestation</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email-field" class="form-label fw-bold">Ajouter une image</label>
                                     <input type="file" id="image_prestation" name="image_prestation" 
                                     class="form-control  @error('image_prestation') is-invalid @enderror" 
                                     placeholder="Ajouter une image pour la prestation" />
@@ -209,7 +258,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <h5 class="modal-title text-primary text-center" id="exampleModalLabel">Modification</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form action="{{ route('prestation.upate', $prestation->id )}}" 
@@ -226,21 +275,51 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label">Nom</label>
+                                    <label for="status-field" class="form-label fw-bold">Le département: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($departements))
+                                            @foreach($departements as $departement)
+                                                <option value="{{ $departement->id }}" 
+                                                    @if((int) $prestation->departement_id == (int)$departement->id) selected @endif>
+                                                            {{ $departement->libelle }}
+                                                </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="status-field fw-bold" class="form-label fw-bold">Le mode: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="mode_id" id="status-field" >
+                                        <option value="">-- Sélectionnez une option --- </option>
+                                        @if(!is_null($modes))
+                                        @foreach($modes as $mode)
+                                        <option value="{{ $mode->id }}" 
+                                            @if((int) $prestation->mode_id == (int)$mode->id) selected @endif>
+                                                    {{ $mode->mode }}
+                                        </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Nom</label>
                                     <input type="text" id="customername-field" 
                                     class="form-control" name="libelle" 
                                     value="{{ $prestation->libelle }}"
                                     placeholder="Entrez le nom de la prestation"/>
                                     <div class="invalid-feedback">Veuillez saisir le nom de la prestation.</div>
-                                </div>
+                                </div><br>
 
                                 <div class="mb-3">
-                                    <label for="email-field" class="form-label">Mettre à jour</label>
+                                    <label for="email-field" class="form-label fw-bold">Mettre à jour</label>
                                     <input  type="file" id="image_prestation" name="image_prestation" class="form-control" 
                                     placeholder="Ajouter une image pour la prestation"/> <br>
                                     <img src="/uploadsprestation/{{ $prestation->image_prestation}}" alt="" 
                                     class="img-fluid justify-center text-center" width="70px" height="70px">
-                                    <div class="invalid-feedback">Ajouter une image pour la prestation.</div>
+                                    <div class="invalid-feedback">Ajouter une image</div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -256,37 +335,6 @@
                @endforeach
               @endif
               <!-- fin modifier -->
-
-
-            <!-- Modal suppression prestation-->
-            {{-- @if(!is_null($prestations))
-            @foreach($prestations as $prestation)
-                <div class="modal fade zoomIn" id="deleteModal_{{ $prestation->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mt-2 text-center">
-                                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                        <h4>Êtes-vous sûr ?</h4>
-                                        <p class="text-muted mx-4 mb-0">Êtes-vous sûr de vouloir supprimer cet enregistrement ? </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn w-sm btn-danger" id="delete-record">Oui, supprimez-le !</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-            @endif --}}
-            <!--end modal -->
-
         </div>
         <!-- container-fluid -->
     </div>
