@@ -27,6 +27,37 @@ class TemoignageController extends Controller
         
     }
 
+    public function update(Request $request, Etat $etat){
+        $request->validate([
+            'status' => 'required',
+        ]);
+        $etat->status = $request->status;
+        $etat->update();
+        return redirect()->back()->with('success', 'Bravo vous avez mis à jour avec succès!'); 
+
+    }
+
+    public function delete($id){
+        $etat = Etat::find($id);
+        //dd($etat);
+        $delete = $etat->delete($id);
+        if ($delete) {
+            return back()->with("success", "Vous avez supprimé avec succès !");
+        }
+        return abort(500);
+    }
+
+    // public function delete($etat)
+    // {
+    //     //dd($type_document);
+    //     $etat = Etat::find($etat);
+    //     $etat->delete();
+    //     return back()->with("success", "Type texte supprimé avec succès !");
+    // }
+
+
+
+
     public function show_temoignage(){
         $etats = Etat::all();
         $temoignages = Temoignage::all();

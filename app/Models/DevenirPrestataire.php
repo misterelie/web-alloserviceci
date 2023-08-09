@@ -52,7 +52,7 @@ class DevenirPrestataire extends Model
     }
 
     public function ethnie(){
-        return $this->belongsTo(Ethnie::class, "ethnie_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Ethnie::class, "ethnie_id");
     }
 
     //* Alphabet 

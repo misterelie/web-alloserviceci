@@ -18,7 +18,7 @@ class Ethnie extends Model
     }
 
     public function prestataires(){
-        return $this->hasMany(DemandePrestation::class, "ethnie_id")->where(["deleted" => 0]);
+        return $this->hasMany(DevenirPrestataire::class, "ethnie_id");
     }
 
     

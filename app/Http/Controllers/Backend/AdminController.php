@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use DateTime;
 use App\Models\Devi;
 use App\Models\Etat;
 use App\Models\Mode;
@@ -27,13 +28,15 @@ use App\Mail\RefuserDemande;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Cast;
 use App\Models\ModePrestation;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificationPrestataire;
 use Illuminate\Http\RedirectResponse;
-use DateTime;
 
 class AdminController extends Controller
 {
@@ -52,7 +55,11 @@ class AdminController extends Controller
         $ethnies = Ethnie::count();
         $devis = Devi::count();
         $canaux = Canal::count();
-        return view('admin.dashboard', compact('prestations', 'demandeprestations', 'prestataires', 'temoignages', 'communes', 'modes', 'ethnies', 'canaux', 'devis'));
+        $diplomes = Diplome::count(); 
+        $dispos = Dispo::count();
+        $pieces =  Piece::count();
+        $villes = Ville::count();
+        return view('admin.dashboard', compact('prestations', 'demandeprestations', 'prestataires', 'temoignages', 'communes', 'modes', 'villes', 'pieces', 'ethnies', 'canaux', 'devis', 'diplomes', 'dispos'));
     }
 
     public function listedevis(){
@@ -96,73 +103,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
     }
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Jardinage  $realisation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy_ville(Ville $city)
-    {
-        $query = $city->delete();
-        if($query)
-        {
-            return redirect()->back()->with('success', 'Opération effectuée avec succès !');
-        }else{
-            return redirect()->back()->with('error', 'Une erreur inconnue est survenue !');
-        }
-    }
   
-
-
-    //MODE PRESTATION
-    public function mode_presta(){
-        $data['mode_prestas'] = ModePrestation::orderBy('id', 'ASC')->get();
-        return view('admin.mode_prestations.index')->with($data);
-    }
-    public function save_mode_prestation(Request $request){
-        $request->validate([
-            'libelle' => 'required',
     
-        ]);
-        $mode_prestas = new ModePrestation();
-        $mode_prestas->user_id = Auth::user()->id;
-        $mode_prestas->libelle = $request->libelle;
-        $mode_prestas->save();
-        return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
-    }
-
-    public function update_mode_prestation(Request $request, ModePrestation $mode_presta)
-    {
-        $request->validate([
-            'libelle' => 'required',
-    
-        ]);
-
-        $mode_presta->libelle = $request->libelle;
-        $mode_presta->user_id = Auth::user()->id;
-         $mode_presta->save();
-        return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
-    }
-
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ModePrestation  $realisation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy_mode_presta(ModePrestation $mode_presta)
-    {
-        $query = $mode_presta->delete();
-        if($query)
-        {
-            return redirect()->back()->with('success', 'Opération effectuée avec succès !');
-        }else{
-            return redirect()->back()->with('error', 'Une erreur inconnue est survenue !');
-        }
-    }
-
-
     //AJOUT 
     public function add_quartier(){
         $quartiers = Quartier::all();
@@ -363,11 +305,8 @@ class AdminController extends Controller
                     'mode' => 'required',
                     'departement_id' => 'nullable'
                 
-                    ]);
-                    
+                ]);
                     $mode->user_id = Auth::user()->id;
-
-                    
                     $mode->mode = $request->mode;
                     $mode->departement_id = $request->departement_id;
                     $mode->update();
@@ -391,12 +330,13 @@ class AdminController extends Controller
                     $request->validate([
                         'nom' => 'required',
                         'prenoms' => 'required',
-                        'telephone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:10',
-                        'prestation_id' => 'nullable',
+                        'telephone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|max:10',
+                        'prestation_id' => 'required',
                         'mode_id' => 'nullable',
                         'salaire_propose' => 'required|numeric|min:0',
                         'ethnie_id' => 'nullable',
-                        'age_demande' => 'nullable'
+                        'age_demande' => 'nullable',
+                        'observation' => 'required'
                     ]);
                     
                         if (!is_null($request->nom)) {
@@ -427,6 +367,11 @@ class AdminController extends Controller
                         if (!is_null($request->age_demande)) {
                             $demandeprestation->age_demande = $request->age_demande;
                         }
+
+                        
+                        if (!is_null($request->observation)) {
+                            $demandeprestation->observation = $request->observation;
+                        }
                         $demandeprestation->update();
                         return redirect()->back()->with('success', 'Félicitations!  Votre mise  a été effectué avec succès ');
                 }
@@ -454,7 +399,6 @@ class AdminController extends Controller
                     $demandeprestation->etat = $request->etat;
                     $demandeprestation->motif_de_rejet = $request->motif_de_rejet;
                 }
-
                     if($demandeprestation->update())
                     {
                         //*Envoyer le mail de notification à l'utilisateur
@@ -467,7 +411,29 @@ class AdminController extends Controller
                     
                 }
 
-            
+                //ACCEPTER PRESTATAIRE
+                public function accepterPrestataire(Request $request, DevenirPrestataire $prestataire)
+                {
+                    //dd($request->all());
+                    $request->validate([
+                        'etat' => 'required',
+                        'motif' => 'required',
+                    ]);
+                    if($request->etat){
+                        $prestataire->etat = $request->etat;
+                        $prestataire->motif = $request->motif;
+                    }
+                    if($prestataire->update())
+                    {
+                        if (!is_null($prestataire->email)) {
+                            Mail::to($prestataire->email)->send(new NotificationPrestataire($prestataire));
+                        }
+                        return redirect()->back()->with('success', "Réussite ! Opération effectuée avec succès. L'utilisateur recevra un Email de notification sur votre décision");
+                    }
+
+                }
+
+
                 //update prestataire
                 public function update_prestataire(Request $request, DevenirPrestataire $prestataire ){
                     //dd($request->all());
@@ -975,15 +941,17 @@ class AdminController extends Controller
      */
     public function update_realisation(Request $request, Realisation $real)
     {
+        $date = new DateTime();
         $array = [
             'realisation'=> $request->realisation ,
             'user_id' =>  Auth::user()->id,
         ];
-        if ($request->photo !== null) {
-            //* Image 1
-            $photo =  Helpers::upload($request);
-            $array = array_merge($array, ["photo" => $photo]);
-        }
+        if ($request->hasFile("photo")){
+            $photo_name = $request->photo;
+            $piece_name = time() . '.' . $request->nom. $request->prenoms. $date->format('dmYhis'). '.' . $photo_name->getClientOriginalExtension();
+            $photo_name->move(public_path('UploadRealisations') , $piece_name);
+            $real->photo = $piece_name;
+          }
         
         if($real->update($array))
         {
@@ -1008,6 +976,34 @@ class AdminController extends Controller
         }else{
             return redirect()->back()->with('error', 'Une erreur inconnue est survenue !');
         }
+    }
+
+    //FICHE DE DEMANDE
+    public function fiche($id)
+    {
+        $data['demandeprestation'] = DemandePrestation::where('id', $id)->first();
+        if(!is_null($data['demandeprestation'])){
+            setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+            $pdf = PDF::loadView('admin.prestationdemande.fiche_demande', $data);
+            return $pdf->stream();
+        }else {
+            echo "Vous n'êtes pas concerné !";
+          }
+        
+    }
+
+    //PRESTATIRE FICHE
+    public function fiche_prestataire($id)
+    {
+        $prestataire = DevenirPrestataire::where('id', $id)->first();
+        // dd($prestataire);
+        if(!is_null($prestataire)){
+            setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+            $pdf = PDF::loadView('admin.devenir-prestataire.presta_fiche', compact('prestataire'));
+            return $pdf->stream();
+        }else {
+            echo "Vous n'êtes pas concerné !";
+          }
     }
 
 

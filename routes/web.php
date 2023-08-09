@@ -87,7 +87,8 @@ Route::get('/getCommunes', [DevisController::class, 'getCommunes']);
 
 //ENVOIE EMAIL D'ACCEPTATION
 Route::put('/accepterDemandeur/{demandeprestation}', [BackendAdminController::class, 'AccepterDemande']);
-Route::put('/refuserDemandeur/{demandeprestation}', [BackendAdminController::class, 'RefuserDemande']);
+Route::put('/accepterPrestataire/{prestataire}', [BackendAdminController::class, 'accepterPrestataire']);
+// Route::put('/refuserDemandeur/{demandeprestation}', [BackendAdminController::class, 'RefuserDemande']);
 
 
 Route::get('/liste/prestation', [AdminController::class, 'liste_prestation'])->name("liste-prestation");
@@ -104,8 +105,6 @@ Route::get('/liste/demande_prestation', [AdminController::class, 'liste_demande_
 Route::put('/update.demande/{demandeprestation}', [AdminController::class, 'update_demande'])->name("update.demande");
 Route::delete('/delete.demande/{id}', [AdminController::class, 'deletedemande'])->name("delete.demande");
 
-
-
 //NOS PRESTATIONS
 Route::get('/liste/prestation', [BackendAdminController::class, 'liste_prestation'])->name("liste-prestation");
 Route::post('/save.prestation', [BackendAdminController::class, 'save_prestation'])->name("save.prestation");
@@ -117,11 +116,14 @@ Route::put('/prestation.upate/{prestation}', [BackendAdminController::class, 'up
 Route::get('/liste/demande_prestation', [BackendAdminController::class, 'liste_demande_prestation'])->name("liste/demande_prestation");
 Route::put('/update.demande/{demandeprestation}', [BackendAdminController::class, 'update_demande'])->name("update.demande");
 Route::delete('/delete.demande/{id}', [BackendAdminController::class, 'deletedemande'])->name("delete.demande");
+Route::get('/demande/fiche/{id}', [BackendAdminController::class, 'fiche'])->name("demande.fiche");
+
 
 //LISTE DES PRESTATAIRES
 Route::get('/liste/devenirprestataire', [BackendAdminController::class, 'list_prestataire'])->name("liste/devenirprestataire");
 Route::put('/update.prestataire/{prestataire}', [BackendAdminController::class, 'update_prestataire'])->name("update.prestataire");
 Route::delete('/delete.prestataire/{id}', [BackendAdminController::class, 'delete_prestataire'])->name("delete.prestataire");
+Route::get('/fiche/prestataire/{id}', [BackendAdminController::class, 'fiche_prestataire'])->name("prestataire.fiche");
 
 
 //AJOUT ETHNIES
@@ -209,6 +211,7 @@ Route::delete('/realisation/destroy/{real}', [BackendAdminController::class, "de
 
 
 
+
 //ABOUT
 Route::get('/ajout.about', [AboutController::class, 'presentation'])->name("ajout.about");
 Route::post('/save.about', [AboutController::class, 'store'])->name("save.about");
@@ -236,6 +239,9 @@ Route::get('/liste.temoignages', [TemoignageController::class, 'show_temoignage'
 Route::post('/save.temoignage', [TemoignageController::class, 'save_temoignage'])->name("save.temoignage");
 Route::get('/statut', [TemoignageController::class, 'etat'])->name("statut");
 Route::post('/save.statut', [TemoignageController::class, 'store_statut'])->name("save.statut");
+Route::put('/backends/update/statut/{etat}', [TemoignageController::class, 'update'])->name("statut.update");
+Route::delete('/backend/statut/delete/{id}', [TemoignageController::class, 'delete'])->name("statut.delete");
+
 Route::put('update.temoignage/{temoignage}', [TemoignageController::class, 'update_temoignage'])->name("update.temoignage");
 Route::delete('delete.temoignage/{id}', [TemoignageController::class, 'destroy_temoignage'])->name("delete.temoignage");
 

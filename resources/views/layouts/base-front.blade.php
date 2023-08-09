@@ -43,32 +43,22 @@
         </div>
     </div>
 
-    <div class="container-fluid bg-dark px-5 d-none d-lg-block" style="background: red">
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block mb-4" style="background: red">
         @include('partials-front.topbar-header')
-    </div>
+    </div><br><br><br>
 
-    <div class="container-fluid position-relative p-0">
+    {{-- <div class="container-fluid position-relative p-0">
         @include('partials-front.navbar')
-    </div>
-
-    {{-- <div class="container-fluid facts py-5 pt-lg-0" data-wow-delay="0.1s">
-        @include('partials-front.statistics')
     </div> --}}
 
-    {{-- <div class="container-fluid wow fadeInUp" data-wow-delay="0.1s">
-        @include('partials-front.prestation')
-    </div> --}}
-
-
+    
      <div class="modal fade" id="searchModal" tabindex="-1">
         @include('partials-front.searchModal')
     </div>
     
     @yield('content')
 
-    {{-- <div class="container-fluid pt-5 wow fadeInUp" data-wow-delay="0.1s">
-        @include('partials-front.about')
-    </div> --}}
+   
 
     <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
         @include('partials-front.footer')

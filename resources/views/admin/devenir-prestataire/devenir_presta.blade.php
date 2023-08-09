@@ -53,7 +53,7 @@
                                 <div class="row g-4 mb-3">
                                     <div class="col-sm-auto">
                                         <div>
-                                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i></i>Les prestataires</button>
+                                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" style="background: green"><i></i>Les prestataires</button>
                                             {{-- <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button> --}}
                                         </div>
                                     </div>
@@ -69,18 +69,17 @@
 
                                 <div class="table-responsive table-card mt-3 mb-1">
                                     <table class="table align-middle table-nowrap" id="customerTable">
-                                        <thead class="table-light">
+                                        <thead class="table" style="background-color: green">
                                             <tr>
-                                                <th>N°</th>
-                                                <th class="sort" data-sort="photo">Photos</th>
-                                                <th class="sort" data-sort="customer_name">Noms</th>
-                                                <th class="sort" data-sort="email">Prénoms</th>
-                                                <th class="sort" data-sort="nbre_enfant">Nombre enfants</th>
-                                                <th class="sort" data-sort="telephone">Téléphone 1  </th>
-                                                <th class="sort" data-sort="modes">Modes de travail</th>
-                                                <th class="sort" data-sort="copy_piece">Copies pièces</th>
-                                                <th class="sort" data-sort="copy_last_diplome">Derniers diplômes</th>
-                                                <th  class="sort" data-sort="action" style="max-width: 260px !important">Actions</th>
+                                                <th class="text-white">N°</th>
+                                                <th class="sort text-white text-uppercase" data-sort="photo">Photos</th>
+                                                <th class="sort text-white text-uppercase" data-sort="customer_name">Nom & Prénoms</th>
+                                                <th class="sort text-white text-uppercase" data-sort="nbre_enfant">Date Naissace</th>
+                                                <th class="sort text-white text-uppercase" data-sort="telephone">Commune</th>
+                                                <th class="sort text-white text-uppercase" data-sort="modes">Prestations</th>
+                                                <th class="sort text-white text-uppercase" data-sort="salaire">Salaires</th>
+                                                <th class="sort text-white text-uppercase w-200" data-sort="salaire">Etats</th>
+                                                <th  class="sort text-white text-uppercase" data-sort="action" style="width: 260px !important">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -90,15 +89,64 @@
                                                 <th scope="row">
                                                     {{ $loop->iteration }}
                                                 </th>
-                                                <td class="photo"><img src="/PrestatairePhoto/{{ $prestataire->photo }}"
-                                                    class="img-fluid rounded-circle" width="45px">
+                                                @if(!is_null($prestataire->photo))
+
+                                                    <td class="photo"><img src="/PrestatairePhoto/{{ $prestataire->photo }}"
+                                                        class="img-fluid rounded-circle" width="35">
+                                                    </td>
+                                                @else
+                                                    <td class="photo"><img src="https://crm.alloservice.ci/backend/assets/img/male.png"
+                                                        class="img-fluid rounded-circle" width="35">
+                                                    </td>
+                                                @endif
+                                                
+                                                <td class="customer_name">
+                                                    {{ $prestataire->nom }} {{ $prestataire->prenoms }}
                                                 </td>
-                                                <td class="customer_name">{{ $prestataire->nom }}</td>
-                                                <td class="email">{{ $prestataire->prenoms }}</td>
-                                                <td class="nbre_enfant">{{ $prestataire->nbre_enfant }}</td>
-                                                <td class="telephone1">{{ $prestataire->telephone1 }}</td>
-                                                <td class="telephone2">{{ $prestataire->mode->mode }}</td>
-                                                <td class="copy_piece">
+                                               
+                                                <td class="date fw-bolder text-center">{{ $prestataire->date_naiss }} <br> 
+                                                    <span class="fw-bolder" style="color: #d08700 !important">{{ $prestataire->civilite }}</span></td>
+                                                {{-- <td class="commune fw-bolder">{{ $prestataire->commune->commune }}</td> --}}
+
+                                                <td class="">
+                                                <div class="d-block col">
+                                                <strong><i class="mdi mdi-home">
+                                                    </i>  
+                                                    @if (!is_null($prestataire->commune))
+                                                    {{ Str::ucfirst($prestataire->commune->commune) }}
+                                                    @endif
+                                                </i>
+                                              </strong>
+
+                                                <span class="d-block"><i class="bx bx-location-map bx-map"></i> 
+                                                    &nbsp;{{ Str::ucfirst($prestataire->quartier) }}
+                                                </span>
+                                                                                                            
+                                               </div>
+                                                </td>
+
+                                                <td class="">
+                                                <div class="d-block col">
+                                                                                                                                                                          <small class="d-block">
+                                                                                                                                                                            {{ $prestataire->prestation->libelle }}
+                                                                                                                                                                          </small>
+                                                                                                                                                                            <small class="p-2 font-weight-bold fw-bold badge bg-primary">
+                                                    <span style="color: #fff"><i class="bx bxs bx-timer" style="font-size: 14.8px;"></i>  
+                                                        {{ $prestataire->mode->mode }}</span>
+                                                    </small>
+                                                        
+                                                    </div>
+                                                </td>
+                                                
+                                                <td class="date"> 
+                                                    <span class="p-2 badge badge-soft-success text-primary fs-12 fw-bolder">{{ $prestataire->pretention_salairiale }} <sup><small> FCFA</small></sup></span>
+                                                </td>
+
+                                                <td class="status">
+                                                    <span class="p-2 badge badge-soft-{{ $prestataire->etat == '1' ? 'success' : 'danger' }}"> {{ $prestataire->etat == '1' ? 'acceptée' : 'refusée' }}
+                                                    </span>     
+                                                 </td>
+                                                {{-- <td class="copy_piece">
                                                     @if(!is_null($prestataire->copy_piece))
                                                             <a href="{{ asset('FichierCopiepiece/'.$prestataire->copy_piece) }}"
                                                                 target="_blank" rel="noopener noreferrer">
@@ -106,9 +154,9 @@
                                                                 title="Cliquez pour télécharger" alt="{{$prestataire->copy_piece}}" width="25">
                                                             </a>
                                                     @endif
-                                                </td>
+                                                </td> --}}
 
-                                                <td class="copy_last_diplome">
+                                                {{-- <td class="copy_last_diplome">
                                                     @if(!is_null($prestataire->copy_last_diplome))
                                                             <a href="{{ asset('FichierCopiepiece/'.$prestataire->copy_last_diplome) }}"
                                                                 target="_blank" rel="noopener noreferrer">
@@ -116,7 +164,7 @@
                                                                 title="Cliquez pour télécharger" alt="{{$prestataire->copy_last_diplome}}" width="25">
                                                             </a>
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                               
                                                 <td>
                                                     <div class="d-flex gap-2">
@@ -125,7 +173,11 @@
                                                         </div>
 
                                                         <div class="detail">
-                                                            <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#detailModal_{{ $prestataire->id }}">Détails</button>
+                                                            <button class="btn btn-sm btn-secondary edit-item-btn" data-bs-toggle="modal" data-bs-target="#accepterlModal_{{ $prestataire->id }}">Etats</button>
+                                                        </div>
+
+                                                        <div class="detail">
+                                                            <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#detailModal_{{ $prestataire->id }}">Fiche de profil</button>
                                                         </div>
 
                                                         <form  id="form-{{ $prestataire->id }}" 
@@ -423,7 +475,7 @@
                                     <div>
                                         <label for="mode_id" class="form-label">Mode de travail</label>
                                         <select name="mode_id" class="form-select" id="mode_id">
-                                            <option value="">-- Sélectionnez une option ---</option>
+                                            <option value="">--- Sélectionnez une option ---</option>
                                             @if(!is_null($modes))
                                                 @foreach($modes as $mode)
                                                 <option value="{{ $mode->id }}" 
@@ -453,12 +505,11 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-lg-4">
                                     <div>
                                         <label for="piece_id" class="form-label">Nature de la pièce </label>
                                         <select name="piece_id" class="form-select" id="piece_id">
-                                            <option value="">-- Sélectionnez une option ---</option>
+                                            <option value="">--- Sélectionnez une option ---</option>
                                             @if(!is_null($pieces))
                                                 @foreach($pieces as $piece)
                                                 <option value="{{ $piece->id }}" 
@@ -504,26 +555,6 @@
                                        
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-lg-4">
-                                    <div>
-                                        <label for="numero_piece" class="form-label">Copie de la pièce
-                                           <small class="text-primary">[Image/PDF/WORD]</small> : </label>
-                                        <input type="file" id="contact_email-field" name="copy_piece" class="form-control"/>
-                                        
-                                    </div>
-                                </div> --}}
-
-                                {{-- <div class="col-lg-4">
-                                    <div>
-                                        <label for="numero_piece" class="form-label">Copie dernier diplôme
-                                           <small class="text-primary">[Image/PDF/WORD]</small> : </label>
-                                        <input type="file" id="contact_email-field" name="copy_last_diplome" class="form-control"/>
-                                        
-                                    </div>
-                                </div> --}}
-
-                                    
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -541,94 +572,645 @@
             @endif
               <!-- fin modifier -->
 
+ <!-- statut de la demande-->
+ @if(!is_null($prestataires))
+ @foreach($prestataires as $prestataire)
+ <div class="modal fade" id="accepterlModal_{{ $prestataire->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+             <div class="modal-header bg-light p-3">
+                 <h5 class="modal-title fw-bold" id="exampleModalLabel">Etat de la demande</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+             </div>
+             <form action="{{ url('accepterPrestataire', $prestataire->id) }}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
+                 @csrf
 
-            <!-- Modal suppression prestation-->
-            {{-- @if(!is_null( $prestataires ))
-            @foreach( $prestataires as $prestataire )
-                <div class="modal fade zoomIn" id="deleteModal_{{$prestataire->id}}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mt-2 text-center">
-                                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                        <h4>Êtes-vous sûr ?</h4>
-                                        <p class="text-muted mx-4 mb-0">Êtes-vous sûr de vouloir supprimer cet enregistrement ? </p>
+                 @method('PUT')
+                 <input type="hidden" name="_method" value="put">
+                 <input type="hidden" name="etat" value="accepter">
+                 <div class="modal-body">
+                     <div class="mb-3" id="modal-id" style="display: none;">
+                         <label for="id-field" class="form-label">ID</label>
+                         <input type="text" id="id-field" class="form-control" placeholder="ID" readonly/>
+                     </div>
+
+                     <div class="mb-3">
+                         <fieldset class="sm">
+                            
+                             <div class="row g-3 align-items-center px-3 mb-2">
+                                 <div class="col-6">
+                                     <div class="form-check">
+                                         <input class="form-check-input" type="radio"
+                                             id="decisionOff{{ $prestataire->id }}" name="etat"
+                                             value="2">
+                                         <label class="form-check-label fw-bold text-red pointer"
+                                             for="decisionOff{{ $prestataire->id }}">
+                                             Demande refusée
+                                         </label>
+                                     </div>
+                                 </div>
+                                 <div class="col-6">
+                                     <div class="form-check">
+                                         <input class="form-check-input" type="radio"
+                                             id="decisionOk{{ $prestataire->id }}" name="etat"
+                                             value="1">
+                                         <label class="form-check-label fw-bold text-success pointer"
+                                             for="decisionOk{{ $prestataire->id }}">
+                                             Demande acceptée
+                                         </label>
+                                     </div>
+                                 </div>
+                             </div>
+                         </fieldset>
+                     </div>
+
+                     <div class="mb-3">
+                         <div>
+                             <label for="exampleFormControlTextarea5" class="form-label fw-bold">Motif :</label>
+                             <textarea name="motif"  class="form-control" id="exampleFormControlTextarea5" rows="3">{!!$prestataire->motif!!}</textarea>
+                         </div>
+                     </div>
+
+                 </div>
+                 <div class="modal-footer">
+                     <div class="hstack gap-2 justify-content-end">
+                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                         @if($prestataire->etat !=  NULL)
+                             <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
+                         @else
+                         <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
+                        @endif
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div> 
+ @endforeach
+ @endif 
+
+
+         {{-- Details Modal --}}
+    @if (!is_null($prestataires) && $prestataires->count() > 0)
+    <section>
+        @foreach ($prestataires as $prestataire)
+            <!-- Modal -->
+            <div class="modal fade" id="detailModal_{{ $prestataire->id }}" tabindex="-1"
+                aria-labelledby="detailModal{{ $prestataire->id }}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #ffcc6e !important">
+                            <h1 class="modal-title fs-7 text-uppercase">
+                                Détails sur le prestataire : </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body modalBody ">
+                            <div class="row">
+
+                                <div class="col-lg-9 col-md-9">
+                                    {{-- Personnelles --}}
+                                    <div class="mb-3 bloc-item">
+                                        <u><h4 class="bloc-title fw-bolder">Informations personnelles :</h4></u>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Nom & Prénom :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fw-bolder fs-16">
+                                                            {{ Str::ucfirst($prestataire->nom) }}  
+                                                            {{ Str::ucfirst($prestataire->prenoms) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Situation matrimoniale :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fw-bolder fs-16"> {{ Str::ucfirst($prestataire->situation_matri) }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Nombre d'enfant :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fw-bolder fs-16">{{ Str::ucfirst($prestataire->nbre_enfant) }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Date de naissance :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                    <span class="fw-bolder fs-16">
+                                                        {{ $prestataire->date_naiss }}
+                                                      
+                                                    </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Contact 1 :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fw-bolder fs-16">
+                                                            <a href="tel:+{{ Str::ucfirst($prestataire->telephone1) }}">
+                                                                {{ Str::ucfirst($prestataire->telephone1) }}
+                                                                &nbsp;&nbsp; <i class="fa fa-link"></i>
+                                                            </a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        @if (!is_null($prestataire->telephone2))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                            <span class="fs-16">Contact 2 :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                            <span class="fw-bolder fs-16">
+                                                                <a href="tel:+{{ Str::ucfirst($prestataire->telephone2) }}">
+                                                                    {{ Str::ucfirst($prestataire->telephone2) }}
+                                                                    &nbsp;&nbsp; <i class="fa fa-link"></i>
+                                                                </a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+
+                                        @if (!is_null($prestataire->whatsapp))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                           <span class="fs-16"> whatsapp :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                           <span class="fs-16 fw-bolder"><a href="https://wa.me/{{ urlencode($prestataire->whatsapp) }}">
+                                                            {{ Str::ucfirst($prestataire->whatsapp) }}
+                                                            &nbsp;&nbsp; <i class="fa fa-link"></i>
+                                                           </a>
+                                                        </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+
+                                        @if (!is_null($prestataire->email))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                           <span class="fs-16"> Email :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                            <span class="fs-16 fw-bolder">
+                                                                <a href="mailto:{{ $prestataire->email }}">
+                                                                    {{ $prestataire->email }}
+                                                                    &nbsp;&nbsp; <i class="fa fa-link"></i></a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+
+                                        @if (!is_null($prestataire->ethnie))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                           <span class="fs-16"> Ethnie :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                           <span class="fs-16 fw-bolder">
+                                                            {{ Str::ucfirst($prestataire->ethnie->ethnie) }}
+                                                           </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+
+                                        @if (!is_null($prestataire->commune))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                            <span class="fs-16">Commune de résidence :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                           <span class="fs-16 fw-bolder"> 
+                                                            {{ Str::ucfirst($prestataire->commune->commune) }}
+                                                           </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Quartier :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fs-16 fw-bolder">
+                                                            {{ Str::ucfirst($prestataire->quartier) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+                                    </div><br>
+
+
+                                    {{-- Pro --}}
+                                    <div class="mb-3 bloc-item">
+                                        <u><h4 class="bloc-title fw-bolder">Informations Professionnelles :</h4>
+                                        </u>
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Domaine(s) d'activité :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        @if (!is_null($prestataire->prestation))
+                                                            <span class="fw-bolder fs-16">{{ Str::ucfirst($prestataire->prestation->libelle) }}</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Année(s) d'expérience :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fs-16">
+                                                            {{ $prestataire->annee_experience != 0 ? $prestataire->annee_experience . ' ans' : 0 }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Prétention salariale :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fw-bolder fs-16">
+                                                            {{ ($prestataire->pretention_salairiale) }} FCFA
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Zone d'intervention :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fs-16 fw-bolder">
+                                                            {{ Str::ucfirst($prestataire->commune->commune) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Contact d'urgence :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ $prestataire->contact_urgence }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Référence :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder"> {{ $prestataire->reference }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Contact référence :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ $prestataire->contact_reference }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        @if (!is_null($prestataire->alphabet))
+                                            <p>
+                                            <table width="100%">
+                                                <tbody width="100%">
+                                                    <tr width="100%">
+                                                        <td width="35%">
+                                                            <span class="fs-16">Alphabétisation :</span>
+                                                        </td>
+                                                        <td width="65%" class="data">
+                                                            <span class="fs-16 fw-bolder"> {{ $prestataire->alphabet->alphabet }}</span>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </p>
+                                        @endif
+                                    </div><br>
+
+                                    {{-- Autres --}}
+                                    <div class="mb-3 bloc-item">
+                                        <ul><h4 class="bloc-title fw-bolder">Autres Informations :</h4></ul>
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Mode de travail :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ !is_null($prestataire->mode) ? $prestataire->mode->mode : '...' }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Disponibilité :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ !is_null($prestataire->dispo) ? $prestataire->dispo->dispo : '...' }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Pièce d'identité :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ !is_null($prestataire->piece) ? $prestataire->piece->piece : '...' }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">Numéro de la pièce :</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                            {{ $prestataire->numero_piece }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                        <span class="fs-16">
+                                                            A connu <small><strong>ALLO SERVICE</strong></small> par :
+                                                        </span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                       <span class="fs-16 fw-bolder">
+                                                        {{ !is_null($prestataire->canal) ? $prestataire->canal->canal : '...' }}
+                                                       </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+
+                                        <p>
+                                        <table width="100%">
+                                            <tbody width="100%">
+                                                <tr width="100%">
+                                                    <td width="35%">
+                                                       <span class="fs-16"> Date:</span>
+                                                    </td>
+                                                    <td width="65%" class="data">
+                                                        <span class="fs-16 fw-bolder">{{ ($prestataire->created_at) }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="mb-3 bloc-item">
+                                        <h4 class="bloc-title">Observations sur le prestataire:</h4>
+
+                                        @if (!is_null($prestataire->avis))
+                                        {!! $prestataire->avis !!}
+                                        @else
+                                            <div class="alert alert-danger text-center">
+                                                <span class="bx bx-info-circle"></span>&nbsp; Pas d'observations
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn w-sm btn-danger" id="delete-record">Oui, supprimez-le !</button>
+
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="col-sm-2 previewDiv avatar-box mb-4">
+
+                                        
+                                        @if (!is_null($prestataire->photo))
+                                            <img src="../PrestatairePhoto/{{ $prestataire->photo }}"
+                                            class="" width="165px" height="185px">
+                                        @else
+                                            <span class="fas fa fa-user camera-icon" id="cameraIcon"></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="row my-4">
+
+                                        <div class="col-sm-12 mb-4">
+                                            <h4>Dossiers : </h4>
+                                        </div>
+
+                                        @if (!is_null($prestataire->copy_piece))
+                                        <div class="col-sm-12 mb-3 border">
+                                            @if(!is_null($prestataire->copy_piece))
+                                                <a href="{{ asset('FichierCopiepiece/'.$prestataire->copy_piece) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <img src="{{ asset('assets/pdf.png') }}" target-="" 
+                                                                title="Pièce d'identité, Cliquez pour télécharger" download="piece_identite_{{$prestataire->nom."_".$prestataire->prenom}}" alt="{{$prestataire->copy_piece}}" dow width="25">
+                                                </a>
+                                          
+                                                @else
+                                                    <a href="{{asset($prestataire->copy_piece)}}" download="piece_identite_{{$prestataire->nom."_".$prestataire->prenom}}" class="btn d-block bg-okay"> <span class="bx bx-download"> </span>  Pièce d'identité</a>
+                                                @endif
+                                            
+                                        </div>
+                                        @endif
+
+                                        @if (!is_null($prestataire->copy_last_diplome))
+                                        <div class="col-sm-12 mb-3 border">
+                                            @if(!is_null($prestataire->copy_last_diplome))
+                                                            <a href="{{ asset('FichierCopiepiece/'.$prestataire->copy_last_diplome) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <img src="{{ asset('assets/pdf.png') }}" target-="" 
+                                                                title="Dernier Diplôme, Cliquez pour télécharger" alt="{{$prestataire->copy_last_diplome}}" width="25">
+                                                            </a>
+                                            
+                                                @else
+                                                    <a href="{{asset($prestataire->copy_last_diplome)}}" download="derniere_diplome_{{$prestataire->nom."_".$prestataire->prenom}}" class="btn bg-okay d-block"><span class="bx bx-download"></span>Diplôme</a>
+                                                @endif
+                                        </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="modal-footer">
+                                
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Fermer</button>
+                                    <a class="btn btn-primary" 
+                                    href="{{ url('fiche/prestataire', $prestataire->id )}}" target="_blank"><i class="ri-download-2-line align-bottom me-1"></i>Télécharger
+                                    </a>
+                            </div>
                         </div>
+
                     </div>
                 </div>
-            @endforeach
-            @endif --}}
-            <!--end modal -->
+            </div>
+        @endforeach
+    </section>
+@endif
 
-
-            @if(!is_null( $prestataires ))
-            @foreach( $prestataires as $prestataire )
-          <!-- Modal detail-->
-              <div class="modal fade zoomIn" id="detailModal_{{ $prestataire->id }}" tabindex="-1" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" 
-                              aria-label="Close" id="btn-close"></button>
-                          </div>
-                          <div class="modal-body">
-                              <div class="">
-                                <h5 class="text-center" style="font-weight: bold"> VOIR TOUTES LES INFORMATIONS DU PRESTATAIRE</h5>
-                                  <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                      <p class="">Nom: {{ $prestataire->nom }}</p>
-                                      <p class="">Prénoms: {{ $prestataire->prenoms }}</p>
-                                      <p>Téléphone1: {{ $prestataire->telephone1 }}</p>
-                                      <p>Email: {{ $prestataire->email }}</p>
-                                      <p>Mode travail: {{  $prestataire->mode->mode }}</p>
-                                      <p>Civilité: {{  $prestataire->civilite }}</p>
-                                      <p>Date naissance: {{  $prestataire->date_naiss }}</p>
-                                      <p>Situation matrimoniale: {{  $prestataire->situation_matri }}</p>
-                                      <p>Téléphone1: {{  $prestataire->telephone1 }}</p>
-                                      <p>Téléphone2: {{  $prestataire->telephone2 }}</p>
-                                      <p>whatsapp: {{  $prestataire->whatsapp }}</p>
-                                      <p>Ethnie: {{  $prestataire->ethnie->ethnie  ?? '' }}</p>
-                                      <p>Commune: {{  $prestataire->commune->commune  ?? ''}}</p>
-                                      <p>Quartier: {{  $prestataire->quartier }}</p>
-                                      <p>Domaine: {{  $prestataire->prestation->libelle ?? '' }}</p>
-                                      <p>Année expérience: {{ $prestataire->annee_experience }} ans</p>
-                                      <p>Salaire: {{  $prestataire->pretention_salairiale }}</p>
-                                      <p>Zone: {{ $prestataire->commune->commune  ?? '' }}</p>
-                                      <p>Cas urgence: {{  $prestataire->contact_urgence }}</p>
-                                      <p>Référence: {{  $prestataire->reference }}</p>
-                                      <p>Contact: {{  $prestataire->contact_reference }}</p>
-                                      <p>Alphabétisation: {{ $prestataire->alphabet->alphabet  ?? '' }}</p>
-                                      <p>Diplome: {{  $prestataire->diplome->diplome  ?? '' }}</p>
-                                      <p>Disponibilité: {{  $prestataire->dispo->dispo ?? ''}}</p>
-                                      <p>Pièce: {{  $prestataire->piece->piece }}</p>
-                                      <p>Numéro pièce: {{  $prestataire->numero_piece }}</p>
-                                      <p>Canal: {{  $prestataire->canal->canal }}</p>
-                                      <p>Catalogue: {{  $prestataire->catalogue_realisa }}</p>
-                                      <p>Avis: <br> {{  $prestataire->avis }}</p>
-                                      
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          <!--end modal -->
-          @endforeach
-          @endif
-
-        </div>
+</div>
         <!-- container-fluid -->
-    </div>
+</div>
     <!-- End Page-content -->
 @endsection
 

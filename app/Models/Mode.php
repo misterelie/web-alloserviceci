@@ -21,7 +21,7 @@ class Mode extends Model
     }
 
     public function prestations(){
-        return $this->hasMany(Prestation::class);
+        return $this->hasMany(Prestation::class, 'mode_id');
     }
 
     public function departement(){

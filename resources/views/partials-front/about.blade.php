@@ -35,7 +35,7 @@
                                 <h5 class="mb-3"><i class="fas fa-phone text-primary me-3">
                                     </i>Assistance 24h/24 et 7j/7
                                 </h5>
-                                {{-- <h5 class="mb-0"><i class="fa fa-users text-primary me-3"></i>Fair Prices</h5> --}}
+                               
                             </div>
                         </div>
                     </div>

@@ -59,6 +59,7 @@
                                             <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
                                            
                                         </div>
+                                        
                                     </div>
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
@@ -98,18 +99,19 @@
                                                 <td>
                                                     <div class="d-flex gap-2">
                                                         <div class="edit">
-                                                            <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" 
-                                                            data-bs-target="#editModal_">Modifier</button>
+                                                            <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $etat->id }}">Modifier</button>
                                                         </div>
-                                                        <form id="form-" 
-                                                            action="" 
-                                                            method="POST" enctype="multipart/form-data">
+
+                                                    
+                                                    <button class="btn btn-sm btn-danger edit-item-btn">
+                                                        <a class="text-white" href="#" onclick="if(confirm('Attention ! Vous êtes sur le point de supprimer cet élément ?  Appuyez sur OK pour confirmer.')){document.getElementById('form-{{$etat->id}}').submit() }">Supprimer</a>
+                                                    </button>
+                                                    <form id="form-{{$etat->id}}" 
+                                                            action="{{ url('/backend/statut/delete', $etat->id) }}" method="post">
                                                             @csrf
-                                                            @method('DELETE')
-    
-                                                            <button class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" 
-                                                            data-bs-target="#deleteModal_">Supprimer</button>
-                                                        </form>
+                                                            <input type="hidden" name="_method" value="delete">
+                                                    </form>
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -170,16 +172,6 @@
                                     <input type="text" id="customername-field" class="form-control" name="status" 
                                     placeholder="Entrez le nom" required/>
                                 </div>
-{{-- 
-                                <div class="mb-3">
-                                    <select name="etat_color" class="form-select" id="etat_color">
-                                       
-                                        <option value="">Veuillez Choisir  la couleur
-                                        </option>
-                                        <option value="badge-danger">Rouge</option>
-                                        <option value="badge-success">Vert</option>
-                                    </select>
-                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
@@ -194,17 +186,17 @@
             </div>
 
 
-               {{-- <!-- section modifier-->
-               @if(!is_null($domaines))
-               @foreach($domaines as $domaine)
-            <div class="modal fade" id="editModal_{{ $domaine->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <!-- section modifier-->
+               @if(!is_null($etats))
+               @foreach($etats as $etat)
+            <div class="modal fade" id="editModal_{{ $etat->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel" style="color: red">Mettre à jour</h5>
+                            <h5 class="modal-title text-primary" id="exampleModalLabel">Mettre à jour</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
-                        <form action="{{ route('update.domaine', $domaine->id )}}" class="tablelist-form" 
+                        <form action="{{ url('backends/update/statut', $etat->id )}}" class="tablelist-form" 
                             autocomplete="off"  method="POST" 
                             enctype="multipart/form-data">
                             @csrf 
@@ -221,7 +213,7 @@
                                 <div class="mb-3">
                                     <label for="customername-field" class="form-label">Nom</label>
                                     <input type="text" id="customername-field" 
-                                    class="form-control" value="{{ $domaine->domaine }}" name="domaine" placeholder="Entrez le nom">
+                                    class="form-control" value="{{ $etat->status }}" name="status" placeholder="Entrez le nom">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -237,7 +229,7 @@
             </div>
              <!-- end modifier -->
              @endforeach
-             @endif  --}}
+             @endif 
 
         </div>
         <!-- container-fluid -->

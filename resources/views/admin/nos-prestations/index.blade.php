@@ -99,7 +99,7 @@
                                                 <td class="email">
                                                    
                                                         <span class="p-2 badge badge-soft-success text-uppercase fs-8 fw-bolder"> 
-                                                            {{ $prestation->departement->libelle  }}
+                                                            {{ $prestation->departement->libelle ?? '' }}
                                                         </span>
                                                  </td>
 

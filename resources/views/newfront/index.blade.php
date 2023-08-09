@@ -23,6 +23,8 @@
         href="{{ asset('new-assets/cdn.jsdelivr.net/npm/bootstrap-icons%401.4.1/font/bootstrap-icons.css') }}"
         rel="stylesheet">
 
+         <!-- Libraries Stylesheet -->
+    
     <link href="{{ asset('new-assets/lib/animate/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('new-assets/lib/owlcarousel/assets/owl.carousel.min.css') }}"
         rel="stylesheet">
@@ -49,7 +51,7 @@
         @include('partials-front.navbar')
     </div>
 
-    <div class="container-fluid facts py-5 pt-lg-0" data-wow-delay="0.1s">
+    <div class="container" data-wow-delay="0.1s">
         @include('partials-front.statistics')
     </div>
 
@@ -121,31 +123,52 @@
     <script data-cfasync="false"
         src="{{ asset('new-assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}">
     </script>
+
     <script src="{{ asset('new-assets/code.jquery.com/jquery-3.4.1.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
-    <script
-        src="{{ asset('new-assets/cdn.jsdelivr.net/npm/bootstrap%405.0.0/dist/js/bootstrap.bundle.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
+    <script src="{{ asset('new-assets/cdn.jsdelivr.net/npm/bootstrap%405.0.0/dist/js/bootstrap.bundle.min.js') }}"
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/wow/wow.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/easing/easing.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/waypoints/waypoints.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/counterup/counterup.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/owlcarousel/owl.carousel.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/isotope/isotope.pkgd.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
     <script src="{{ asset('new-assets/lib/lightbox/js/lightbox.min.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
 
     <script src="{{ asset('new-assets/js/main.js') }}"
-        type="2e4e4b8a462ae5e81adbf0d1-text/javascript"></script>
-    <script
-        src="{{ asset('new-assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js') }}"
-        data-cf-settings="2e4e4b8a462ae5e81adbf0d1-|49" defer></script>
+        type="2e4e4b8a462ae5e81adbf0d1-text/javascript">
+    </script>
+
+    <script src="{{ asset('new-assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js') }}"
+        data-cf-settings="2e4e4b8a462ae5e81adbf0d1-|49" defer>
+    </script>
+
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 </body>
 
 </html>
