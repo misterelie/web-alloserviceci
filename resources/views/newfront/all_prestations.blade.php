@@ -2,13 +2,13 @@
 @section('content')
 
 <div class="container">
-    <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+    {{-- <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
         <h5 class="fw-bold text-uppercase text-primary">Voir toutes nos prestations</h5>
-    </div>
-    {{-- <div class="section-title-2 text-center position-relative pb-2 mb-5 mx-auto" style="max-width: 600px;">
-        <h5 class="fw-bold text-uppercase">Nos prestations</h5>
-        <h1 class="mb-0">Professional Stuffs Ready to Help Your Business</h1> 
     </div> --}}
+    <div class="section-title-2 text-center position-relative pb-2 mb-5 mx-auto" style="max-width: 600px;">
+        <h5 class="fw-bold text-uppercase text-primary">Toutes Nos prestations</h5>
+        <h1 class="mb-0">Consulter nos différentes prestations</h1> 
+    </div>
     <div class="row g-5">
         @if(!is_null($prestations))
         @foreach($prestations as $prestation)
@@ -22,7 +22,7 @@
                     
                     <div class="team-social">
                         <a href="{{ route('front.prest',$prestation->id) }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demande prestation</a>
-                        <a href="{{ route('front.presta',$prestation->id) }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir prestataire</a>
+                        {{-- <a href="{{ route('front.presta',$prestation->id) }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir prestataire</a> --}}
                     </div>
                 </div>
                 <div class="text-center py-4">

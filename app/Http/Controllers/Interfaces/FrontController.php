@@ -29,6 +29,7 @@ use App\Models\MenageOccasionnel;
 use App\Models\DevenirPrestataire;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
@@ -49,11 +50,12 @@ class FrontController extends Controller
     public function newindex(){
         $assistances = Assistance::all();
         $abouts = About::all();
+        $services = Service::all();
         $temoignages = Temoignage::all();
         $mode = Mode::OrderBy('mode')->first();
         $prestations = Prestation::orderBy('created_at')->limit(12)->get();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages', 'mode', 'departements'));
+        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages', 'mode', 'departements', 'services'));
     }
 
     public function vu_about(){

@@ -815,9 +815,9 @@
                                         data-key="t-carousel">Nature pièces</a>
                                 </li>
 
-                                {{-- <li class="nav-item">
-                                    <a href="{{ url('ajout/quartier') }}" class="nav-link" data-key="t-cards">Quartiers</a>
-                                </li> --}}
+                                <li class="nav-item">
+                                    <a href="{{ url('backends/services')}}" class="nav-link" data-key="t-cards">Autres Services</a>
+                                </li>
 
                                 <li class="nav-item">
                                     <a href="{{ route('ajout.about') }}" class="nav-link" data-key="t-cards">Présentation</a>

@@ -205,9 +205,9 @@ Route::post('/realisation/store', [BackendAdminController::class, 'store'])->nam
 Route::put('/realisation/update/{real}', [BackendAdminController::class, "update_realisation"])->name('realisation.update');
 Route::delete('/realisation/destroy/{real}', [BackendAdminController::class, "destroy_realisation"])->name('realisation.destroy');
 
-
-
-
+//AUTRES SERVICES
+Route::get('/backends/services', [BackendAdminController::class, 'services']);
+Route::post('/store/backends/services', [BackendAdminController::class, 'save_service'])->name('store.services');
 
 
 
@@ -251,6 +251,8 @@ Route::post('/backends/store/departements', [DepartementController::class, 'stor
 Route::put('/departement.update/{id}', [DepartementController::class, 'update'])->name('departement.update');
 Route::delete('/delete.departement/{id}', [DepartementController::class, 'delete'])->name('delete.departement');
 
-//REALISATIONS
+//AUTRES SERVICES
+
+
 
 

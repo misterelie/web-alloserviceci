@@ -17,6 +17,7 @@ use App\Helpers\Helper;
 use App\Models\Commune;
 use App\Models\Diplome;
 use App\Models\Domaine;
+use App\Models\Service;
 use App\Helpers\Helpers;
 use App\Models\Alphabet;
 use App\Models\Quartier;
@@ -1004,6 +1005,28 @@ class AdminController extends Controller
         }else {
             echo "Vous n'êtes pas concerné !";
           }
+    }
+
+
+
+    //AUTRES SERVICES
+    public  function services(){
+        $services = Service::all();
+        return view('admin.autres_services.service', compact('services'));
+    }
+
+    public function save_service(Request $request)
+    {
+        $request->validate([
+            'libelle' => 'required'
+        ]);
+
+        $services = new Service();
+        $services->user_id = Auth::user()->id;
+        $services->libelle = $request->libelle;
+        $services->save();
+        return redirect()->back()->with('success', 'Opération effectuée avec succès !');
+
     }
 
 

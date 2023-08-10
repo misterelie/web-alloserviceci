@@ -31,9 +31,12 @@
                                                     <button class="nav-link font-weight-bold fw-600 text-uppercase fow-bold font-weight-bold" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
                                                         Statistiques graphiques
                                                     </button>
+                                                </div><br>
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <h6 class="fw-bolder">Données de base :</h6>
+                                                    </div>
                                                 </div>
-                                                <p class="text-muted mb-0">
-                                                    </p>
                                             </div>
                                             {{-- <div class="mt-3 mt-lg-0">
                                                 <form action="javascript:void(0);">
@@ -148,14 +151,12 @@
                                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                                                             Prestataires</p>
                                                     </div>
-                                                   
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
                                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
                                                                 class="counter-value" data-target="{{$prestataires}}">{{$prestataires}}</span>
                                                         </h4>
-                                                       
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
                                                         <span class="avatar-title bg-info rounded fs-3">
@@ -196,6 +197,11 @@
                                     </div><!-- end col -->
                                 </div> <!-- end row-->
 
+                                <div class="row mb-3">
+                                    <div class="container">
+                                        <h6 class="fw-bolder">Autres données:</h6>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-xl-3 col-md-6">
@@ -461,8 +467,6 @@
                                             </a>
                                         </div><!-- end card -->
                                     </div><!-- end col -->
-
-                                    
                                 </div>
 
                                 {{-- <div class="row">

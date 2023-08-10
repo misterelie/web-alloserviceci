@@ -1,6 +1,6 @@
 <div class="container">
     <div class="section-title text-center position-relative pb-3  mx-auto" style="max-width: 600px;">
-        <h5 class="fw-bold text-uppercase text-primary">Nos prestations</h5>
+        <h5 class="fw-bold text-uppercase text-primary">Quelques prestations</h5>
     </div>
     {{-- <div class="section-title-2 text-center position-relative pb-2 mb-5 mx-auto" style="max-width: 600px;">
         <h5 class="fw-bold text-uppercase">Nos prestations</h5>
@@ -18,12 +18,11 @@
                     @endif
                     
                     <div class="team-social">
-                        <a href="{{ route('front.prest',$prestation->id) }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demande prestation</a>
-                        <a href="{{ route('front.presta',$prestation->id) }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir prestataire</a>
+                        <a href="{{ route('front.prest',$prestation->id) }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demander la prestation</a>
+                        {{-- <a href="{{ route('front.presta',$prestation->id) }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir prestataire</a> --}}
                     </div>
                 </div>
                 <div class="text-center py-4">
-                    {{-- <h4 class="text-primary">Full Name</h4> --}}
                     <p class="text-uppercase m-0" style="color:#fff">{{ $prestation->libelle }}</p>
                 </div>
             </div>

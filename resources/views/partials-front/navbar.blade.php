@@ -103,6 +103,9 @@
     </nav> --}}
 
      <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+        {{-- <a href="{{ url('/') }}" class="navbar-brand p-0">
+            <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="200" alt="">
+        </a>  --}}
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="fa fa-bars"></span>
@@ -128,12 +131,21 @@
             @endif
 
             <a href="{{ route('front.nos-prestations') }}" class="nav-item nav-link">Nos prestations</a>
+            <a href="{{ route('ask.prestataire') }}" class="nav-item nav-link">Devenir un prestataire</a>
+            <a href="{{ url('contactez/nous')}}" class="nav-item nav-link">Contact</a>
+
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Demandez un service</a>
-                <div class="dropdown-menu m-0">
-                    <a href="{{ route('ask.prestation') }}" class="dropdown-item">Demandez une prestation</a>
-                    <a href="{{ route('ask.prestataire') }}" class="dropdown-item">Devenir un prestataire</a>
-                </div>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services +</a>
+              
+                    <div class="dropdown-menu m-0">
+                        @if(!is_null($services))
+                        @foreach($services as $service)
+                            <a href="https://technologies.alloservice.ci/" class="dropdown-item">
+                                {{ $service->libelle }}
+                            </a>
+                        @endforeach
+                        @endif
+                    </div>
             </div>
 
             <div class="nav-item dropdown">
@@ -143,8 +155,10 @@
                     <a href="{{ url('temoignages/clients')}}" class="dropdown-item">Témoingnages</a>
                 </div>
             </div>
-            <a href="{{ url('contactez/nous')}}" class="nav-item nav-link">Contact</a>
-            <a href="{{ url('demander-un-devis')}}" class="nav-item nav-link">Demander un devis </a>
+            
+            {{-- <a href="{{ url('demander-un-devis')}}" class="nav-item nav-link">Demander un devis </a> --}}
+
+           
         </div>
     </div>
 </nav>
@@ -154,12 +168,14 @@
                 <img class="w-60" src="{{ asset('new-assets/img/bg.jpeg')}}" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
-                        <h5 class="text-white text-uppercase mb-3 display-1 animated slideInDown">
+                        <h5 class="text-white text-uppercase mb-3">
                             <span class="text-primary fw-bolder animated zoomIn">Bienvenue à Allô Service !</span>
                         </h5>
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">Maison & Prestation de services</h1>
+                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">
+                            Pensons autrement le service à la maison
+                        </h1>
                         <a href="{{ route('ask.prestation') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Demander une prestation</a>
-                        <a href="{{ route('ask.prestataire') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Devenir un prestataire</a>
+                        <a href="{{ url('demander-un-devis')}}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Demander un devis</a>
                     </div>
                 </div>
             </div>
@@ -170,9 +186,10 @@
                         {{-- <h5 class="text-white text-uppercase mb-3 animated slideInDown">
                            <span class="text-white fw-bold"> Nous prenons soins de votre maison !</span>
                         </h5> --}}
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">Entretien du domicile</h1>
-                        <a href="http://www.vintage.alloservice.ci/" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Voir notre site vintage ci </a>
-                        <a href="https://technologies.alloservice.ci/" class="btn btn-success py-md-3 px-md-5 animated slideInRight">Voir Allô Service Technologies</a>
+                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">
+                            Vous accompagner notre priorité
+                        </h1>
+                       
                     </div>
                 </div>
             </div> 
