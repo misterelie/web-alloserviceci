@@ -182,7 +182,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title text-primary text-uppercase" id="exampleModalLabel">Ajout de prestation</h5>
+                            <h5 class="modal-title text-primary text-uppercase" id="exampleModalLabel">Ajouter une prestation</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form action="{{ route('save.prestation')}}" class="" autocomplete="off" method="POST"  
@@ -193,30 +193,6 @@
                                 <div class="mb-3" id="modal-id" style="display: none;">
                                     <label for="id-field" class="form-label">ID</label>
                                     <input type="text" id="id-field" class="form-control" placeholder="ID" readonly/>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="status-field" class="form-label fw-bold">Le département: </label>
-                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
-                                        <option value="">-- Sélectionnez une option --- </option>
-                                        @if(!is_null($departements))
-                                        @foreach($departements as $departement)
-                                            <option value="{{$departement->id}}">{{$departement->libelle}}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="status-field fw-bold" class="form-label fw-bold">Le mode: </label>
-                                    <select class="form-control" data-choices data-choices-search-false name="mode_id" id="status-field" >
-                                        <option value="">-- Sélectionnez une option --- </option>
-                                        @if(!is_null($modes))
-                                        @foreach($modes as $mode)
-                                            <option value="{{$mode->id}}">{{$mode->mode}}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
                                 </div>
 
                                 <div class="mb-3">

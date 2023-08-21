@@ -1,6 +1,9 @@
+{{-- @extends('layouts.base-front')
+@section('content') --}}
+
 <div class="container py-5">
+    
     <div class="row g-5">
-        
         @if(!is_null($abouts))
         @foreach($abouts as $about)
         <div class="col-lg-7">
@@ -53,3 +56,5 @@
         </div>
     </div>
 </div>
+
+{{-- @endsection --}}

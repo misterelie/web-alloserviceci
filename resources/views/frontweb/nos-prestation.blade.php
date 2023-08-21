@@ -15,7 +15,9 @@
                             <img class="img-fluid w-100" src="uploadsprestation/{{ $prestation->image_prestation}}" alt="">
                         @endif
                         <div class="team-social">
-                            <a href="{{ route('front.prest',$prestation->id) }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">Demande prestation</a>
+                            <a href="{{ route('front.prest',$prestation->id) }}" class="btn btn-primary py-md-2 px-md-4 me-2 animated slideInLeft">
+                                Demande prestation
+                            </a>
                             <a href="{{ route('front.presta',$prestation->id) }}" class="btn btn-outline-light py-md-2 px-md-4 animated slideInRight">Devenir prestataire</a>
                         </div>
                     </div>

@@ -37,19 +37,76 @@
 
 <body>
 
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    {{-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner">
             
         </div>
+    </div> --}}
+
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block" style="background: red">
+        @include('partials-front.topbar-header')
     </div>
 
-    <div class="container-fluid bg-dark px-5 d-none d-lg-block mb-4" style="background: red">
-        @include('partials-front.topbar-header')
-    </div><br><br><br>
+    <div class="container-fluid position-relative p-0 mb-5">
+        <nav class="navbar navbar-expand-lg navbar-white px-4 px-lg-5 py-3 py-lg-0" 
+        style="background: #3800bf !important">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                
+                <a href="{{ url('/')}}" class="nav-item nav-link"  style="color: white">Accueil</a>
 
-    {{-- <div class="container-fluid position-relative p-0">
-        @include('partials-front.navbar')
-    </div> --}}
+            @if (!is_null(Menu::departements()))
+            @foreach (Menu::departements() as $departement)
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="color: #fff">
+                        {{ $departement->libelle }}</a>
+                        <div class="dropdown-menu m-0">
+                            @if ($departmodes)
+                                @foreach ($modedepartements as $modedepartement)
+                                    <a href="{{ route('repassage', [$departement->slug, $modedepartement->id]) }}"
+                                        class="dropdown-item">{{ $modedepartement->libelle }}</a>
+                                @endforeach
+                            @endif
+                        </div>
+                </div>
+            @endforeach
+            @endif
+    
+                <a href="{{ route('front.nos-prestations') }}" class="nav-item nav-link" 
+                style="color: white">Prestations</a>
+                <a href="{{ route('ask.prestataire') }}" class="nav-item nav-link"  style="color: white">Devenir un prestataire</a>
+                <a href="{{ url('contactez/nous')}}" class="nav-item nav-link" style="color: white">Contact</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  style="color: white">Services +</a>
+                  
+                        <div class="dropdown-menu m-0">
+                            @if(!is_null($services))
+                            @foreach($services as $service)
+                                <a href="https://technologies.alloservice.ci/" class="dropdown-item">
+                                    {{ $service->libelle }}
+                                </a>
+                            @endforeach
+                            @endif
+                        </div>
+                </div>
+    
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  
+                    style="color: white">Réalisations</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{{ url('nos/realisations') }}" class="dropdown-item">Galeries</a>
+                        <a href="{{ url('temoignages/clients')}}" class="dropdown-item">Témoignages</a>
+                    </div>
+                </div>
+                {{-- <a href="{{ url('demander-un-devis')}}" class="nav-item nav-link">Demander un devis </a> --}}
+            </div>
+        </div>
+    </nav>
+    
+    </div><br>
 
     
      <div class="modal fade" id="searchModal" tabindex="-1">
@@ -58,7 +115,6 @@
     
     @yield('content')
 
-   
 
     <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
         @include('partials-front.footer')
@@ -184,15 +240,15 @@
     </script>
 
 <script>
-    $('#mode_id').on('change', function () {
-        let modeId = $(this).val();
+    $('#mode_departement_id').on('change', function () {
+        let mode_departementId = $(this).val();
 
-        console.log(modeId)
+        console.log(mode_departementId)
         
         var userURL = "{{url('/getSpecificates')}}";
         $.ajax({
             url: userURL,
-            data: {"data": modeId},
+            data: {"data": mode_departementId},
             type: 'GET',
             dataType: 'json',
             success: function (data) {

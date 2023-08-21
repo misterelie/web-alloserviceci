@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">La liste des demandes de devis</h4>
+                        <h4 class="mb-sm-0 text-uppercase">Gestion des demandes de devis</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -71,9 +71,8 @@
                                     <table class="table align-middle table-nowrap" id="customerTable">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>N°</th>
-                                                <th class="sort" data-sort="customer_name">Noms</th>
-                                                <th class="sort" data-sort="customer_name">Prénoms</th>
+                                                <th class="fw-bold">Codes devis</th>
+                                                <th class="sort" data-sort="customer_name">Nom & Prénom(s)</th>
                                                 <th class="sort" data-sort="customer_name">Téléphones</th>
                                                 <th class="sort" data-sort="customer_presta">Emails</th>
                                                 <th class="sort" data-sort="customer_ethnie">Type prestations</th>
@@ -86,40 +85,32 @@
                                             @if(!is_null($devis))
                                             @foreach($devis as $devi)
                                             <tr>
-                                                <th scope="row">
-                                                    {{ $loop->iteration }}
+                                                <th scope="row" class="fw-bolder">
+                                                    {{ $devi->code }}
                                                 </th>
-                                                <td class="customer_name">{{ $devi->nom }}</td>
-                                                <td class="customer_prenoms">{{ $devi->prenoms }}</td>
+                                                <td class="customer_name">{{ $devi->nom }} {{ $devi->prenoms }}</td>
+                                                {{-- <td class="customer_prenoms">{{ $devi->prenoms }}</td> --}}
                                                 <td class="phone">+225 {{ $devi->telephone }}</td>
                                                 <td class="email">{{ $devi->email }}</td>
 
                                                 <td class="date">
                                                     <span class="p-2 badge badge-soft-success text-uppercase fs-8 fw-bolder">
-                                                        {{ $devi->prestation->libelle  }}
+                                                        {{ $devi->departement->libelle ?? ''   }}
                                                     </span>
                                                 </td>
 
                                                 <td class="date">
                                                     <span class="p-2 badge badge-soft-danger text-uppercase fs-8 fw-bolder">
-                                                        {{ $devi->mode->mode  }}
+                                                        {{ $devi->modedepartement->libelle }}
                                                     </span>
                                                 </td>
                                                
-                                              
-                                                {{-- <td class="status">
-                                                   <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '1' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '1' ? 'acceptée' : 'refusée' }}</span>     
-                                                </td> --}}
                                                 <td>
                                                     <div class="d-flex gap-2">
                                                          <div class="edit">
                                                             <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $devi->id }}">Modifier</button>
                                                         </div> 
                                                     
-                                                        {{-- <div class="detail">
-                                                            <button class="btn btn-sm btn-secondary edit-item-btn" data-bs-toggle="modal" data-bs-target="#accepterlModal_">Statuts</button>
-                                                        </div> --}}
-                                                
                                                         <div class="detail">
                                                         <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#detailModal_{{ $devi->id }}">Détails Devis</button>
                                                         </div>
@@ -163,85 +154,7 @@
             </div>
             <!-- end row -->
 
-             <!-- statu de la demande-->
-            {{-- @if(!is_null($demandeprestations))
-            @foreach($demandeprestations as $demandeprestation)
-            <div class="modal fade" id="accepterlModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                        </div>
-                        <form action="{{ url('accepterDemandeur', $demandeprestation->id) }}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
-                            @csrf
-
-                            @method('PUT')
-                            <input type="hidden" name="_method" value="put">
-                            <input type="hidden" name="etat" value="accepter">
-                            <div class="modal-body">
-                                <div class="mb-3" id="modal-id" style="display: none;">
-                                    <label for="id-field" class="form-label">ID</label>
-                                    <input type="text" id="id-field" class="form-control" placeholder="ID" readonly/>
-                                </div>
-
-                                <div class="mb-3">
-                                    <fieldset class="sm">
-                                        <legend for="customername-field" class="form-label">Staut de la demande</legend><br><br>
-                                        <div class="row g-3 align-items-center px-3 mb-2">
-                                            <div class="col-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio"
-                                                        id="decisionOff{{ $demandeprestation->id }}" name="etat"
-                                                        value="2">
-                                                    <label class="form-check-label text-red pointer"
-                                                        for="decisionOff{{ $demandeprestation->id }}">
-                                                        Demande refusée
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio"
-                                                        id="decisionOk{{ $demandeprestation->id }}" name="etat"
-                                                        value="1">
-                                                    <label class="form-check-label text-success pointer"
-                                                        for="decisionOk{{ $demandeprestation->id }}">
-                                                        Demande acceptée
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div>
-                                        <label for="exampleFormControlTextarea5" class="form-label">Motif</label>
-                                        <textarea name="motif_de_rejet"  class="form-control" id="exampleFormControlTextarea5" rows="3">{!!$demandeprestation->motif_de_rejet!!}</textarea>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    @if($demandeprestation->etat !=  NULL)
-                                        <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
-                                    @else
-
-                                    
-                                    <button type="submit" class="btn btn-success" id="add-btn">Valider</button>
-                                   @endif
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> 
-            @endforeach
-            @endif  --}}
-
+             
                <!-- modifier prestation-->
                 @if(!is_null($devis))
                @foreach($devis as $devi)
@@ -340,13 +253,13 @@
                                         <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="customername-field" class="form-label fw-bolder">Prestations :</label>
-                                                <select class="form-select mb-3" name="prestation_id" id="prestation_id" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="departement_id" id="prestation_id" aria-label="Default select example">
         
-                                                    @if(!is_null($prestations))
-                                                        @foreach($prestations as $prestation)
-                                                        <option value="{{ $prestation->id }}" 
-                                                            @if((int) $devi->prestation_id == (int)$prestation->id) selected @endif>
-                                                            {{ $prestation->libelle }}
+                                                    @if(!is_null($departements))
+                                                        @foreach($departements as $departement)
+                                                        <option value="{{ $departement->id }}" 
+                                                            @if((int) $devi->departement_id == (int)$departement->id) selected @endif>
+                                                            {{ $departement->libelle }}
                                                         </option>
                                                         @endforeach
                                                     @endif
@@ -356,13 +269,13 @@
 
                                         <div class="col-6">
                                             <div class="mb-3">
-                                                <label for="customername-field" class="form-label fw-bolder">Mode de prestation :</label>
-                                                <select class="form-select mb-3" name="mode_id" id="mode_id" aria-label="Default select example">
-                                                    @if(!is_null($modes))
-                                                        @foreach($modes as $mode)
-                                                        <option value="{{ $mode->id }}" 
-                                                            @if((int) $devi->mode_id == (int)$mode->id) selected @endif>
-                                                            {{ $mode->mode }}
+                                                <label for="customername-field" class="form-label fw-bolder">Modes :</label>
+                                                <select class="form-select mb-3" name="mode_departement_id" id="mode_departement_id" aria-label="Default select example">
+                                                    @if(!is_null($modedepartements))
+                                                        @foreach($modedepartements as $modedepartement)
+                                                        <option value="{{$modedepartement->id }}" 
+                                                            @if((int) $devi->mode_departement_id == (int)$modedepartement->id) selected @endif>
+                                                            {{ $modedepartement->libelle }}
                                                         </option>
                                                         @endforeach
                                                     @endif
@@ -412,10 +325,6 @@
 
 
 
-
-
-
-
             @if(!is_null($devis))
             @foreach($devis as $devi)
           <!-- Modal detail-->
@@ -431,14 +340,30 @@
                                 <h5 class="text-center text-primary" style="font-weight: bold"> VOIR TOUTES LES INFORMATIONS SUR LE DEVIS</h5>
                                   <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                                       <p> <span class="fw-bolder"> Nom :</span> {{ $devi->nom }}</p>
-                                      <p><span class="fw-bolder"> Prénoms :</span> {{ $devi->prenoms }}</p>
+                                      <p><span class="fw-bolder"> Prénoms :
+                                        </span> {{ $devi->prenoms }}
+                                      </p>
+
                                       <p><span class="fw-bolder"> Téléphone :</span> {{ $devi->telephone }}</p>
+
                                       <p> <span class="fw-bolder"> Email :</span> {{ $devi->email }}</p>
-                                      <p> <span class="fw-bolder"> Ville :</span> {{ $devi->ville->libelle }}</p>
-                                      <p><span class="fw-bolder">Mode travail :</span> <span class="fw-bolder text-primary">{{  $devi->mode->mode ?? '' }}</span></p>
-                                      <p><span class="fw-bolder">Prestation :</span> <span class="fw-bolder text-primary">{{  $devi->prestation->libelle ?? ''}}</span></p>
-                                      <p><span class="fw-bolder">Date d'exécution :</span> {{  $devi->date_execution }}</p>
-                                      <p><span class="fw-bolder">Heure d'exécution :</span> {{  $devi->heure_execution }}</p>
+
+                                      <p> <span class="fw-bolder"> Ville :</span> {{ $devi->ville->libelle ?? '' }}</p>
+                                      
+                                      <p><span class="fw-bolder">Mode travail :</span> <span class="fw-bolder text-primary">
+                                        {{ $devi->modedepartement->libelle }}</span>
+                                      </p>
+
+                                      <p><span class="fw-bolder">Prestation :</span> <span class="fw-bolder text-primary">{{  $devi->departement->libelle ?? ''}}</span></p>
+
+                                      <p><span class="fw-bolder">Date d'exécution :
+                                        </span> {{  $devi->date_execution }}
+                                       </p>
+
+                                      <p><span class="fw-bolder">Heure d'exécution :
+                                        </span> {{  $devi->heure_execution }}
+                                       </p>
+
                                       <p><span class="fw-bolder">Plus d'information: </span> <br><br> {{  $devi->description_devis }}</p>
                                   </div>
                               </div>

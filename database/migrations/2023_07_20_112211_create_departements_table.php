@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('departements', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
-            $table->longText('description')->nullable();
-            $table->longText('details')->nullable();
             $table->integer('user_id')->nullable();
             $table->timestamps();
         });

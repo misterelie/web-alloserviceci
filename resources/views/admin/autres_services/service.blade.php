@@ -80,10 +80,10 @@
                                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                                     </div>
                                                 </th>
-                                                <th class="sort" data-sort="customer_name">Services</th>
-                                                <th class="sort" data-sort="tel_3">Enregister par</th>
-                                                <th class="sort" data-sort="what">Dates</th>
-                                                <th class="sort" data-sort="action">Actions</th>
+                                                <th class="sort text-uppercase" data-sort="customer_name">Services</th>
+                                                <th class="sort text-uppercase" data-sort="tel_3">Enregister par</th>
+                                                <th class="sort text-uppercase" data-sort="what">Dates</th>
+                                                <th class="sort text-uppercase" data-sort="action">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -106,16 +106,17 @@
                                                 <td>
                                                     <div class="d-flex gap-2">
                                                         <div class="edit">
-                                                            <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_">Modifier</button>
+                                                            <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $service->id }}">Modifier</button>
                                                         </div>
-                                                        {{-- <form id="form-}" 
-                                                            action="" 
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('DELETE')
-    
-                                                            <button class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteModal_">Supprimer</button>
-                                                        </form> --}}
+
+                                                        <button class="btn btn-sm btn-warning edit-item-btn">
+                                                            <a class="text-white" href="#" onclick="if(confirm('Attention ! Vous êtes sur le point de supprimer cet élément ?  Appuyez sur OK pour confirmer.')){document.getElementById('form-{{$service->id}}').submit() }">Supprimer</a>
+                                                        </button>
+                                                        <form id="form-{{$service->id}}" 
+                                                                action="{{ url('delete/service', $service->id) }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="_method" value="delete">
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -193,16 +194,16 @@
 
 
               <!-- section modifier-->
-              {{-- @if(!is_null($villes))
-              @foreach($villes as $city)
-                <div class="modal fade" id="editModal_{{ $city->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               @if(!is_null($services))
+              @foreach($services as $service)
+                <div class="modal fade" id="editModal_{{ $service->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-light p-3">
-                                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Mettre à jour</h5>
+                                <h5 class="modal-title text-primary text-uppercase" id="exampleModalLabel">Modifier le service</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                             </div>
-                            <form action="{{ route('update.ville', $city->id )}}" class="tablelist-form" autocomplete="off" method="POST" 
+                            <form action="{{ url('update/service', $service->id )}}" class="tablelist-form" autocomplete="off" method="POST" 
                                 enctype="multipart/form-data">
                                 @csrf 
 
@@ -217,8 +218,8 @@
     
                                     <div class="mb-3">
                                         <label for="customername-field" class="form-label fw-bold">
-                                            Intitulé de la ville :</label>
-                                        <input type="text" id="customername" value="{{ $city->libelle }}" class="form-control" 
+                                            Intitulé :</label>
+                                        <input type="text" id="customername" value="{{ $service->libelle }}" class="form-control" 
                                         name="libelle" 
                                         placeholder="Saisissez le nom de la ville" />
                                     </div>
@@ -227,17 +228,17 @@
                                 <div class="modal-footer">
                                     <div class="hstack gap-2 justify-content-end">
                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                        <button type="submit" class="btn btn-success" id="add-btn">Mettre à jour</button>
-                                        <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                                        <button type="submit" class="btn btn-dark" id="add-btn">Mettre à jour</button>
+                                       
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div>  --}}
+                </div>  
              <!-- end modifier -->
-             {{-- @endforeach
-             @endif --}}
+             @endforeach
+             @endif
 
 
              {{-- @if(!is_null($assistances))

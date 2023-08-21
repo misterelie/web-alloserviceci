@@ -39,7 +39,6 @@ class TemoignageController extends Controller
 
     public function delete($id){
         $etat = Etat::find($id);
-        //dd($etat);
         $delete = $etat->delete($id);
         if ($delete) {
             return back()->with("success", "Vous avez supprimé avec succès !");

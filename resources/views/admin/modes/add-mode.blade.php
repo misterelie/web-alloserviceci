@@ -144,7 +144,7 @@
                                     <input type="text" id="id-field" class="form-control" placeholder="ID" readonly/>
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="status-field" class="form-label fw-bold">Le département: </label>
                                     <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
                                         <option value="">-- Sélectionnez une option --- </option>
@@ -154,7 +154,7 @@
                                         @endforeach
                                         @endif
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="customername-field" class="form-label fw-bold">Mode</label>
@@ -163,21 +163,21 @@
                                         placeholder="Entrez le nom"/>
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="customername-field" class="form-label fw-bold">Titre</label>
                                     <input type="text" id="customername-field" 
                                         class="form-control" name="titre"
                                         placeholder="Entrez le nom"/>
-                                </div>
+                                </div> --}}
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="customername-field" class="form-label fw-bold">Photos</label>
                                     <input type="file" id="customername-field" 
                                         class="form-control" name="image_prestation"
                                         placeholder="Entrez le nom"/>
-                                </div><br>
+                                </div><br> --}}
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label fw-bold"
                                         for="gen-info-description-input">Description</label>
                                     <textarea class="form-control ckeditor-classic" name="description"
@@ -185,7 +185,7 @@
                                         id="gen-info-description-input" rows="2"
                                         required="">
                                     </textarea>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
@@ -222,7 +222,7 @@
                                     <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="status-field" class="form-label fw-bold">Le département: </label>
                                     <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
                                         <option value="">-- Sélectionnez une option --- </option>
@@ -235,7 +235,7 @@
                                         @endforeach
                                         @endif
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="customername-field" class="form-label">Nom</label>
@@ -246,15 +246,15 @@
                                    
                                 </div>
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="customername-field" class="form-label">Titre</label>
                                     <input type="text" id="customername-field" 
                                     class="form-control" name="titre" 
                                     value="{{ $mode->titre }}"
                                     placeholder="Mettre à jour le nom"/>
-                                </div>
+                                </div> --}}
 
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label fw-bold"
                                         for="gen-info-description-input">Description</label>
                                     <textarea class="form-control" name="description"
@@ -262,7 +262,7 @@
                                         id="gen-info-description-input" rows="2">
                                         {!!$mode->description!!}
                                     </textarea>
-                                </div>
+                                </div> --}}
 
                             </div>
                             <div class="modal-footer">

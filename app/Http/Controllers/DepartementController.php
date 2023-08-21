@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departement;
+use App\Models\ModeDepartement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,8 +15,9 @@ class DepartementController extends Controller
       }
       
     public function index(){
+        $modedepartements = ModeDepartement::all();
         $departements = Departement::all();
-        return view('admin.departement.index', compact('departements'));
+        return view('admin.departement.index', compact('departements', 'modedepartements'));
     }
 
     public function store(Request $request)
@@ -27,8 +29,8 @@ class DepartementController extends Controller
             'libelle' => 'Le nom du département est obligatoire',
         ]);
         $departements = new Departement();
-        $departements->libelle = $request->libelle;
         $departements->user_id = Auth::user()->id;
+        $departements->libelle = $request->libelle;
         $departements->save();
         return redirect()->back()->with('success', 'Vous avez enregistré avec succès ');
     }
@@ -40,8 +42,8 @@ class DepartementController extends Controller
         ]);
         
         $departement = Departement::find($id);
-        $departement->libelle = $request->libelle;
         $departement->user_id = Auth::user()->id;
+        $departement->libelle = $request->libelle;
         $departement->save();
         return redirect()->back()->with('success', 'Vous avez mis à jour avec succès');
     }

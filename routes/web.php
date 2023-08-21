@@ -71,8 +71,9 @@ Route::get('/nos/realisations', [InterfacesFrontController::class, 'realisations
 
 
 //REPASSAGE
-Route::get('/nos-type-service/{id}', [InterfacesFrontController::class, 'section_repassage'])->name("repassage");
-Route::get('/details/repassage/{slug}', [InterfacesFrontController::class, 'details_repassage']);
+// Route::get('/nos-type-service/{id}', [InterfacesFrontController::class, 'section_repassage'])->name("repassage");
+
+Route::get('/nos-services/{slug}/{id}', [InterfacesFrontController::class, 'departement_details'])->name("repassage");
 
 
 //FRONT DEVIS*
@@ -89,7 +90,6 @@ Route::get('/getCommunes', [DevisController::class, 'getCommunes']);
 Route::put('/accepterDemandeur/{demandeprestation}', [BackendAdminController::class, 'AccepterDemande']);
 Route::put('/accepterPrestataire/{prestataire}', [BackendAdminController::class, 'accepterPrestataire']);
 // Route::put('/refuserDemandeur/{demandeprestation}', [BackendAdminController::class, 'RefuserDemande']);
-
 
 Route::get('/liste/prestation', [AdminController::class, 'liste_prestation'])->name("liste-prestation");
 Route::post('/save.prestation', [AdminController::class, 'save_prestation'])->name("save.prestation");
@@ -118,12 +118,15 @@ Route::put('/update.demande/{demandeprestation}', [BackendAdminController::class
 Route::delete('/delete.demande/{id}', [BackendAdminController::class, 'deletedemande'])->name("delete.demande");
 Route::get('/demande/fiche/{id}', [BackendAdminController::class, 'fiche'])->name("demande.fiche");
 
-
 //LISTE DES PRESTATAIRES
 Route::get('/liste/devenirprestataire', [BackendAdminController::class, 'list_prestataire'])->name("liste/devenirprestataire");
 Route::put('/update.prestataire/{prestataire}', [BackendAdminController::class, 'update_prestataire'])->name("update.prestataire");
 Route::delete('/delete.prestataire/{id}', [BackendAdminController::class, 'delete_prestataire'])->name("delete.prestataire");
 Route::get('/fiche/prestataire/{id}', [BackendAdminController::class, 'fiche_prestataire'])->name("prestataire.fiche");
+
+
+//ARCHIVAGES
+Route::get('/backend/demandes/archive', [BackendAdminController::class, 'archive_demande'])->name("archive.demande");
 
 
 //AJOUT ETHNIES
@@ -137,6 +140,26 @@ Route::get('/liste.modes', [BackendAdminController::class, 'liste_mode'])->name(
 Route::post('/store.mode', [BackendAdminController::class, 'enregis_mode'])->name("store.mode");
 Route::put('/update.mode/{mode}', [BackendAdminController::class, 'update_mode'])->name("update.mode");
 Route::delete('/delete.mode/{id}', [BackendAdminController::class, 'delete_mode'])->name("delete.mode");
+
+
+//MODE DEPARTEMENT
+Route::get('/backends/mode/departement', [BackendAdminController::class, 'mode_departement']);
+Route::post('/save/mode/departement', [BackendAdminController::class, 'save_mode_departement'])->name("save.mode");
+Route::put('/update/mode/departement/{modedepartement}', [BackendAdminController::class, 'update_mode_departement'])->name('mode.update');
+Route::delete('/mode/departement/delete/{id}', [BackendAdminController::class, 'delete_mode_depart']);
+
+
+//Departement mode
+Route::get('/departement/mode', [BackendAdminController::class, 'depart_mode']);
+Route::post('/backend/departement/mode', [BackendAdminController::class, 'save_depart_mode'])->name('departement.mode');
+
+
+
+
+
+
+
+
 
 //MODE DE PRESTATIONS
 Route::get('/backends/modes/prestations', [BackendAdminController::class, 'mode_presta'])->name("admin.mode_prestations.index");
@@ -191,7 +214,7 @@ Route::delete('/destroy.quartier/{id}', [BackendAdminController::class, 'destroy
 Route::get('/backends/villes', [BackendAdminController::class, 'cities'])->name('admin.villes.cities');
 Route::post('/admin/villes/cities', [BackendAdminController::class, 'save_ville'])->name('admin/villes/cities');
 Route::put('/update.ville/{city}', [BackendAdminController::class, 'update_ville'])->name('update.ville');
-Route::delete('/delete.ville/{city}', [BackendAdminController::class, 'destroy_ville'])->name("delete.ville");
+Route::delete('/delete/ville/{id}', [BackendAdminController::class, 'destroy_ville'])->name("delete.ville");
 
 //DEVIS
 Route::get('/backends/devis', [BackendAdminController::class, 'listedevis'])->name('backends.devis');
@@ -208,6 +231,8 @@ Route::delete('/realisation/destroy/{real}', [BackendAdminController::class, "de
 //AUTRES SERVICES
 Route::get('/backends/services', [BackendAdminController::class, 'services']);
 Route::post('/store/backends/services', [BackendAdminController::class, 'save_service'])->name('store.services');
+Route::put('/update/service/{service}', [BackendAdminController::class, 'update_service'])->name('update.service');
+Route::delete('/delete/service/{id}', [BackendAdminController::class, 'delete_service'])->name("service.delete");
 
 
 

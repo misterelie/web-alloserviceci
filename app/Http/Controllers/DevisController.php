@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devi;
+use App\Models\Mode;
+use App\Models\Ville;
 use App\Models\Menage;
 use App\Models\Commune;
+use App\Models\Service;
 use App\Models\Assistance;
+use App\Models\DepartMode;
+use App\Models\Prestation;
 use App\Models\Departement;
-use App\Models\Mode;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ModePrestation;
-use App\Models\Prestation;
-use App\Models\Ville;
+use App\Models\ModeDepartement;
 use Illuminate\Support\Facades\Auth;
 
 class DevisController extends Controller
@@ -23,22 +26,24 @@ class DevisController extends Controller
         $prestations = Prestation::all();
         $assistances = Assistance::all();
         $communes = Commune::all();
-        $modes = Mode::all();
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.devis', compact('assistances', 'communes', 'modes', 'villes', 'departements', 'prestations'));
+        $services = Service::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
+        $departements = Departement::orderBy('created_at')->get();
+        return view('newfront.devis', compact('assistances', 'communes', 'modedepartements', 'villes', 'departements', 'prestations', 'services', 'departmodes'));
     }
 
     public function getSpecificates(Request $request)
     {
-        $modeId = $request->data;
-        $mode = Mode::where('id', $modeId)->first();
+        $mode_departementId = $request->data;
+        $modedepartement = ModeDepartement::where('id', $mode_departementId)->first();
         $html = null;
-        if(!is_null($mode)){
-            $prestations = $mode->prestations;
+        if(!is_null($modedepartement)){
+            $departements = $modedepartement->departements;
 
-            if(!is_null($prestations) && $prestations->count()){
-            $html .= '<select class="form-control" name="prestation_id" id="libelle">';
-                foreach ($prestations as $row) {
+            if(!is_null($departements) && $departements->count()){
+            $html .= '<select class="form-control" name="departement_id" id="libelle">';
+                foreach ($departements as $row) {
                 $html .= '<option value="'.$row->id.'">'.Str::ucfirst($row->libelle).'</option>';
                 }
                 $html .= '</select>';
@@ -67,25 +72,22 @@ class DevisController extends Controller
             'email' => 'nullable',
             'ville_id' => 'required',
             'quartier' => 'required',
-            'mode_id' => 'required',
-            'mode_id' => 'required',
+            'mode_departement_id' => 'required',
             'commune_id' => 'required',
             'date_execution' => 'required',
-            'heure_execution' => 'required',
-            'description_devis' => 'required',
-            'prestation_id' => 'nullable'
+            'heure_execution' => 'nullable',
+            'description_devis' => 'nullable',
+            'departement_id' => 'required'
         ],
         [
             'nom' => 'Le nom est obligation',
             'prenoms' => 'Le prénom est obligation',
             'telephone' => 'Le numéro de téléphone est obligation',
             'ville_id' => 'La ville est obligation',
-            'mode_id' => 'Le mode de prestation est obligatoire',
+            'mode_departement_id' => 'Le mode de prestation est obligatoire',
             'commune_id' => 'La commune est obligation',
             'quartier' => 'Le quartier est obligation',
             'date_execution' => 'La date est obligation',
-            'heure_execution' => 'Ce champ est obligation',
-            'description_devis' => 'Ce champ est obligation',
         ]);
 
         $devis = new Devi();
@@ -95,15 +97,13 @@ class DevisController extends Controller
         $devis->email = $request->email;
         $devis->ville_id = $request->ville_id;
         $devis->quartier = $request->quartier;
-        $devis->mode_id = $request->mode_id;
-        $devis->mode_id = $request->mode_id;
+        $devis->mode_departement_id = $request->mode_departement_id;
         $devis->commune_id = $request->commune_id;
-        $devis->prestation_id = $request->prestation_id;
+        $devis->departement_id = $request->departement_id;
         $devis->date_execution = $request->date_execution;
         $devis->heure_execution = $request->heure_execution;
         $devis->description_devis = $request->description_devis;
         $devis->code = 'DEVIS-'.rand(00001, 99999);
-        $devis->slug = Str::slug(Auth::user()->name.'-'.rand(00001, 99999));
         $devis->save();
         return redirect()->back()->with('success', 'Opération effectuée avec succès !'); 
     }

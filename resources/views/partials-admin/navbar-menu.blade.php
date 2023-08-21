@@ -515,6 +515,27 @@
             <li class="menu-title"><i class="ri-more-fill"></i> <span
                 data-key="t-components">Pages</span></li>
 
+            {{-- <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse"
+                    role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
+                    <i class="mdi mdi-share-variant-outline"></i> <span data-key="t-multi-level">Archivages</span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarMultilevel">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" data-key="t-level-1.1">Prestataires</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ url('backend/demandes/archive') }}" 
+                            class="nav-link" data-key="t-level-1.1">Demandes</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>  --}}
+                
+
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
                     role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
@@ -544,6 +565,12 @@
                     </ul>
                 </div>
             </li>
+
+             <li class="nav-item">
+                <a href="{{ url('departement/mode')}}" class="nav-link" data-key="t-cards">
+                    Département mode
+                </a>
+             </li>
 
              <li class="nav-item">
                 <a class="nav-link menu-link" href="{{ url('backends/realisations') }}">
@@ -760,6 +787,7 @@
                 </div>
             </li> 
 
+            
             <li class="menu-title"><i class="ri-more-fill"></i> <span
                     data-key="t-components">Réglages</span>
             </li>
@@ -773,17 +801,13 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <ul class="nav nav-sm flex-column">
-
-                                
                                 <li class="nav-item">
                                     <a href="{{ url('liste/prestation') }}" class="nav-link" data-key="t-alerts">Nos prestations</a>
                                 </li>
-
             
                                 <li class="nav-item">
                                     <a href="{{ route('ajout.assistance')}}" class="nav-link" data-key="t-alerts">Assistances</a>
                                 </li>
-                    
                     
                                 <li class="nav-item">
                                     <a href="{{ route('liste.ethnie')}}" class="nav-link" data-key="t-alerts">Ethnies</a>
@@ -791,6 +815,11 @@
                                 <li class="nav-item">
                                     <a href="{{ route('liste.modes')}}" class="nav-link" data-key="t-badges">Modes de travail</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ url('backends/mode/departement') }}" class="nav-link" data-key="t-alerts">Modes département</a>
+                                </li>
+                                
                                 <li class="nav-item">
                                     <a href="{{ url('ajout/diplome')}}" class="nav-link"
                                         data-key="t-buttons">Diplômes</a>
@@ -817,6 +846,11 @@
 
                                 <li class="nav-item">
                                     <a href="{{ url('backends/services')}}" class="nav-link" data-key="t-cards">Autres Services</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="" class="nav-link" data-key="t-cards">
+                                    Département mode</a>
                                 </li>
 
                                 <li class="nav-item">

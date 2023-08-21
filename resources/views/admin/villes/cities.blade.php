@@ -108,13 +108,14 @@
                                                         <div class="edit">
                                                             <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{ $city->id }}">Modifier</button>
                                                         </div>
-                                                        <form id="form-{{ $city->id }}" 
-                                                            action="{{ route('delete.ville', $city->id )}}" 
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('DELETE')
-    
-                                                            <button class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteModal_">Supprimer</button>
+
+                                                      <button class="btn btn-sm btn-warning edit-item-btn">
+                                                            <a class="text-white" href="#" onclick="if(confirm('Attention ! Vous êtes sur le point de supprimer cette ville ?  Appuyez sur OK pour confirmer.')){document.getElementById('form-{{$city->id}}').submit() }">Supprimer</a>
+                                                        </button>
+                                                        <form id="form-{{$city->id}}" 
+                                                                action="{{ url('delete/ville', $city->id) }}" method="post">
+                                                                @csrf
+                                                            <input type="hidden" name="_method" value="delete">
                                                         </form>
                                                     </div>
                                                 </td>
@@ -199,7 +200,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-light p-3">
-                                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Mettre à jour</h5>
+                                <h5 class="modal-title text-primary fw-bold text-uppercase" id="exampleModalLabel">Modifier la ville</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                             </div>
                             <form action="{{ route('update.ville', $city->id )}}" class="tablelist-form" autocomplete="off" method="POST" 
@@ -227,7 +228,7 @@
                                 <div class="modal-footer">
                                     <div class="hstack gap-2 justify-content-end">
                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                        <button type="submit" class="btn btn-success" id="add-btn">Mettre à jour</button>
+                                        <button type="submit" class="btn btn-dark" id="add-btn">Enregister</button>
                                         <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                                     </div>
                                 </div>

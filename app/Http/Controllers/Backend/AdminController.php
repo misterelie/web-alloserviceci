@@ -29,9 +29,11 @@ use App\Mail\RefuserDemande;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Cast;
 use App\Models\ModePrestation;
+use App\Models\ModeDepartement;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
+use App\Models\DepartMode;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -64,12 +66,14 @@ class AdminController extends Controller
     }
 
     public function listedevis(){
-        $modes = Mode::all();
+        $modedepartements = ModeDepartement::all();
+        // $departements = Departement::all();
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
         $villes = Ville::all();
         $prestations = Prestation::all();
         $communes = Commune::all();
         $data['devis'] = Devi::orderBy('id', 'ASC')->get();
-        return view('admin.devis.liste-devis', compact('modes', 'villes', 'prestations', 'communes'))->with($data);
+        return view('admin.devis.liste-devis', compact('modedepartements', 'villes', 'departements', 'communes'))->with($data);
     }
 
     // AJOUT VILLES
@@ -102,6 +106,15 @@ class AdminController extends Controller
         $city->libelle = $request->libelle;
         $city->save();
         return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
+    }
+
+    public function destroy_ville($id){
+        $city = Ville::find($id);
+        $delete = $city->delete($id);
+        if ($delete) {
+            return back()->with("success", "Vous avez supprimé avec succès !");
+        }
+        return abort(500);
     }
     
   
@@ -198,8 +211,6 @@ class AdminController extends Controller
         $request->validate([
             'libelle' => 'required',
             'image_prestation' => 'required',
-            'mode_id' => 'nullable',
-            'departement_id' => 'nullable'
         ]);
 
         $prestations = new Prestation();
@@ -213,8 +224,6 @@ class AdminController extends Controller
         }
 
         $prestations->libelle = $request->libelle;
-        $prestations->mode_id = $request->mode_id;
-        $prestations->departement_id = $request->departement_id;
         $prestations->save();
         return redirect()->back()->with('success', 'Félicitations!  Vous avez la prestation  ajouté avec succès ');
     }
@@ -223,8 +232,6 @@ class AdminController extends Controller
     {
             $request->validate([
                     'libelle' => 'required',
-                    'mode_id' => 'nullable',
-                    'departement_id' => 'nullable'
                 ]);
 
                 if ($request->hasFile('image_prestation')) {
@@ -235,18 +242,17 @@ class AdminController extends Controller
                 }
 
                 $prestation->libelle = $request->libelle;
-                $prestation->mode_id = $request->mode_id;
-                $prestation->departement_id = $request->departement_id;
+                $prestation->user_id = Auth::user()->id;
                 $prestation->update();
                 return redirect()->back()->with('success', 'Félicitations!  Vous mis à jour la prestation avec succès ');
     }
 
 
             public function delete(Prestation $prestation)
-    {
+            {
                 $prestation->delete();
                 return back()->with("success", "Cette prestation a été supprimé avec succès !");
-    }
+            }
 
             // STORE ETHNIE
             public function enregis_ethnie(Request $request){
@@ -277,26 +283,11 @@ class AdminController extends Controller
                   //STORE MODES
             public function enregis_mode(Request $request){
                 $request->validate([
-                    'mode' => 'nullable',
-                    'departement_id' => 'nullable',
-                    'titre' => 'nullable',
-                    'description' => 'nullable'
+                    'mode' => 'required',
                 ]);
-               
+
                 $modes = new Mode();
-                $modes->user_id = Auth::user()->id;
-
-                if ($request->hasFile('image_prestation')) {
-                    $filename = $request->image_prestation;
-                    $filepiece = time() . '.' . $filename->Extension();
-                    $filename->move(public_path("ImagesModePrestations"), $filepiece);
-                    $modes->image_prestation = $filepiece;
-                }
-
                 $modes->mode = $request->mode;
-                $modes->titre = $request->titre;
-                $modes->description = $request->description;
-                $modes->departement_id = $request->departement_id;
                 $modes->save();
                 return redirect()->back()->with('success', 'Félicitations!  Vous avez ajouté avec succès ');
             }
@@ -304,12 +295,9 @@ class AdminController extends Controller
             public function update_mode(Request $request, Mode $mode){
                 $request->validate([
                     'mode' => 'required',
-                    'departement_id' => 'nullable'
                 
                 ]);
-                    $mode->user_id = Auth::user()->id;
                     $mode->mode = $request->mode;
-                    $mode->departement_id = $request->departement_id;
                     $mode->update();
                     return redirect()->back()->with('success', 'Félicitations!  Vous mis à jour avec succès ');
                 }
@@ -327,7 +315,6 @@ class AdminController extends Controller
                 //MISE A JOUR DEMANDE DE PRESTATIONS
                 public function update_demande(Request $request, DemandePrestation $demandeprestation)
                 {
-                    //dd($request->all());
                     $request->validate([
                         'nom' => 'required',
                         'prenoms' => 'required',
@@ -856,12 +843,12 @@ class AdminController extends Controller
                 'telephone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'ville_id' => 'required',
                 'quartier' => 'required',
-                'mode_id' => 'required',
+                'mode_departement_id' => 'required',
                 'commune_id' => 'required',
                 'date_execution' => 'required',
                 'heure_execution' => 'required',
                 'description_devis' => 'required',
-                'prestation_id' => 'nullable'
+                'departement_id' => 'nullable'
             ]);
 
             $devi = Devi::find($id);
@@ -876,14 +863,14 @@ class AdminController extends Controller
             if(!is_null($request->ville_id)){
                 $devi->ville_id = $request->ville_id;
             }
-            if(!is_null($request->mode_id)){
-                $devi->mode_id = $request->mode_id;
+            if(!is_null($request->departement_id)){
+                $devi->departement_id = $request->departement_id;
             }
             if(!is_null($request->commune_id)){
                 $devi->commune_id = $request->commune_id;
             }
-            if(!is_null($request->prestation_id)){
-                $devi->prestation_id = $request->prestation_id;
+            if(!is_null($request->mode_departement_id)){
+                $devi->mode_departement_id = $request->mode_departement_id;
             }
 
             $devi->save();
@@ -1020,15 +1007,104 @@ class AdminController extends Controller
         $request->validate([
             'libelle' => 'required'
         ]);
-
         $services = new Service();
         $services->user_id = Auth::user()->id;
         $services->libelle = $request->libelle;
         $services->save();
         return redirect()->back()->with('success', 'Opération effectuée avec succès !');
-
     }
 
+    public function update_service(Request $request, Service $service)
+    {
+        //dd($request->all());
+        $request->validate([
+            'libelle' => 'required'
+        ]);
+        $service->user_id = Auth::user()->id;
+        $service->libelle = $request->libelle;
+        $service->save();
+        return redirect()->back()->with('success', 'Opération effectuée avec succès !');
+    }
+
+    public function delete_service($id){
+        $service = Service::find($id);
+        $delete = $service->delete($id);
+        if ($delete) {
+            return back()->with("success", "Vous avez supprimé avec succès !");
+        }
+        return abort(500);
+    }
+
+    //ARCHIVAGES DEMANDES
+     public function archive_demande(){
+        return view('admin.prestationdemande.archives');
+     }
+
+
+     //MODE DEPARTEMENT
+     public function mode_departement(){
+        $modedepartements = ModeDepartement::all();
+        $departements = Departement::all();
+        return view('admin.mode-depart', compact('modedepartements', 'departements'));
+     }
+
+     public function save_mode_departement(Request $request){
+        $request->validate([
+            'libelle' => 'required',
+            
+        ]);
+
+        $modedepartements = new ModeDepartement();
+        $modedepartements->user_id = Auth::user()->id;
+        $modedepartements->libelle = $request->libelle;
+        $modedepartements->save();
+        return redirect()->back()->with('success', 'Félicitations!  Vous avez ajouté avec succès ');
+    }
+
+    public function update_mode_departement(Request $request, ModeDepartement $modedepartement){
+        $request->validate([
+            'libelle' => 'required',
+        
+        ]);
+            $modedepartement->libelle = $request->libelle;
+            $modedepartement->update();
+            return redirect()->back()->with('success', 'Félicitations!  Vous mis à jour avec succès ');
+        }
+
+        public function delete_mode_depart($id){
+            $modedepartement = ModeDepartement::find($id);
+            $delete = $modedepartement->delete($id);
+            if ($delete) {
+                return back()->with("success", "Vous avez supprimé avec succès !");
+            }
+            return abort(500);
+        }
+
+
+        public function depart_mode(){
+            $departmodes = DepartMode::all();
+            $departements = Departement::all();
+            $modedepartements = ModeDepartement::all();
+            return view('admin.depart-mode', compact('departements', 'modedepartements', 'departmodes'));
+        }
+
+        public function save_depart_mode(Request $request)
+        {
+            $request->validate([
+                'titre' => 'required',
+                'departement_id' => 'required',
+                'mode_departement_id' => 'required',
+                'description' => 'required',
+            ]);
+            $departmodes = new DepartMode();
+            $departmodes->user_id = Auth::user()->id;
+            $departmodes->titre = $request->titre;
+            $departmodes->description = $request->description;
+            $departmodes->mode_departement_id = $request->mode_departement_id;
+            $departmodes->departement_id = $request->departement_id;
+            $departmodes->save();
+            return redirect()->back()->with('success', 'Opération effectuée avec succès');
+        }
 
 }
 

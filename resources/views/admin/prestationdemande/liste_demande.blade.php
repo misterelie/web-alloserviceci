@@ -131,7 +131,7 @@
                                                 </td>
 
                                                 <td class="status">
-                                                   <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '1' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '1' ? 'acceptée' : 'refusée' }}</span>     
+                                                   <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '2' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '2' ? 'acceptée' : 'en cours' }}</span>     
                                                 </td>
 
                                                 <td>
@@ -643,8 +643,8 @@
           <!--end modal -->
                @endforeach
         
-        </section>
-            @endif
+            </section>
+        @endif
         </div>
         <!-- container-fluid -->
     </div>

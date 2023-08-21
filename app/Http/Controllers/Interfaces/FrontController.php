@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Interfaces;
 
+
 use Exception;
 use App\Models\Mode;
 use App\Mail\Demande;
@@ -29,6 +30,8 @@ use App\Models\MenageOccasionnel;
 use App\Models\DevenirPrestataire;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ModeDepartement;
+use App\Models\DepartMode;
 use App\Models\Service;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
@@ -43,60 +46,78 @@ class FrontController extends Controller
         $demandeprestations = DemandePrestation::count();
         $prestataires = Prestation::count();
         $domaines = Domaine::orderBy('id','asc')->get();
+        $departmode = DepartMode::OrderBy('titre')->first();
         // $prestations = Prestation::latest()->limit(3)->get();
-        return view('front.index', compact('abouts', 'prestations','demandeprestations', 'prestataires', 'domaines', ));
+        return view('front.index', compact('abouts', 'prestations','demandeprestations', 'prestataires', 'domaines', 'departmode'));
     }
 
     public function newindex(){
         $assistances = Assistance::all();
         $abouts = About::all();
         $services = Service::all();
+        $departmodes = DepartMode::all();
         $temoignages = Temoignage::all();
-        $mode = Mode::OrderBy('mode')->first();
+        $departmode = DepartMode::OrderBy('titre')->first();
+        $modedepartements = ModeDepartement::all();
+        // $departmode = DepartMode::OrderBy('id')->first();
+        $modedepartement = ModeDepartement::OrderBy('libelle')->first();
         $prestations = Prestation::orderBy('created_at')->limit(12)->get();
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages', 'mode', 'departements', 'services'));
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        return view('newfront.index', compact('assistances', 'abouts', 'prestations', 'temoignages', 'departements', 'services', 'modedepartement', 'departmodes', 'modedepartements', 'departmode'));
     }
 
     public function vu_about(){
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
         $abouts = About::all();
+        $services = Service::all();
         $assistances = Assistance::all();
-        return view('frontweb.about', compact('abouts', 'assistances', 'departements'));
+        return view('partials-front.about', compact('abouts', 'assistances', 'departements', 'services'));
     }
 
     public function temoignages(){
         $assistances = Assistance::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
+        $services = Service::all();
         $temoignages = Temoignage::orderBy('created_at')->get();
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.temoignage', compact('temoignages', 'assistances', 'departements'));
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        return view('newfront.temoignage', compact('temoignages', 'assistances', 'departements', 'services', 'departmodes', 'modedepartements'));
     }
 
     /* DEMANDE DE PRESTATION */
 
     public function demande_prestation(){
+        $services = Service::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
         $prestations = Prestation::orderBy('id','asc')->get();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
         $assistances = Assistance::all();
         $ethnies = Ethnie::all();
         $modes = Mode::all();
-        return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances', 'departements'));
+        return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances', 'departements', 'services', 'departmodes','modedepartements'));
     }
 
     public function demande_prest($id){
+        $services = Service::all();
+        $departmodes = DepartMode::all();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
         $recup_pres = Prestation::find($id);
         $assistances = Assistance::all();
         $prestations = Prestation::orderBy('id','asc')->get();
         $ethnies = Ethnie::all();
         $modes = Mode::all();
-        return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances', 'departements'));
+        $modedepartements = ModeDepartement::all();
+        return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances', 'services', 'departmodes', 'departements', 'modedepartements'));
     }
 
     public function send_contact(){
         $assistances = Assistance::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
+        $services = Service::all();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.contact', compact('assistances', 'departements'));
+        return view('newfront.contact', compact('assistances', 'departements', 'services', 'departmodes', 'modedepartements'));
     }
 
 
@@ -332,6 +353,8 @@ class FrontController extends Controller
      //devenir un prestataire
      public function prestataire(){
         $assistances = Assistance::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
         $prestations = Prestation::all();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
         $ethnies = Ethnie::all();
@@ -343,9 +366,10 @@ class FrontController extends Controller
         $modes = Mode::all();
         $dispos = Dispo::all();
         $pieces = Piece::all();
+        $services = Service::all();
         $diplomes = Diplome::all();
         return view('newfront.devenir_prestataire', 
-              compact('ethnies', 'pieces','communes', 'assistances', 'quartiers', 'prestations', 'domaines', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals', 'departements'));
+              compact('ethnies', 'pieces','communes', 'assistances', 'quartiers', 'prestations', 'domaines', 'alphabets', 'diplomes', 'dispos', 'modes', 'canals', 'departements', 'services','departmodes', 'modedepartements'));
     }
 
     public function demande_presta($id){
@@ -369,10 +393,13 @@ class FrontController extends Controller
 
     //all prestations
     public function all_prestations(){
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        $departmodes = DepartMode::all();
         $prestations = Prestation::orderBy('created_at')->get();
+        $services = Service::orderBy('created_at')->get();
         $assistances = Assistance::all();
-        return view('newfront.all_prestations', compact('prestations', 'assistances', 'departements'));
+        $modedepartements = ModeDepartement::all();
+        return view('newfront.all_prestations', compact('prestations', 'assistances', 'departements', 'services', 'departmodes', 'modedepartements'));
     }
 
     public function help(){
@@ -391,8 +418,11 @@ class FrontController extends Controller
     public function realisations(){
         $realisations = DB::table('realisations')->get();
         $assistances = Assistance::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
+        $services = Service::all();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.realisation', compact('assistances', 'departements', 'realisations'));
+        return view('newfront.realisation', compact('assistances', 'departements', 'realisations', 'services', 'departmodes', 'modedepartements'));
     }
 
 
@@ -467,21 +497,36 @@ class FrontController extends Controller
         return view('newfront.menage-regulier', compact('assistances', 'mode', 'modes', 'prestations'));
     }
 
-    // public function menageoccasionnel($id){
-    //     $assistances = Assistance::all();
-    //     $mode = Mode::find($id);
-    //     // $menage_occasionnels = MenageOccasionnel::latest()->get();
-    //     return view('newfront.menage-regulier', compact('assistances', 'mode'));
-    // }
 
     public function section_repassage($id){
         $assistances = Assistance::all();
-        $modes = Mode::all();
-        $mode = Mode::find($id);
+        $modedepartements = ModeDepartement::all();
+        $departement = Departement::orderBy('libelle')->first();
+        $departmodes = DepartMode::all();
+        $services = Service::all();
+        $departmode = DepartMode::find($id);
         $prestations = Prestation::all();
-        $departements = Departement::orderBy('created_at')->limit(3)->get();
-        return view('newfront.repassages', compact('assistances', 'mode', 'modes', 'prestations', 'departements'));
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        return view('newfront.repassages', compact('assistances', 'modedepartements', 'prestations', 'departements', 'services','departmodes', 'departmode', 'departement'));
     }
 
+    public function departement_details(Request $request, string $departementSlug, int $modeId)
+    {
+        $assistances = Assistance::all();
+        $mode = ModeDepartement::where('id', $modeId)->first();
+        // dd($mode);
+        $departement = Departement::where('slug', $departementSlug)->first();
+        $modedepartement = DepartMode::where(['departement_id' => $departement->id, 'mode_departement_id' => $mode->id])->first();
+        // dd($modedepartement);
+
+        $modedepartements = ModeDepartement::all();
+        $departmodes = DepartMode::all();
+        $services = Service::all();
+        $departmode = DepartMode::find($modeId);
+        $prestations = Prestation::all();
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        // dd(NavMenu::departements());
+        return view('newfront.repassages', compact('assistances', 'mode', 'prestations', 'departements', 'services','departmodes', 'departmode', 'departement', 'modedepartements', 'modedepartement'));
+    }
 
 }

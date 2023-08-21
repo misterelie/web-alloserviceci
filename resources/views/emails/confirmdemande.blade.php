@@ -7,7 +7,7 @@
             <tr>
                 <td>
                     <div class="text" style="padding: 0 2.5em; text-align: center;">
-                        <h2 style="text-align: center; text-transform: uppercase; font-size: 18px !important; font-weight: 700; color: #08ba08; margin-bottom: 15px;">Demande {{ $demandeprestation->etat === '1' ? 'acceptée' : 'refusée' }} </h2>
+                        <h2 style="text-align: center; text-transform: uppercase; font-size: 18px !important; font-weight: 700; color: #08ba08; margin-bottom: 15px;">Demande {{ $demandeprestation->etat === '1' ? 'retenue' : 'en cours' }} </h2>
 
                         <div class="hr" style="width: 100%; height: 1px solid #029302; margin-bbom: 12px"></div>
                         <p style="text-align: justify; color: #222">

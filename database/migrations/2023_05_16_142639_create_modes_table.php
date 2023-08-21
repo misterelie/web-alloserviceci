@@ -14,14 +14,6 @@ return new class extends Migration
         Schema::create('modes', function (Blueprint $table) {
             $table->id()->autoIncrement;
             $table->string("mode");
-            $table->integer('departement_id')->nullable();
-            $table->longText('titre')->nullable();
-            $table->longText('description')->nullable();
-            $table->string('image_prestation')->nullable();
-            $table->integer('updated_by')->nullable()->default(NULL);
-            $table->boolean('deleted')->default(FALSE)->nullable();
-            $table->integer('statut')->default(1)->nullable();
-            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

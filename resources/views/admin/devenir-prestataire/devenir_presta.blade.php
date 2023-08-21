@@ -127,13 +127,13 @@
 
                                                 <td class="">
                                                 <div class="d-block col">
-                                                                                                                                                                          <small class="d-block">
-                                                                                                                                                                            {{ $prestataire->prestation->libelle }}
-                                                                                                                                                                          </small>
-                                                                                                                                                                            <small class="p-2 font-weight-bold fw-bold badge bg-primary">
+                                                                                                                                                <small class="d-block">
+                                                                                                                                                {{ $prestataire->prestation->libelle ?? '' }}
+                                                    </small>
+                                                                                                                                <small class="p-2 font-weight-bold fw-bold badge bg-primary">
                                                     <span style="color: #fff"><i class="bx bxs bx-timer" style="font-size: 14.8px;"></i>  
                                                         {{ $prestataire->mode->mode }}</span>
-                                                    </small>
+                                    </small>
                                                         
                                                     </div>
                                                 </td>

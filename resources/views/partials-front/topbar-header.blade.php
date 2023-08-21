@@ -6,8 +6,8 @@
         <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
             <div class="d-inline-flex align-items-center" style="height: 45px;">
                 <a href="{{ url('/') }}" class="navbar-brand p-0">
-                    <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="200" alt="">
-                </a> 
+                 <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="100" alt="">
+                 </a>
                 <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>
                     Cocody, Riviera Palmerie
                 </small>

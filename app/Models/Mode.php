@@ -24,11 +24,9 @@ class Mode extends Model
         return $this->hasMany(Prestation::class, 'mode_id');
     }
 
+    
     public function departement(){
         return $this->belongsTo(Departement::class, "departement_id");
     }
 
-    public function devis(){
-        return $this->hasMany(Devi::class, "mode_id");
-    }
 }

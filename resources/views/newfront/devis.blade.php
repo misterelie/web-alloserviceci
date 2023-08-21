@@ -223,6 +223,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+                
                 <div class="col-lg-4 col-md-6 form-group mt-3">
                     <label for=""><span style="color: red">*</span> Téléphone :</label>
                     <input type="tel" name="telephone" class="form-control @error('telephone') is-invalid @enderror" id="telephone" placeholder="Saisissez votre numéro de téléphone">
@@ -258,53 +259,44 @@
 
                 <div class="col-lg-4 col-md-6 form-group mt-3">
                     <label for=""><span style="color: red">*</span> Sélectionnez le mode de prestation : </label>
-                    <select name="mode_id" id="mode_id" class="@error('mode_id') is-invalid @enderror form-select form-select-lg mb-3">
+                    <select name="mode_departement_id" id="mode_departement_id" class="@error('mode_departement_id') is-invalid @enderror form-select form-select-lg mb-3">
                         <option value="">--- Sélectionnez une option ---</option>
-                        @if (!is_null($modes))
-                            @foreach ($modes as $mode)
-                                <option value="{{ $mode->id }}"
-                                    {{ !is_null(old('modes')) ? 'selected' : '' }}>
-                                    {{ Str::ucfirst($mode->mode) }}
+                        @if (!is_null($departmodes))
+                            @foreach ($modedepartements as $modedepartement)
+                                <option value="{{ $modedepartement->id }}"
+                                    {{ !is_null(old('modedepartements')) ? 'selected' : '' }}>
+                                    {{ Str::ucfirst($modedepartement->libelle) }}
                                 </option>
                             @endforeach
                         @endif
                     </select>
-                    @error('mode_id')
+                    @error('mode_departement_id')
                             <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div class="col-lg-4 col-md-6 form-group mt-0">
-                    <label for="specificite_id"><span style="color: red">*</span> Sélectionnez la prestation concernée: </label>
-                    <div id="ajaxRoot">
-                        <select name="prestation_id" id="" 
-                        class="form-control form-select form-select-lg mb-3">
-                            <option value="" ></option>
-                        </select>
-                     
-                    </div>
-                </div>
-
-                {{-- <div class="col-lg-4 col-md-6 form-group mt-3">
+                <div class="col-lg-4 col-md-6 form-group mt-3">
                     <label for=""><span style="color: red">*</span> Sélectionnez la prestation : </label>
-                    <select name="prestation_id" id="prestation_id" class="@error('prestation_id') is-invalid @enderror form-select form-select-lg mb-3">
+                    <select name="departement_id" id="departement_id" class="@error('departement_id') is-invalid @enderror form-select form-select-lg mb-3">
                         <option value="">--- Sélectionnez une option ---</option>
-                        @if (!is_null($prestations))
-                            @foreach ($prestations as $prestation)
-                                <option value="{{ $prestation->id }}"
-                                    {{ !is_null(old('prestation_id')) ? 'selected' : '' }}>
-                                    {{ Str::ucfirst($prestation->libelle) }}
+                        @if (!is_null($departmodes))
+                            @foreach ($departements as $departement)
+                                <option value="{{ $departement->id }}"
+                                    {{ !is_null(old('departements')) ? 'selected' : '' }}>
+                                    {{ Str::ucfirst($departement->libelle) }}
                                 </option>
                             @endforeach
                         @endif
                     </select>
-                    @error('prestation_id')
+                    @error('mode_departement_id')
                             <span class="text-danger">{{ $message }}</span>
                     @enderror
-                </div> --}}
+                </div>
+
 
                 <div class="col-lg-4 col-md-6 form-group mt-0">
-                    <label for="libelle"><span style="color: red">*</span> Sélectionnez la commune: </label>
+                    <label for="libelle"><span style="color: red">*</span> 
+                        Sélectionnez la commune: </label>
                     <div id="getCommune">
                         <select class="form-control make commune_id @error('commune_id') is-invalid @enderror" name="commune_id">
                             <option label=""></option>
@@ -315,7 +307,6 @@
                     </div>
                 </div>
              
-               
                 <div class="col-lg-4 col-md-6 form-group">
                     <label for=""><span style="color: red">*</span> Quartier :</label>
                     <input type="text" name="quartier" 
@@ -335,20 +326,15 @@
                 </div>
                
                 <div class="col-lg-6 col-md-6 form-group mt-md-0">
-                    <label for=""> <span style="color: red">*</span>Heure exécution :</label>
-                    <input type="time" name="heure_execution" class="form-control  @error('heure_execution') is-invalid @enderror" id="heure_execution">
-                    @error('heure_execution')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    <label for="">Heure exécution :</label>
+                    <input type="time" name="heure_execution" class="form-control" id="heure_execution">
+
                 </div>
             
                 <div class="form-group mt-3">
                     <label for="besoin">Plus d'information</label>
-                    <textarea class="form-control @error('description_devis') is-invalid @enderror" name="description_devis" rows="5" 
+                    <textarea class="form-control" name="description_devis" rows="5" 
                     placeholder="Donnez-nous plus d'information"></textarea>
-                    @error('description_devis')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
             <div class="text-center"><button type="submit">Envoyer la demande</button></div>

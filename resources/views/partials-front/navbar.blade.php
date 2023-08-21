@@ -102,11 +102,10 @@
         </div>
     </nav> --}}
 
-     <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
         {{-- <a href="{{ url('/') }}" class="navbar-brand p-0">
-            <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="200" alt="">
+            <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="120" alt="">
         </a>  --}}
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="fa fa-bars"></span>
     </button>
@@ -114,28 +113,32 @@
         <div class="navbar-nav ms-auto py-0">
             
             <a href="{{ url('/')}}" class="nav-item nav-link">Accueil</a>
-
-            @if(!is_null($departements))
-            @foreach($departements as $departement)
+            @if (!is_null(Menu::departements()))
+            @foreach (Menu::departements() as $departement)
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ $departement->libelle }}</a>
-                    <div class="dropdown-menu m-0">
-                        @if($departement->modes)
-                        @foreach($departement->modes as $mode)
-                            <a href="{{ url('nos-type-service', $mode->id )}}" class="dropdown-item">{{ $mode->mode}}</a>
-                        @endforeach
-                        @endif
-                    </div>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        {{ $departement->libelle }}</a>
+                        <div class="dropdown-menu m-0">
+                            @if ($departmodes)
+                                @foreach ($modedepartements as $modedepartement)
+                                    <a href="{{ route('repassage', [$departement->slug, $modedepartement->id]) }}"
+                                        class="dropdown-item">{{ $modedepartement->libelle }}</a>
+                                @endforeach
+                            @endif
+                        </div>
                 </div>
             @endforeach
             @endif
+           
 
-            <a href="{{ route('front.nos-prestations') }}" class="nav-item nav-link">Nos prestations</a>
-            <a href="{{ route('ask.prestataire') }}" class="nav-item nav-link">Devenir un prestataire</a>
+            <a href="{{ route('front.nos-prestations') }}" class="nav-item nav-link">Prestations</a>
+            <a href="{{route('ask.prestataire')}}" class="nav-item nav-link">
+                Devenir un prestataire
+            </a>
             <a href="{{ url('contactez/nous')}}" class="nav-item nav-link">Contact</a>
-
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services +</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    Services +</a>
               
                     <div class="dropdown-menu m-0">
                         @if(!is_null($services))
@@ -155,17 +158,15 @@
                     <a href="{{ url('temoignages/clients')}}" class="dropdown-item">Témoingnages</a>
                 </div>
             </div>
-            
             {{-- <a href="{{ url('demander-un-devis')}}" class="nav-item nav-link">Demander un devis </a> --}}
-
-           
         </div>
     </div>
 </nav>
+
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="w-60" src="{{ asset('new-assets/img/bg.jpeg')}}" alt="Image">
+                <img class="w-100" src="{{ asset('new-assets/img/bg.jpeg')}}" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         <h5 class="text-white text-uppercase mb-3">
@@ -180,14 +181,14 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="w-60" src="{{ asset('new-assets/img/testimgbg.jpeg')}}" alt="Image">
+                <img class="w-100" src="{{ asset('new-assets/img/test-imge.avif')}}" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         {{-- <h5 class="text-white text-uppercase mb-3 animated slideInDown">
                            <span class="text-white fw-bold"> Nous prenons soins de votre maison !</span>
                         </h5> --}}
                         <h1 class="display-1 text-white mb-md-4 animated zoomIn">
-                            Vous accompagner notre priorité
+                            Vous accompagner <span class="text-primary">notre priorité</span>
                         </h1>
                        
                     </div>

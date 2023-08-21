@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('quartier', 191)->nullable();
             $table->integer('prestation_id')->nullable();
             $table->integer('departement_id')->nullable();
-            $table->integer('mode_id')->nullable();
+            $table->integer('mode_departement_id')->nullable();
             $table->integer('commune_id')->nullable();
             $table->date('date_execution')->nullable();
             $table->time('heure_execution')->nullable();
