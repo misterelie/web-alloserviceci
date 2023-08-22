@@ -48,7 +48,7 @@ class DevenirPrestataire extends Model
 
     //* Mode
     public function mode(){
-        return $this->belongsTo(Mode::class, "mode_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Mode::class, "mode_id");
     }
 
     public function ethnie(){
@@ -57,12 +57,12 @@ class DevenirPrestataire extends Model
 
     //* Alphabet 
     public function alphabet(){
-        return $this->belongsTo(Alphabet::class, "alphabet_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Alphabet::class, "alphabet_id");
     }
 
      //* Diplome :
      public function diplome(){
-        return $this->belongsTo(Diplome::class, "diplome_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Diplome::class, "diplome_id");
     }
 
     //* Dispo 

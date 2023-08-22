@@ -69,12 +69,7 @@ Route::get('/temoignages/clients', [InterfacesFrontController::class, 'temoignag
 //Nos realisations
 Route::get('/nos/realisations', [InterfacesFrontController::class, 'realisations'])->name("newfront.realisation");
 
-
-//REPASSAGE
-// Route::get('/nos-type-service/{id}', [InterfacesFrontController::class, 'section_repassage'])->name("repassage");
-
 Route::get('/nos-services/{slug}/{id}', [InterfacesFrontController::class, 'departement_details'])->name("repassage");
-
 
 //FRONT DEVIS*
 Route::get('/demander-un-devis', [DevisController::class, 'devis'])->name("newfront.devis");
@@ -82,14 +77,13 @@ Route::post('/store/devis', [DevisController::class, 'store'])->name("store.devi
 Route::get('/getSpecificates', [DevisController::class, 'getSpecificates']);
 Route::get('/getCommunes', [DevisController::class, 'getCommunes']);
 
-
 //ADMINISTRATION
 //nos prestations
 
 //ENVOIE EMAIL D'ACCEPTATION
 Route::put('/accepterDemandeur/{demandeprestation}', [BackendAdminController::class, 'AccepterDemande']);
 Route::put('/accepterPrestataire/{prestataire}', [BackendAdminController::class, 'accepterPrestataire']);
-// Route::put('/refuserDemandeur/{demandeprestation}', [BackendAdminController::class, 'RefuserDemande']);
+
 
 Route::get('/liste/prestation', [AdminController::class, 'liste_prestation'])->name("liste-prestation");
 Route::post('/save.prestation', [AdminController::class, 'save_prestation'])->name("save.prestation");
@@ -151,13 +145,12 @@ Route::delete('/mode/departement/delete/{id}', [BackendAdminController::class, '
 
 //Departement mode
 Route::get('/departement/mode', [BackendAdminController::class, 'depart_mode']);
+
 Route::post('/backend/departement/mode', [BackendAdminController::class, 'save_depart_mode'])->name('departement.mode');
 
+Route::put('/update/departement/mode/{departmode}', [BackendAdminController::class, 'update_departmode'])->name('update.departement');
 
-
-
-
-
+Route::delete('/destroy/departmode/{id}', [BackendAdminController::class, 'delete_depart']);
 
 
 

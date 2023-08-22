@@ -13,11 +13,11 @@ class Mode extends Model
 
     //* Adhesion :
     public function demandes(){
-        return $this->hasMany(DemandePrestation::class, "mode_id")->where(["deleted" => 0]);
+        return $this->hasMany(DemandePrestation::class, "mode_id");
     }
 
     public function prestataires(){
-        return $this->hasMany(DevenirPrestataire::class, "mode_id")->where(["deleted" => 0]);
+        return $this->hasMany(DevenirPrestataire::class, "mode_id");
     }
 
     public function prestations(){

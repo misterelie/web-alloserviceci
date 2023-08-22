@@ -90,11 +90,11 @@ class FrontController extends Controller
         $services = Service::all();
         $departmodes = DepartMode::all();
         $modedepartements = ModeDepartement::all();
-        $prestations = Prestation::orderBy('id','asc')->get();
+        $prestations = Prestation::orderBy('libelle', 'asc')->get();
         $departements = Departement::orderBy('created_at')->limit(3)->get();
         $assistances = Assistance::all();
-        $ethnies = Ethnie::all();
-        $modes = Mode::all();
+        $ethnies = Ethnie::orderBy('ethnie', 'asc')->get();
+        $modes = Mode::orderBy('mode', 'asc')->get();
         return view('newfront.demande', compact('prestations', 'ethnies', 'modes', 'assistances', 'departements', 'services', 'departmodes','modedepartements'));
     }
 
@@ -104,9 +104,9 @@ class FrontController extends Controller
         $departements = Departement::orderBy('created_at')->limit(3)->get();
         $recup_pres = Prestation::find($id);
         $assistances = Assistance::all();
-        $prestations = Prestation::orderBy('id','asc')->get();
-        $ethnies = Ethnie::all();
-        $modes = Mode::all();
+        $prestations = Prestation::orderBy('libelle', 'asc')->get();
+        $ethnies = Ethnie::orderBy('ethnie', 'asc')->get();
+        $modes = Mode::orderBy('mode', 'asc')->get();
         $modedepartements = ModeDepartement::all();
         return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances', 'services', 'departmodes', 'departements', 'modedepartements'));
     }
@@ -518,7 +518,6 @@ class FrontController extends Controller
         $departement = Departement::where('slug', $departementSlug)->first();
         $modedepartement = DepartMode::where(['departement_id' => $departement->id, 'mode_departement_id' => $mode->id])->first();
         // dd($modedepartement);
-
         $modedepartements = ModeDepartement::all();
         $departmodes = DepartMode::all();
         $services = Service::all();

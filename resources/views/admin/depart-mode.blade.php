@@ -89,22 +89,22 @@
                                                 <td class="customer_name">      {{$departmode->departement->libelle }}
                                                 </td>
 
-                                                 <td class="customer_name">      {{$departmode->modedepartement->libelle }}
+                                                 <td class="customer_name">      {{$departmode->modedepartement->libelle ?? ''}}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex gap-2">
-                                                            <div class="edit">
-                                                                <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_">Modifier</button>
-                                                            </div>
+                                                        <div class="edit">
+                                                            <button class="btn btn-sm btn-success edit-item-btn" data-bs-toggle="modal" data-bs-target="#editModal_{{$departmode->id }}">Editer</button>
+                                                        </div>
 
-                                                    {{-- <button class="btn btn-sm btn-danger edit-item-btn">
-                                                        <a class="text-white" href="#" onclick="if(confirm('Attention ! Vous êtes sur le point de supprimer cet élément ?  Appuyez sur OK pour confirmer.')){document.getElementById('form-{{$modedepartement->id}}').submit() }">Supprimer</a>
-                                                    </button> --}}
-                                                    {{-- <form id="form-{{$modedepartement->id}}" 
-                                                            action="{{ url('/mode/departement/delete', $modedepartement->id) }}" method="post">
+                                                    <button class="btn btn-sm btn-danger edit-item-btn">
+                                                        <a class="text-white" href="#" onclick="if(confirm('Attention ! Vous êtes sur le point de supprimer cet élément ?  Appuyez sur OK pour confirmer.')){document.getElementById('form-{{$departmode->id}}').submit() }">Supprimer</a>
+                                                    </button>
+                                                    <form id="form-{{$departmode->id}}" 
+                                                            action="{{ url('destroy/departmode', $departmode->id) }}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
-                                                    </form> --}}
+                                                    </form>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -177,7 +177,6 @@
                                     </select>
                                 </div>
 
-                                
                                 <div class="mb-3">
                                     <label for="customername-field" class="form-label fw-bold">Titre</label>
                                     <input type="text" id="customername-field" 
@@ -217,16 +216,16 @@
              <!-- end save  ethnie row -->
 
               <!-- modifier modes-->
-              {{-- @if(!is_null($modedepartements))
-               @foreach($modedepartements as $modedepartement)
-               <div class="modal fade" id="editModal_{{ $modedepartement->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              @if(!is_null($departmodes))
+              @foreach($departmodes as $departmode)
+               <div class="modal fade" id="editModal_{{ $departmode->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-light p-3">
-                            <h5 class="modal-title text-uppercase text-primary" id="exampleModalLabel">Modifier</h5>
+                            <h5 class="modal-title text-uppercase text-primary" id="exampleModalLabel">Modification</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
-                        <form action="{{ url('update/mode/departement', $modedepartement->id) }}" autocomplete="off" method="POST"  enctype="multipart/form-data">
+                        <form action="{{ url('update/departement/mode', $departmode->id )}}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')
@@ -235,25 +234,62 @@
                             <div class="modal-body">
                                 <div class="mb-3" id="modal-id" style="display: none;">
                                     <label for="id-field" class="form-label">ID</label>
-                                    <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+                                    <input type="text" id="id-field" class="form-control" placeholder="ID" readonly/>
                                 </div>
 
+                                 <div class="mb-3">
+                                    <label for="status-field" class="form-label fw-bold"> Départements: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="departement_id" id="status-field" >
+                                        <option value="">-- Sélectionnez un département -- </option>
+                                        @if(!is_null($departements))
+                                            @foreach($departements as $departement)
+                                            <option value="{{ $departement->id }}" 
+                                                @if((int) $departmode->departement_id == (int)$departement->id) selected @endif>
+                                                {{ $departement->libelle }}
+                                            </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div> 
+                                 <div class="mb-3">
+                                    <label for="status-field" class="form-label fw-bold"> Modes: </label>
+                                    <select class="form-control" data-choices data-choices-search-false name="mode_departement_id" id="status-field" >
+                                        <option value="">
+                                        -- Sélectionnez un mode -- 
+                                        </option>
+                                         @if(!is_null($modedepartements))
+                                            @foreach($modedepartements as $modedepartement)
+                                                <option value="{{ $modedepartement->id }}" 
+                                                    @if((int) $departmode->mode_departement_id == (int)$modedepartement->id) selected @endif>
+                                                    {{ $modedepartement->libelle }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
 
                                 <div class="mb-3">
-                                    <label for="customername-field" class="form-label">Nom</label>
+                                    <label for="customername-field" class="form-label fw-bold">Titre</label>
                                     <input type="text" id="customername-field" 
-                                    class="form-control" name="libelle" 
-                                    value="{{ $modedepartement->libelle }}"
-                                    placeholder="Mettre à jour le nom"/>
-                                   
+                                        class="form-control" name="titre" value="{{ $departmode->titre }}"
+                                        placeholder="Entrez le nom"/>
                                 </div>
 
-                                
+                                <div class="mb-3">
+                                    <label class="form-label"
+                                        for="gen-info-description-input">Description</label>
+                                    <textarea class="form-control"
+                                        name="description"
+                                        placeholder="Entrez une description" id="gen-info-description-input" rows="2">{!!$departmode->description!!}
+                                     </textarea>
+                                     
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn btn-success" id="edit-btn">Mettre à jour</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-dark" id="add-btn">Enregistrer</button>
+                                    {{-- <button type="submit" class="btn btn-success" id="edit-btn">Update</button> --> --}}
                                 </div>
                             </div>
                         </form>
@@ -261,7 +297,7 @@
                 </div>
             </div>
             @endforeach
-            @endif --}}
+            @endif
               <!-- fin modifier -->
         </div>
         <!-- container-fluid -->

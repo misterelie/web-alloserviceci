@@ -175,7 +175,7 @@ class AdminController extends Controller
     public function liste_prestation(){
         $departements = Departement::all();
         $modes = Mode::all();
-        $prestations = Prestation::all();
+        $prestations = Prestation::orderBy('libelle', 'asc')->get();
         return view('admin.nos-prestations.index', compact('prestations', 'departements', 'modes'));
     }
 
@@ -910,13 +910,7 @@ class AdminController extends Controller
               }
               $realisation->save();
               return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
-        
-            // if($realisation)
-            // {
-            //     return redirect()->back()->with('success', 'Réussite ! Opération effectuée avec succès.');
-            // }else{
-            //     return redirect()->back()->with('error', 'Une erreur inconnue est survenue !');
-            // }
+    
         }
 
         
@@ -1105,6 +1099,43 @@ class AdminController extends Controller
             $departmodes->save();
             return redirect()->back()->with('success', 'Opération effectuée avec succès');
         }
+
+        public function update_departmode(Request $request, DepartMode $departmode)
+        {
+
+            $request->validate([
+                'titre' => 'required',
+                'departement_id' => 'required',
+                'mode_departement_id' => 'required',
+                'description' => 'required',
+            ]);
+
+            $array = 
+            [
+                "titre" => $request->titre,
+                "departement_id" => $request->departement_id,
+                "mode_departement_id" => $request->mode_departement_id,
+                "description" => $request->description,
+            ];
+            
+            if ($departmode->update($array)) {
+                return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+            } else {
+                return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue");
+            }
+        }
+
+
+        public function delete_depart($id){
+            $departmode = DepartMode::find($id);
+            $delete = $departmode->delete($id);
+            if ($delete) {
+                return back()->with("success", "Vous avez supprimé avec succès !");
+            }
+            return abort(500);
+        }
+
+
 
 }
 

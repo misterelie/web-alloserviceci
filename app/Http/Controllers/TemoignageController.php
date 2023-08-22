@@ -46,16 +46,6 @@ class TemoignageController extends Controller
         return abort(500);
     }
 
-    // public function delete($etat)
-    // {
-    //     //dd($type_document);
-    //     $etat = Etat::find($etat);
-    //     $etat->delete();
-    //     return back()->with("success", "Type texte supprimé avec succès !");
-    // }
-
-
-
 
     public function show_temoignage(){
         $etats = Etat::all();

@@ -51,12 +51,7 @@
                         <div class="card-body">
                             <div class="listjs-table" id="customerList">
                                 <div class="row g-4 mb-3">
-                                    <div class="col-sm-auto">
-                                        <div>
-                                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" style="background: green"><i></i>Les prestataires</button>
-                                            {{-- <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button> --}}
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-sm">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
@@ -131,9 +126,9 @@
                                                                                                                                                 {{ $prestataire->prestation->libelle ?? '' }}
                                                     </small>
                                                                                                                                 <small class="p-2 font-weight-bold fw-bold badge bg-primary">
-                                                    <span style="color: #fff"><i class="bx bxs bx-timer" style="font-size: 14.8px;"></i>  
-                                                        {{ $prestataire->mode->mode }}</span>
-                                    </small>
+                                <span style="color: #fff"><i class="bx bxs bx-timer" style="font-size: 14.8px;"></i>  
+                                {{ $prestataire->mode->mode ?? '' }}</span>
+                                </small>
                                                         
                                                     </div>
                                                 </td>

@@ -16,7 +16,8 @@
                 @endif
 
                 @if(!is_null($assistance->whatsapp))
-                    <small class="me-3 text-light"><i class="fab fa-whatsapp fw-normal " aria-hidden="true"></i> {{$assistance->whatsapp}}</small>
+                    <small class="me-3 text-light"><i class="fab fa-whatsapp fw-normal " aria-hidden="true"></i> {{$assistance->whatsapp}}
+                    </small>
                 @endif
             </div>
         </div>

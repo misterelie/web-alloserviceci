@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Entreprise - Allô service</title>
+    <title>Entreprise - Allô Service</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content name="keywords">
     <meta content name="description">
@@ -37,12 +37,6 @@
 
 <body>
 
-    {{-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner">
-            
-        </div>
-    </div> --}}
-
     <div class="container-fluid bg-dark px-5 d-none d-lg-block" style="background: red">
         @include('partials-front.topbar-header')
     </div>
@@ -58,22 +52,23 @@
                 
                 <a href="{{ url('/')}}" class="nav-item nav-link"  style="color: white">Accueil</a>
 
-            @if (!is_null(Menu::departements()))
-            @foreach (Menu::departements() as $departement)
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="color: #fff">
-                        {{ $departement->libelle }}</a>
-                        <div class="dropdown-menu m-0">
-                            @if ($departmodes)
-                                @foreach ($modedepartements as $modedepartement)
-                                    <a href="{{ route('repassage', [$departement->slug, $modedepartement->id]) }}"
-                                        class="dropdown-item">{{ $modedepartement->libelle }}</a>
-                                @endforeach
-                            @endif
-                        </div>
-                </div>
-            @endforeach
-            @endif
+                @if (!is_null(Menu::departements()))
+                @foreach (Menu::departements() as $departement)
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="color: #fff">
+                            {{ $departement->libelle }}
+                        </a>
+                            <div class="dropdown-menu m-0">
+                                @if ($departmodes)
+                                    @foreach ($modedepartements as $modedepartement)
+                                        <a href="{{ route('repassage', [$departement->slug, $modedepartement->id]) }}"
+                                            class="dropdown-item">{{ $modedepartement->libelle }}</a>
+                                    @endforeach
+                                @endif
+                            </div>
+                    </div>
+                @endforeach
+                @endif
     
                 <a href="{{ route('front.nos-prestations') }}" class="nav-item nav-link" 
                 style="color: white">Prestations</a>
@@ -101,20 +96,16 @@
                         <a href="{{ url('temoignages/clients')}}" class="dropdown-item">Témoignages</a>
                     </div>
                 </div>
-                {{-- <a href="{{ url('demander-un-devis')}}" class="nav-item nav-link">Demander un devis </a> --}}
             </div>
         </div>
     </nav>
     
     </div><br>
-
-    
      <div class="modal fade" id="searchModal" tabindex="-1">
         @include('partials-front.searchModal')
     </div>
     
     @yield('content')
-
 
     <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
         @include('partials-front.footer')

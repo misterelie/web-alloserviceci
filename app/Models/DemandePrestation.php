@@ -16,7 +16,7 @@ class DemandePrestation extends Model
 
            //* Ethnie
     public function ethnie(){
-        return $this->belongsTo(Ethnie::class, "ethnie_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Ethnie::class, "ethnie_id");
     }
     
     public function prestation(){
@@ -25,7 +25,7 @@ class DemandePrestation extends Model
 
     //* Mode
     public function mode(){
-        return $this->belongsTo(Mode::class, "mode_id")->where(["deleted" => 0]);
+        return $this->belongsTo(Mode::class, "mode_id");
     }
 
     public function etatStatus($etatId){
