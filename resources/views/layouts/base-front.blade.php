@@ -41,7 +41,7 @@
         @include('partials-front.topbar-header')
     </div>
 
-    <div class="container-fluid position-relative p-0 mb-5">
+    <div class="container-fluid position-relative p-0 mb-0">
         <nav class="navbar navbar-expand-lg navbar-white px-4 px-lg-5 py-3 py-lg-0" 
         style="background: #3800bf !important">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -99,8 +99,7 @@
             </div>
         </div>
     </nav>
-    
-    </div><br>
+    </div>
      <div class="modal fade" id="searchModal" tabindex="-1">
         @include('partials-front.searchModal')
     </div>

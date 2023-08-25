@@ -200,7 +200,6 @@
                                         required="">
                                     </textarea>
                                 </div>
-
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
@@ -225,12 +224,10 @@
                             <h5 class="modal-title text-uppercase text-primary" id="exampleModalLabel">Modification</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
-                        <form action="{{ url('update/departement/mode', $departmode->id )}}" class="" autocomplete="off" method="POST"  enctype="multipart/form-data">
+
+                        <form action="{{ url('deparmode/update',  $departmode->id) }}" autocomplete="off" method="POST"  enctype="multipart/form-data">
                             @csrf
-
-                            @method('PUT')
-                            <input type="hidden" name="_method" value="put">
-
+                           
                             <div class="modal-body">
                                 <div class="mb-3" id="modal-id" style="display: none;">
                                     <label for="id-field" class="form-label">ID</label>
@@ -276,20 +273,25 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="customername-field" class="form-label fw-bold">Photos</label>
+                                    <input type="file" id="customername-field" 
+                                        class="form-control" name="image_prestation"
+                                        placeholder="Entrez le nom"/>
+                                </div><br>
+
+                                <div class="mb-3">
                                     <label class="form-label"
                                         for="gen-info-description-input">Description</label>
                                     <textarea class="form-control"
                                         name="description"
                                         placeholder="Entrez une description" id="gen-info-description-input" rows="2">{!!$departmode->description!!}
                                      </textarea>
-                                     
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
                                     <button type="submit" class="btn btn-dark" id="add-btn">Enregistrer</button>
-                                    {{-- <button type="submit" class="btn btn-success" id="edit-btn">Update</button> --> --}}
                                 </div>
                             </div>
                         </form>

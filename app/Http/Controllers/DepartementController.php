@@ -50,7 +50,6 @@ class DepartementController extends Controller
 
     public function delete($id){
         $departement = Departement::find($id);
-        //dd($departement);
         $delete = $departement->delete($id);
         if ($delete) {
             return back()->with("success", "Vous avez supprimé avec succès !");

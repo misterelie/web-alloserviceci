@@ -144,11 +144,11 @@ Route::delete('/mode/departement/delete/{id}', [BackendAdminController::class, '
 
 
 //Departement mode
-Route::get('/departement/mode', [BackendAdminController::class, 'depart_mode']);
+Route::get('/departement/mode', [BackendAdminController::class, 'depart_mode'])->name('departem.mode');
 
 Route::post('/backend/departement/mode', [BackendAdminController::class, 'save_depart_mode'])->name('departement.mode');
 
-Route::put('/update/departement/mode/{departmode}', [BackendAdminController::class, 'update_departmode'])->name('update.departement');
+Route::post('/deparmode/update/{id}', [BackendAdminController::class, 'departModeUpdate'])->name("deparmode.update");
 
 Route::delete('/destroy/departmode/{id}', [BackendAdminController::class, 'delete_depart']);
 
@@ -226,8 +226,6 @@ Route::get('/backends/services', [BackendAdminController::class, 'services']);
 Route::post('/store/backends/services', [BackendAdminController::class, 'save_service'])->name('store.services');
 Route::put('/update/service/{service}', [BackendAdminController::class, 'update_service'])->name('update.service');
 Route::delete('/delete/service/{id}', [BackendAdminController::class, 'delete_service'])->name("service.delete");
-
-
 
 
 //ABOUT

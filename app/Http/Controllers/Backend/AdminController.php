@@ -1100,40 +1100,45 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'Opération effectuée avec succès');
         }
 
-        public function update_departmode(Request $request, DepartMode $departmode)
-        {
+        
+    public function departModeUpdate(Request $request, $id)
+    {
+        // dd($request->all());
+        $date = new DateTime();
+        $request->validate([
+            'titre' => 'required',
+            'departement_id' => 'required',
+            'mode_departement_id' => 'required',
+            'description' => 'required',
+        ]);
 
-            $request->validate([
-                'titre' => 'required',
-                'departement_id' => 'required',
-                'mode_departement_id' => 'required',
-                'description' => 'required',
-            ]);
+        $departmode = DepartMode::find($id);
+        $departmode->user_id = Auth::user()->id;
 
-            $array = 
-            [
-                "titre" => $request->titre,
-                "departement_id" => $request->departement_id,
-                "mode_departement_id" => $request->mode_departement_id,
-                "description" => $request->description,
-            ];
-            
-            if ($departmode->update($array)) {
-                return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
-            } else {
-                return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue");
-            }
-        }
+        if ($request->hasFile("image_prestation")){
+            $photo_name = $request->image_prestation;
+            $piece_name = time() . '.' . $request->titre. $request->departement_id. $date->format('dmYhis'). '.' . $photo_name->getClientOriginalExtension();
+            $photo_name->move(public_path('Uploaddepart') , $piece_name);
+            $departmode->image_prestation = $piece_name;
+          }
+        
+        $departmode->titre = $request->titre;
+        $departmode->departement_id = $request->departement_id;
+        $departmode->mode_departement_id = $request->mode_departement_id;
+        $departmode->description = $request->description;
+        $departmode->save();
+        return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+    }
 
-
-        public function delete_depart($id){
+        public function delete_depart($id)
+    {
             $departmode = DepartMode::find($id);
             $delete = $departmode->delete($id);
             if ($delete) {
                 return back()->with("success", "Vous avez supprimé avec succès !");
             }
             return abort(500);
-        }
+    }
 
 
 

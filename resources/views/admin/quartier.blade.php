@@ -194,6 +194,8 @@
                             <h5 class="modal-title" id="exampleModalLabel" style="color: red">Mettre à jour</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
+
+                        
                         <form action="{{ route('update.quartier', $quartier->id )}}" class="tablelist-form" autocomplete="off" method="POST" 
                             enctype="multipart/form-data">
                             @csrf 
