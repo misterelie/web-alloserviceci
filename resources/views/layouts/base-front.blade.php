@@ -100,6 +100,7 @@
         </div>
     </nav>
     </div>
+    
      <div class="modal fade" id="searchModal" tabindex="-1">
         @include('partials-front.searchModal')
     </div>

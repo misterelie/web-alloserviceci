@@ -9,16 +9,19 @@
                  <img class="" src="{{ asset('new-assets/img/logoas.png') }}" width="100" alt="">
                  </a>
                 <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>
-                    Cocody, Riviera Palmerie
+                    Cocody, Riviera Palmeraie
                 </small>
                 @if(!is_null($assistance->telephone1))
                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>{{$assistance->telephone1}}</small>
                 @endif
 
                 @if(!is_null($assistance->whatsapp))
-                    <small class="me-3 text-light"><i class="fab fa-whatsapp fw-normal " aria-hidden="true"></i> {{$assistance->whatsapp}}
-                    </small>
-                @endif
+                    <a href="https://wa.me/225{{$assistance->whatsapp}}?text=" . urlencode()
+                        target="_blank" class="btn btn-sm btn-light"> 
+                        <i class="fab fa-whatsapp fw-normal" aria-hidden="true" title="Ecrivez-nous sur whatsapp"></i> {{$assistance->whatsapp}}
+                         
+                    </a>
+                 @endif
             </div>
         </div>
 

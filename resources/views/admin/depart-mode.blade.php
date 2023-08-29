@@ -225,7 +225,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
 
-                        <form action="{{ url('deparmode/update',  $departmode->id) }}" autocomplete="off" method="POST"  enctype="multipart/form-data">
+                        <form method="post" action="{{ url('depart/mode', $departmode->id) }}" class="" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                            
                             <div class="modal-body">

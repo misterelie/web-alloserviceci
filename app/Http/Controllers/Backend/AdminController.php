@@ -1101,9 +1101,9 @@ class AdminController extends Controller
         }
 
         
-    public function departModeUpdate(Request $request, $id)
+    public function departmode_update(Request $request, DepartMode $departmode)
     {
-        // dd($request->all());
+        //dd($request->all());
         $date = new DateTime();
         $request->validate([
             'titre' => 'required',
@@ -1112,8 +1112,6 @@ class AdminController extends Controller
             'description' => 'required',
         ]);
 
-        $departmode = DepartMode::find($id);
-        $departmode->user_id = Auth::user()->id;
 
         if ($request->hasFile("image_prestation")){
             $photo_name = $request->image_prestation;
@@ -1130,15 +1128,14 @@ class AdminController extends Controller
         return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
     }
 
-        public function delete_depart($id)
-    {
+        public function delete_depart($id){
             $departmode = DepartMode::find($id);
             $delete = $departmode->delete($id);
             if ($delete) {
                 return back()->with("success", "Vous avez supprimé avec succès !");
             }
             return abort(500);
-    }
+        }
 
 
 

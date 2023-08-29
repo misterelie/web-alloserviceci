@@ -195,7 +195,7 @@
                 </div>
                 @endif
                 <!--EN ERROR-->
-            </div>
+            </div><br><br>
 
             <h2>VEUILLEZ REMPLIR <span>LE FORMULAIRE</span></h2>
             <p>
