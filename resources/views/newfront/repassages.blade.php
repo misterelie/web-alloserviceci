@@ -33,14 +33,25 @@
                                 </h3>
                             </div>
                             <div class="d-flex flex-column justify-content-start">
-                                <a class="h5 fw-semi-bold btn btn-primary rounded py-3 px-4 d-flex justify-content-between mb-2"
-                                    href="{{ url('demander-un-devis') }}" style="color: #fff">Demander un devis<i class="bi bi-arrow-right"></i>
+                                @if($departmodes)
+                                  @foreach ($modedepartements as $modedepartement)
+                                  <a class="h5 fw-semi-bold btn btn-primary rounded py-3 px-4 d-flex justify-content-between mb-2"
+                                  href="{{ route('select_mode_devis', [$departement->slug, $modedepartement->id]) }}" style="color: #fff">Demander un devis ({{ $departement->libelle  }} {{ $modedepartement->libelle }})<i class="bi bi-arrow-right"></i>
                                 </a>
+                                  @endforeach
+                                @endif
+
+                                {{-- <a class="h5 fw-semi-bold btn btn-primary rounded py-3 px-4 d-flex justify-content-between mb-2"
+                                    href="{{ route('select_mode_devis', [$departement->slug, $modedepartement->id]) }}" style="color: #fff">Demander un devis<i class="bi bi-arrow-right"></i>
+                                </a> --}}
+                                {{-- <a class="h5 fw-semi-bold btn btn-primary rounded py-3 px-4 d-flex justify-content-between mb-2"
+                                href="{{ url('demander-un-devis') }}" style="color: #fff">Demander un devis<i class="bi bi-arrow-right"></i>
+                                </a> --}}
                                 @if(!is_null($modedepartement->image_prestation))
                                     <img class="img-fluid w-100" src="/Uploaddepart/{{ $modedepartement->image_prestation }}">
                                 @endif
                             </div>
-                            
+                                
                     </div>
                 </div>
             @endif

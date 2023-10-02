@@ -72,6 +72,9 @@ Route::get('/nos/realisations', [InterfacesFrontController::class, 'realisations
 Route::get('/nos-services/{slug}/{id}', [InterfacesFrontController::class, 'departement_details'])->name("repassage");
 
 //FRONT DEVIS*
+
+Route::get('/select_mode_devis/{slug}/{id}', [InterfacesFrontController::class, 'select_mode_devis'])->name("select_mode_devis");
+
 Route::get('/demander-un-devis', [DevisController::class, 'devis'])->name("newfront.devis");
 Route::post('/store/devis', [DevisController::class, 'store'])->name("store.devis");
 Route::get('/getSpecificates', [DevisController::class, 'getSpecificates']);
@@ -111,16 +114,20 @@ Route::get('/liste/demande_prestation', [BackendAdminController::class, 'liste_d
 Route::put('/update.demande/{demandeprestation}', [BackendAdminController::class, 'update_demande'])->name("update.demande");
 Route::delete('/delete.demande/{id}', [BackendAdminController::class, 'deletedemande'])->name("delete.demande");
 Route::get('/demande/fiche/{id}', [BackendAdminController::class, 'fiche'])->name("demande.fiche");
+Route::post('/demande/archive/{demandeprestation}', [BackendAdminController::class, 'archive'])->name("adhesion.archive");
+Route::get('/backend/demandes/archive', [BackendAdminController::class, 'archiveList'])->name("backend.demandes/archive");
+Route::get('/backend/demande/archiveReset/{demandeprestation}', [BackendAdminController::class, 'archiveReset'])->name("demande.archiveReset");
+
 
 //LISTE DES PRESTATAIRES
 Route::get('/liste/devenirprestataire', [BackendAdminController::class, 'list_prestataire'])->name("liste/devenirprestataire");
 Route::put('/update.prestataire/{prestataire}', [BackendAdminController::class, 'update_prestataire'])->name("update.prestataire");
 Route::delete('/delete.prestataire/{id}', [BackendAdminController::class, 'delete_prestataire'])->name("delete.prestataire");
 Route::get('/fiche/prestataire/{id}', [BackendAdminController::class, 'fiche_prestataire'])->name("prestataire.fiche");
-
-
+Route::post('/backend/prestataire/archive/{prestataire}', [BackendAdminController::class, 'archive_prestataire'])->name("prestataire.archive");
+Route::get('/backend/adhesions/archive', [BackendAdminController::class, 'PrestataireArchiveList'])->name("backend.prestataire/archive");
+Route::get('/prestataire/archiveReset/{prestataire}', [BackendAdminController::class, 'archiveRestaurer'])->name("prestataire.archiveReset");
 //ARCHIVAGES
-Route::get('/backend/demandes/archive', [BackendAdminController::class, 'archive_demande'])->name("archive.demande");
 
 
 //AJOUT ETHNIES
@@ -267,8 +274,21 @@ Route::post('/backends/store/departements', [DepartementController::class, 'stor
 Route::put('/departement.update/{id}', [DepartementController::class, 'update'])->name('departement.update');
 Route::delete('/delete.departement/{id}', [DepartementController::class, 'delete'])->name('delete.departement');
 
-//AUTRES SERVICES
+//QUESTIONS  DEVIS
+Route::get('/ListeMaison', [BackendAdminController::class, 'ListeMaison'])->name('ListeMaison');
+Route::post('/save/house', [BackendAdminController::class, 'save_house'])->name('save/house');
+Route::put('/update/house/{house}', [BackendAdminController::class, 'UpdateHouse'])->name('update.house');
+Route::delete('/delete/house/{id}', [BackendAdminController::class, 'DeleteHouse'])->name("delete.house");
 
+Route::get('/ListeSurface', [BackendAdminController::class, 'ListeSurface'])->name('ListeSurface');
+Route::post('/save_surface_piece', [BackendAdminController::class, 'SaveSurfacePiece'])->name('save_surface_piece');
+Route::put('/update/surface/{surface_piece}', [BackendAdminController::class, 'UpdateSurfacePiece'])->name('update.surface');
+Route::delete('/delete.surface/{id}', [BackendAdminController::class, 'DeleteSurface'])->name("delete.surface");
 
+Route::get('/ListeSituationHouse', [BackendAdminController::class, 'ListeSituationHouse'])->name('ListeSituationHouse');
+Route::post('/save', [BackendAdminController::class, 'save'])->name('save');
+Route::put('/update.situahouse/{situa_house}', [BackendAdminController::class, 'UpdateSituationHouse'])->name('update.situahouse');
+Route::delete('/delete.situa_house/{id}', [BackendAdminController::class, 'DeleteSituationHouse'])->name("delete.situa_house");
 
+Route::get('/devis/fiche/{id}', [BackendAdminController::class, 'FicheDevis'])->name("devis.fiche");
 

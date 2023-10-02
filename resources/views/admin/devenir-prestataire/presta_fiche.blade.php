@@ -461,9 +461,8 @@
           </div>
       </div>
   <!--end modal -->
-       
 </section>
-    @endif
+ @endif
 
 </body>
 </html>

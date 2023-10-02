@@ -19,9 +19,9 @@
         padding-bottom: 30px;
     }
 
-    tab {
+    /* tab {
         padding: 60px 0;
-    }
+    } */
 
     .tab code {
         text-align: center;
@@ -47,8 +47,8 @@
         margin: 100px auto;
         font-family: Raleway;
         padding: 40px;
-        margin-top: -5rem;
-        width: 70%;
+        margin-top: 10px;
+        width: 95%;
         min-width: 300px;
     }
 
@@ -122,7 +122,7 @@
 </style>
 
 
-<section>
+<section class="">
     <div class="container-fluid">
             <!--AFFICHER LE MESSAGE DE SUCCESS-->
             @if($message = Session::get('success'))
@@ -153,12 +153,12 @@
         <form action="{{ route('save.devenirprestataire') }}" method="post" role="form" class="php-email-form" enctype="multipart/form-data" id="regForm">
             @csrf
             <div class="tab">
-                <h2 class="text-center">INFORMATIONS <span>PERSONNELLES</span></h2>
+                <h5 class="text-center text-uppercase fw-bold">Veuillez remplir le formulaire <br><br> INFORMATIONS <span>PERSONNELLES</span></h5>
                 <h5 class="text-center">
                     <code>
                         NB: Les champs marqués par une étoile sont obligatoires .
                     </code><br>
-                </h5>
+                </h5><br>
         
                 <div class="row">
                     <div class="col-lg-4 col-md-6 form-group  mt-md-0" style="color: #1b9c1e">

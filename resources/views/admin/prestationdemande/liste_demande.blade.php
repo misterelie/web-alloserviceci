@@ -24,7 +24,6 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -92,6 +91,8 @@
                                                 <th class="sort text-uppercase text-white" data-sort="customer_ethnie">Modes travail</th>
                                                 <th class="sort text-uppercase text-white" data-sort="customer_salaire">Salaires</th>
                                                 <th class="sort text-uppercase text-white" data-sort="customer_ethnie">Statuts</th>
+
+                                                <th class="sort text-uppercase text-white" data-sort="customer_ethnie">Engistrer Le</th>
                                                 <th class="sort text-uppercase text-white" data-sort="action" 
                                                 style="width: 260px !important">Actions</th>
                                             </tr>
@@ -134,6 +135,10 @@
                                                    <span class="p-2 badge badge-soft-{{ $demandeprestation->etat == '2' ? 'success' : 'danger' }}"> {{ $demandeprestation->etat == '2' ? 'acceptée' : 'en cours' }}</span>     
                                                 </td>
 
+                                                <td class="text-center">
+                                                    {{ date('d.m.Y', strtotime($demandeprestation->created_at ))}}
+                                                </td>
+                                                
                                                 <td>
                                                     <div class="d-flex gap-2">
                                                         <div class="edit">
@@ -142,6 +147,13 @@
                                                     
                                                         <div class="detail">
                                                             <button class="btn btn-sm btn-secondary edit-item-btn" data-bs-toggle="modal" data-bs-target="#accepterlModal_{{ $demandeprestation->id }}">Statuts</button>
+                                                        </div>
+
+                                                        
+                                                        <div class="detail">
+                                                            <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal" data-bs-target="#archiveModal_{{ $demandeprestation->id }}">
+                                                                Archiver
+                                                            </button>
                                                         </div>
                                                 
                                                         <div class="detail">
@@ -187,10 +199,8 @@
             </div>
             <!-- end row -->
 
-            
-
              <!-- statut de la demande-->
-            @if(!is_null($demandeprestations))
+     @if(!is_null($demandeprestations))
             @foreach($demandeprestations as $demandeprestation)
             <div class="modal fade" id="accepterlModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -264,7 +274,95 @@
                 </div>
             </div> 
             @endforeach
-            @endif 
+    @endif 
+
+
+
+            {{-- Traiter le dossier ou archiver --}}
+    @if ($demandeprestations->count() > 0)
+        <section>
+            @foreach ($demandeprestations as $demandeprestation)
+                <!-- Modal -->
+                <div class="modal fade" id="archiveModal_{{ $demandeprestation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-secondary p-3">
+                                <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">
+                                    Archiver la demande
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                            </div>
+                            <form action="{{ url('demande/archive', $demandeprestation->id) }}" method="post"
+                            enctype="multipart/form-data">
+                            {{-- CSRF --}}
+                            @csrf
+                            <div class="modal-body">
+                                <fieldset class="sm">
+                                   <u><legend class="text-primary text-uppercase fs-14 fw-bold">Motif de l'archivage : </legend>
+                                   </u>
+                                    <div class="row g-3 align-items-center px-3 mb-2">
+                                        <div class="col-sm-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    id="motif_A{{ $demandeprestation->numero.$demandeprestation->id }}" name="motif_archived"
+                                                    value="Je ne suis plus intéresse(é)">
+                                                <label class="form-check-label pointer"
+                                                    for="motif_A{{ $demandeprestation->numero.$demandeprestation->id }}">
+                                                    Je ne suis plus intéresse(é)
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    id="motif_B{{ $demandeprestation->numero.$demandeprestation->id }}" name="motif_archived"
+                                                    value="J'ai déjà recruté un prestataire">
+                                                <label class="form-check-label pointer"
+                                                    for="motif_B{{ $demandeprestation->numero.$demandeprestation->id }}">
+                                                    J'ai déjà recruté un prestataire
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-sm-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    id="motif_C{{ $demandeprestation->numero.$demandeprestation->id }}" name="motif_archived"
+                                                    value="Je serai absent(e) un moment">
+                                                <label class="form-check-label pointer"
+                                                    for="motif_C{{ $demandeprestation->numero.$demandeprestation->id }}">
+                                                    Je serai absent(e) un moment
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    id="motif_C{{ $demandeprestation->numero.$demandeprestation->id }}" name="motif_archived"
+                                                    value="Demande déjà traitée">
+                                                <label class="form-check-label pointer"
+                                                    for="motif_C{{ $demandeprestation->numero.$demandeprestation->id }}">
+                                                    Demande déjà traitée
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary"> <i class="fa fas fa-archive"></i> Archiver</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div> 
+            @endforeach
+        </section>
+    @endif
 
 
               <!-- modifier prestation-->
@@ -394,8 +492,7 @@
               <!-- fin modifier -->
 
 
-
-            @if(!is_null($demandeprestations))
+        @if(!is_null($demandeprestations))
             <section>
                @foreach($demandeprestations as $demandeprestation)
           <!-- Modal detail-->
@@ -465,9 +562,9 @@
                                                             </td>
                                                             <td width="65%" class="data">
                                                                 <span class="fw-bolder fs-16">
-                                                                    <a
-                                                                    href="mailto:{{ Str::ucfirst($demandeprestation->email) }}">
-                                                                    {{ Str::ucfirst($demandeprestation->email) }}
+                                                            <a
+                                                            href="mailto:{{ ($demandeprestation->email) }}">
+                                                            {{ ($demandeprestation->email) }}
                                                                     &nbsp;&nbsp; <i class="fa fa-link"></i>
                                                                 </a>
                                                                 </span>
@@ -592,6 +689,25 @@
                                             </tbody>
                                         </table>
                                         </p>
+
+                                        @if (!is_null($demandeprestation->created_at))
+                                                    <p>
+                                                    <table width="100%">
+                                                        <tbody width="100%">
+                                                            <tr width="100%">
+                                                                <td width="35%">
+                                                                    <span class="fs-20">enrégistrée Le:</span>
+                                                                </td>
+                                                                <td width="65%" class="data">
+                                                                <span class="fs-20 fw-bolder"> 
+                                                                    {{ date('d.m.Y H:i:s', strtotime($demandeprestation->created_at ))}}
+                                                                </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    </p>
+                                            @endif
                                         
                                         <p>
                                         <table width="100%">
@@ -627,7 +743,6 @@
                                             </p>
                                     </div>
                                 </div>
-                                
                             </div>
 
                             <div class="hstack gap-2 justify-content-end d-print-none mt-4">
@@ -641,14 +756,12 @@
                   </div>
               </div>
           <!--end modal -->
-               @endforeach
-        
-            </section>
+            @endforeach
+           </section>
         @endif
-        </div>
+    </div>
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
 @endsection
-
 @yield('js')

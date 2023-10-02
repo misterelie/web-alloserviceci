@@ -23,9 +23,14 @@ return new class extends Migration
             $table->integer('departement_id')->nullable();
             $table->integer('mode_departement_id')->nullable();
             $table->integer('commune_id')->nullable();
+            $table->integer('house_id')->nullable();
+            $table->string('nbre_piece')->default(NULL)->nullable();
+            $table->integer('surface_piece_id')->nullable();
+            $table->integer('situation_live_id')->nullable();
             $table->date('date_execution')->nullable();
             $table->time('heure_execution')->nullable();
             $table->longText('description_devis')->nullable();
+            $table->integer('etat')->default(1);
             $table->string('code')->nullable();
             $table->string('slug')->nullable();
             $table->integer('user_id')->nullable();

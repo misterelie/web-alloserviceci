@@ -10,6 +10,7 @@ use App\Helpers\File;
 use App\Mail\Demande;
 use App\Models\Canal;
 use App\Models\Dispo;
+use App\Models\House;
 use App\Models\Piece;
 use App\Models\Ville;
 use App\Models\Ethnie;
@@ -19,27 +20,31 @@ use App\Models\Diplome;
 use App\Models\Domaine;
 use App\Models\Service;
 use App\Helpers\Helpers;
+use App\Helpers\NavMenu;
 use App\Models\Alphabet;
 use App\Models\Quartier;
+use App\Models\DepartMode;
 use App\Models\Prestation;
 use App\Models\Temoignage;
 use App\Models\Departement;
 use App\Models\Realisation;
 use App\Mail\RefuserDemande;
+use App\Models\SurfacePiece;
 use Illuminate\Http\Request;
+use App\Models\SituationLive;
 use PhpParser\Node\Expr\Cast;
 use App\Models\ModePrestation;
 use App\Models\ModeDepartement;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\DemandePrestation;
 use App\Models\DevenirPrestataire;
-use App\Models\DepartMode;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotificationPrestataire;
 use Illuminate\Http\RedirectResponse;
+
 
 class AdminController extends Controller
 {
@@ -66,6 +71,9 @@ class AdminController extends Controller
     }
 
     public function listedevis(){
+        $houses = House::all();
+        $surface_pieces = SurfacePiece::all();
+        $situa_houses = SituationLive::all();
         $modedepartements = ModeDepartement::all();
         // $departements = Departement::all();
         $departements = Departement::orderBy('created_at')->limit(5)->get();
@@ -73,7 +81,7 @@ class AdminController extends Controller
         $prestations = Prestation::all();
         $communes = Commune::all();
         $data['devis'] = Devi::orderBy('id', 'ASC')->get();
-        return view('admin.devis.liste-devis', compact('modedepartements', 'villes', 'departements', 'communes'))->with($data);
+        return view('admin.devis.liste-devis', compact('modedepartements', 'villes', 'departements', 'communes', 'houses', 'surface_pieces', 'situa_houses'))->with($data);
     }
 
     // AJOUT VILLES
@@ -186,7 +194,7 @@ class AdminController extends Controller
         $etats = Etat::all();
         $prestations = Prestation::all();
         $ethnies = Ethnie::all();
-        $demandeprestations = DemandePrestation::orderBy('id','asc')->get();
+        $demandeprestations = DemandePrestation::orderBy('id','asc')->where('archived',0)->get();
         return view('admin.prestationdemande.liste_demande', compact('demandeprestations', 'modes', 'prestations', 'ethnies', 'etats'));
     }
 
@@ -201,7 +209,7 @@ class AdminController extends Controller
         $diplomes = Diplome::all();
         $ethnies = Ethnie::all();
         $communes = Commune::all();
-        $prestataires = DevenirPrestataire::orderBy('id', 'asc')->get();
+        $prestataires = DevenirPrestataire::orderBy('id', 'asc')->where('archived',0)->get();
         return view('admin.devenir-prestataire.devenir_presta', compact('prestataires', 'modes', 'ethnies', 'communes', 'prestations', 'alphabets', 'diplomes', 'dispos', 'pieces', 'canals'));
     }
 
@@ -356,12 +364,86 @@ class AdminController extends Controller
                             $demandeprestation->age_demande = $request->age_demande;
                         }
 
-                        
                         if (!is_null($request->observation)) {
                             $demandeprestation->observation = $request->observation;
                         }
                         $demandeprestation->update();
                         return redirect()->back()->with('success', 'Félicitations!  Votre mise  a été effectué avec succès ');
+                }
+
+                public function archive_prestataire(Request $request, DevenirPrestataire $prestataire)
+                {
+                    if (NavMenu::validate([$request->motif_archived])) {
+                        return redirect()->back()->with('error', 'Echec ! Veuillez préciser le motif de l\'archivage. ');
+                    }
+                    $array = [
+                        "archived" => 1,
+                        "motif_archived" => $request->motif_archived,
+                    ];
+                    if ($prestataire->update($array)) {
+                         //dd($prestataire);
+                        return redirect()->back()->with("success", " Réussite !  demande archivée avec succès");
+                    } else {
+                        return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue. Veuillez ressayer.");
+                    } 
+                }
+
+                //archivage prestation
+                public function archive(Request $request, DemandePrestation $demandeprestation)
+                {
+                    if (NavMenu::validate([$request->motif_archived])) {
+                        return redirect()->back()->with('error', 'Echec ! Veuillez préciser le motif de l\'archivage. ');
+                    }
+                    $array = [
+                        "archived" => 1,
+                        "motif_archived" => $request->motif_archived,
+                    ];
+                    if ($demandeprestation->update($array)) {
+                         //dd($demandeprestation);
+                        return redirect()->back()->with("success", " Réussite !  demande archivée avec succès");
+                    } else {
+                        return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue. Veuillez ressayer.");
+                    }
+                }
+
+                public function archiveList()
+                {
+                    $demandeprestations = DemandePrestation::where(["deleted" => 0, "archived" => 1])->latest()->get();
+                    return view("admin.prestationdemande.archives", compact('demandeprestations'));
+                }
+
+                public function PrestataireArchiveList()
+                {
+                    $prestataires = DevenirPrestataire::where(["deleted" => 0, "archived" => 1])->latest()->get();
+                    return view("admin.devenir-prestataire.archives", compact('prestataires'));
+                }
+
+                public function archiveRestaurer( DevenirPrestataire $prestataire)
+                {
+                    $array = [
+                        "deleted" => 0,
+                        "archived" => 0,
+                    ];
+                    if ($prestataire->update($array)) {
+                        return redirect()->back()->with("success", " Réussite !  Demande restauré avec succès");
+                    } else {
+                        return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue. Veuillez ressayer.");
+                    }
+                }
+
+                //reset ou restaurer
+                public function archiveReset(DemandePrestation $demandeprestation)
+                {
+                    $array = [
+                        "deleted" => 0,
+                        "archived" => 0,
+                    ];
+                    if ($demandeprestation->update($array)) {
+                        //dd($demandeprestation);
+                        return redirect()->back()->with("success", " Réussite !  Demande restauré avec succès");
+                    } else {
+                        return redirect()->back()->with("error", "Echec ! Une erreur inconnue est survenue. Veuillez ressayer.");
+                    }
                 }
 
                 public function deletedemande($id){
@@ -373,11 +455,9 @@ class AdminController extends Controller
                     return abort(500);
                 }
               
-
                 // Envoie email d'acceptation
                 //ACCEPTER LA DEMANDE
                 public function AccepterDemande(Request $request, DemandePrestation $demandeprestation){
-
                     $request->validate([
                         'etat' => 'required',
                         'motif_de_rejet' => 'required',
@@ -396,7 +476,6 @@ class AdminController extends Controller
                         
                         return redirect()->back()->with('success', "Réussite ! Opération effectuée avec succès. L'utilisateur recevra un Email de notification sur votre décision");
                     }
-                    
                 }
 
                 //ACCEPTER PRESTATAIRE
@@ -848,7 +927,11 @@ class AdminController extends Controller
                 'date_execution' => 'required',
                 'heure_execution' => 'required',
                 'description_devis' => 'required',
-                'departement_id' => 'nullable'
+                'departement_id' => 'nullable',
+                'house_id' => 'nullable',
+                'nbre_piece' => 'nullable',
+                'situation_live_id' => 'nullable',
+                'surface_piece_id' => 'nullable'
             ]);
 
             $devi = Devi::find($id);
@@ -860,19 +943,35 @@ class AdminController extends Controller
             $devi->heure_execution = $request->heure_execution;
             $devi->description_devis = $request->description_devis;
 
+            if (!is_null($request->house_id)) {
+                $devi->house_id = $request->house_id;
+            }
+
+            if (!is_null($request->nbre_piece)) {
+                $devi->nbre_piece = $request->nbre_piece;
+            }
+
+            if (!is_null($request->situation_live_id)) {
+                $devi->situation_live_id = $request->situation_live_id;
+            }
+
+            if (!is_null($request->surface_piece_id)) {
+                $devi->surface_piece_id = $request->surface_piece_id;
+            }
+
             if(!is_null($request->ville_id)){
                 $devi->ville_id = $request->ville_id;
             }
-            if(!is_null($request->departement_id)){
-                $devi->departement_id = $request->departement_id;
-            }
+      
+            $devi->departement_id = $request->departement_id;
+            
             if(!is_null($request->commune_id)){
                 $devi->commune_id = $request->commune_id;
             }
             if(!is_null($request->mode_departement_id)){
                 $devi->mode_departement_id = $request->mode_departement_id;
             }
-
+            
             $devi->save();
             return redirect()->back()->with("success"," Réussite !  Opération effectuée avec succès");
         }
@@ -967,6 +1066,19 @@ class AdminController extends Controller
         if(!is_null($data['demandeprestation'])){
             setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
             $pdf = PDF::loadView('admin.prestationdemande.fiche_demande', $data);
+            return $pdf->stream();
+        }else {
+            echo "Vous n'êtes pas concerné !";
+          }
+        
+    }
+
+    public function FicheDevis($id)
+    {
+        $devi = Devi::where('id', $id)->first();
+        if(!is_null($devi)){
+            setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+            $pdf = PDF::loadView('admin.devis.fiche', compact('devi'));
             return $pdf->stream();
         }else {
             echo "Vous n'êtes pas concerné !";
@@ -1131,6 +1243,126 @@ class AdminController extends Controller
         public function delete_depart($id){
             $departmode = DepartMode::find($id);
             $delete = $departmode->delete($id);
+            if ($delete) {
+                return back()->with("success", "Vous avez supprimé avec succès !");
+            }
+            return abort(500);
+        }
+
+
+        //QUESTION MAISON
+
+        public function ListeMaison()
+        {
+            $houses = House::all();
+            return view('admin.house.index', compact('houses'));
+        }
+
+        public function save_house(Request $request)
+        {
+            $request->validate([
+                'libelle' => 'required',
+            ]);
+            $houses = new House();
+            $houses->user_id = Auth::user()->id;
+            $houses->libelle = $request->libelle;
+            $houses->save();
+            return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+        }
+
+        public function UpdateHouse(Request $request, House $house)
+        {
+            //dd($request->all());
+        $request->validate([
+            'libelle' => 'required'
+        ]);
+        $house->user_id = Auth::user()->id;
+        $house->libelle = $request->libelle;
+        $house->save();
+        return redirect()->back()->with('success', 'Opération effectuée avec succès !');
+        }
+
+        public function DeleteHouse($id){
+            $house = House::find($id);
+            $delete = $house->delete($id);
+            if ($delete) {
+                return back()->with("success", "Vous avez supprimé avec succès !");
+            }
+            return abort(500);
+        }
+
+        //surface maison 
+        public function ListeSurface()
+        {
+            $surface_pieces = SurfacePiece::all();
+            return view('admin.house.surface_piece', compact('surface_pieces'));
+        }
+
+        public function SaveSurfacePiece(Request $request)
+        {
+            $request->validate([
+                'libelle_surface_piece' => 'required',
+            ]);
+            $surface_pieces = new SurfacePiece();
+            $surface_pieces->user_id = Auth::user()->id;
+            $surface_pieces->libelle_surface_piece = $request->libelle_surface_piece;
+            $surface_pieces->save();
+            return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+        }
+
+        public function UpdateSurfacePiece(Request $request, SurfacePiece $surface_piece)
+        {
+            //dd($request->all());
+        $request->validate([
+            'libelle_surface_piece' => 'required'
+        ]);
+        $surface_piece->user_id = Auth::user()->id;
+        $surface_piece->libelle_surface_piece = $request->libelle_surface_piece;
+        $surface_piece->save();
+        return redirect()->back()->with('success', 'Opération effectuée avec succès !');
+        }
+
+        public function DeleteSurface($id){
+            $surface_piece = SurfacePiece::find($id);
+            $delete = $surface_piece->delete($id);
+            if ($delete) {
+                return back()->with("success", "Vous avez supprimé avec succès !");
+            }
+            return abort(500);
+        }
+
+        public function ListeSituationHouse()
+        { 
+            $situa_houses = SituationLive::all();
+            return view('admin.house.situa_house', compact('situa_houses'));
+        }
+
+        public function save(Request $request)
+        {
+            $request->validate([
+                'libelle' => 'required',
+            ]);
+            $situa_houses = new SituationLive();
+            $situa_houses->user_id = Auth::user()->id;
+            $situa_houses->libelle = $request->libelle;
+            $situa_houses->save();
+            return redirect()->back()->with("success", "Réussite! Données enregistrées avec succès.");
+        }
+
+        public function UpdateSituationHouse(Request $request, SituationLive $situa_house)
+        {
+            $request->validate([
+                'libelle' => 'required'
+            ]);
+            $situa_house->user_id = Auth::user()->id;
+            $situa_house->libelle = $request->libelle;
+            $situa_house->save();
+            return redirect()->back()->with('success', 'Opération effectuée avec succès !');
+        }
+
+        public function DeleteSituationHouse($id){
+            $situa_house = SituationLive::find($id);
+            $delete = $situa_house->delete($id);
             if ($delete) {
                 return back()->with("success", "Vous avez supprimé avec succès !");
             }

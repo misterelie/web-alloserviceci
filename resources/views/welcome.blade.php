@@ -12,9 +12,5 @@
     <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
 </head>
 <body>
-
-
-
-
 </body>
 </html>

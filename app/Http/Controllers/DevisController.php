@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Devi;
 use App\Models\Mode;
+use App\Models\House;
 use App\Models\Ville;
 use App\Models\Menage;
 use App\Models\Commune;
@@ -13,7 +14,9 @@ use App\Models\DepartMode;
 use App\Models\Prestation;
 use App\Models\Departement;
 use Illuminate\Support\Str;
+use App\Models\SurfacePiece;
 use Illuminate\Http\Request;
+use App\Models\SituationLive;
 use App\Models\ModePrestation;
 use App\Models\ModeDepartement;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +25,9 @@ class DevisController extends Controller
 {
     //
     public function devis(){
+        $houses = House::all();
+        $surface_pieces = SurfacePiece::all();
+        $situa_houses = SituationLive::all();
         $villes = Ville::all();
         $prestations = Prestation::all();
         $assistances = Assistance::all();
@@ -30,7 +36,7 @@ class DevisController extends Controller
         $departmodes = DepartMode::all();
         $modedepartements = ModeDepartement::all();
         $departements = Departement::orderBy('created_at')->get();
-        return view('newfront.devis', compact('assistances', 'communes', 'modedepartements', 'villes', 'departements', 'prestations', 'services', 'departmodes'));
+        return view('newfront.devis', compact('assistances', 'communes', 'modedepartements', 'villes', 'departements', 'prestations', 'services', 'departmodes', 'houses', 'surface_pieces', 'situa_houses'));
     }
 
     public function getSpecificates(Request $request)
@@ -77,7 +83,11 @@ class DevisController extends Controller
             'date_execution' => 'required',
             'heure_execution' => 'nullable',
             'description_devis' => 'nullable',
-            'departement_id' => 'required'
+            'departement_id' => 'required', 
+            'house_id' => 'nullable',
+            'nbre_piece' => 'nullable', 
+            'surface_piece_id' => 'nullable', 
+            'situation_live_id' => 'nullable', 
         ],
         [
             'nom' => 'Le nom est obligation',
@@ -102,6 +112,10 @@ class DevisController extends Controller
         $devis->departement_id = $request->departement_id;
         $devis->date_execution = $request->date_execution;
         $devis->heure_execution = $request->heure_execution;
+        $devis->house_id = $request->house_id;
+        $devis->nbre_piece = $request->nbre_piece;
+        $devis->surface_piece_id = $request->surface_piece_id;
+        $devis->situation_live_id = $request->situation_live_id;
         $devis->description_devis = $request->description_devis;
         $devis->code = 'DEVIS-'.rand(00001, 99999);
         $devis->save();

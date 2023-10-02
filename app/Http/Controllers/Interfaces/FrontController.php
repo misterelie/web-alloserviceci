@@ -4,35 +4,40 @@ namespace App\Http\Controllers\Interfaces;
 
 
 use Exception;
+use App\Models\Devi;
 use App\Models\Mode;
 use App\Mail\Demande;
 use App\Models\About;
 use App\Models\Canal;
 use App\Models\Dispo;
+use App\Models\House;
 use App\Models\Piece;
+use App\Models\Ville;
 use App\Models\Ethnie;
 use App\Models\Menage;
 use App\Models\Commune;
 use App\Models\Contact;
 use App\Models\Diplome;
 use App\Models\Domaine;
+use App\Models\Service;
 use App\Models\Alphabet;
 use App\Models\Quartier;
 use App\Models\Repassage;
 use App\Models\Assistance;
+use App\Models\DepartMode;
 use App\Models\Prestation;
 use App\Models\Temoignage;
 use App\Models\Departement;
+use App\Models\SurfacePiece;
 use Illuminate\Http\Request;
+use App\Models\SituationLive;
 use PhpParser\Node\Expr\New_;
+use App\Models\ModeDepartement;
 use App\Models\DemandePrestation;
 use App\Models\MenageOccasionnel;
 use App\Models\DevenirPrestataire;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\ModeDepartement;
-use App\Models\DepartMode;
-use App\Models\Service;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
@@ -109,6 +114,24 @@ class FrontController extends Controller
         $modes = Mode::orderBy('mode', 'asc')->get();
         $modedepartements = ModeDepartement::all();
         return view('frontweb.new_file_demande', compact('prestations', 'ethnies', 'modes','recup_pres', 'assistances', 'services', 'departmodes', 'departements', 'modedepartements'));
+    }
+
+    public function select_mode_devis(Request $request, string $departementSlug, $modeId){
+        $assistances = Assistance::all();
+        $houses = House::all();
+        $surface_pieces = SurfacePiece::all();
+        $situa_houses = SituationLive::all();
+        $recup_mode_devis  = ModeDepartement::where('id', $modeId)->first();
+        //dd($recup_mode_devis);
+        $recup_departement = Departement::where('slug', $departementSlug)->first();
+        $modedepartement = DepartMode::where(['departement_id' => $recup_departement->id, 'mode_departement_id' => $recup_mode_devis->id])->first();
+        $villes = Ville::all();
+        $departmodes = DepartMode::all();
+        $modedepartements = ModeDepartement::all();
+        $departements = Departement::orderBy('created_at')->limit(5)->get();
+        $services = Service::all();
+        return view('newfront.ask-devis', compact('recup_mode_devis', 'villes', 'departmodes', 'modedepartements', 'houses', 'surface_pieces','situa_houses', 'departements', 'assistances', 'services', 'recup_departement'));
+
     }
 
     public function send_contact(){

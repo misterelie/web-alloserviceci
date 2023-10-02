@@ -29,7 +29,7 @@ class DevenirPrestataire extends Model
         'prestation_id',
         'annee_experience',
         'pretention_salairiale',
-        'zone' => 'nullable',
+        'zone',
         'contact_urgence',
         'reference',
         'contact_reference',
@@ -43,7 +43,10 @@ class DevenirPrestataire extends Model
         'canal_id',
         'copy_last_diplome', 
         'catalogue_realisa' ,
-        'avis'
+        'avis',
+        'motif_archived',
+        'archived',
+        'deleted'
     ];
 
     //* Mode
@@ -88,6 +91,4 @@ class DevenirPrestataire extends Model
     public function prestation(){
         return $this->belongsTo(Prestation::class, "prestation_id");
     }
-
-
 }

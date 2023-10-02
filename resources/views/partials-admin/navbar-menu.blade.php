@@ -515,7 +515,7 @@
             <li class="menu-title"><i class="ri-more-fill"></i> <span
                 data-key="t-components">Pages</span></li>
 
-            {{-- <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse"
                     role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
                     <i class="mdi mdi-share-variant-outline"></i> <span data-key="t-multi-level">Archivages</span>
@@ -523,19 +523,16 @@
                 <div class="collapse menu-dropdown" id="sidebarMultilevel">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="" class="nav-link" data-key="t-level-1.1">Prestataires</a>
+                            <a href="{{ url('backend/demandes/archive') }}" class="nav-link" data-key="t-level-1.1">Demandes</a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ url('backend/demandes/archive') }}" 
-                            class="nav-link" data-key="t-level-1.1">Demandes</a>
+                            <a href="{{ url('backend/adhesions/archive') }}" 
+                            class="nav-link" data-key="t-level-1.1">Prestataires</a>
                         </li>
-                        
                     </ul>
                 </div>
-            </li>  --}}
-                
-
+            </li>  
             <li class="nav-item">
                 <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
                     role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
@@ -857,7 +854,6 @@
                                     <a href="{{ route('ajout.about') }}" class="nav-link" data-key="t-cards">Présentation</a>
                                 </li>
 
-
                                 <li class="nav-item">
                                     <a href="{{ route('activity.domaine') }}" class="nav-link" data-key="t-cards">Domaines activité</a>
                                 </li>
@@ -866,6 +862,19 @@
                                 <li class="nav-item">
                                     <a href="{{ url('backends/villes') }}" class="nav-link" data-key="t-cards">Villes</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('ListeMaison')}}" class="nav-link" data-key="t-cards">Maisons</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('ListeSurface')}}" class="nav-link" data-key="t-cards">Surfaces maison</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('ListeSituationHouse')}}" class="nav-link" data-key="t-cards">Situation Maison</a>
+                                </li>
+
 
                                 <li class="nav-item">
                                     <a href="{{ route('statut') }}" class="nav-link" data-key="t-cards">Statuts</a>

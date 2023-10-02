@@ -193,6 +193,25 @@
                                     </tbody>
                                 </table>
                                 </p>
+
+                                @if (!is_null($demandeprestation->created_at))
+                                <p>
+                                <table width="100%">
+                                    <tbody width="100%">
+                                        <tr width="100%">
+                                            <td width="35%">
+                                                <span class="fs-20">enrégistrée Le:</span>
+                                            </td>
+                                            <td width="65%" class="data">
+                                            <span class="fs-20 fw-bolder"> 
+                                                {{ date('d.m.Y H:i:s', strtotime($demandeprestation->created_at ))}}
+                                            </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </p>
+                               @endif
                                 
                                 <p>
                                 <table width="100%">

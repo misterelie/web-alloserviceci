@@ -19,11 +19,11 @@
         text-align: center;
         padding-bottom: 30px;
     }
-
+/* 
     section {
         padding: 60px 0;
         margin-top: -10rem;
-    }
+    } */
 
     .section-title p {
         font-weight: bold;

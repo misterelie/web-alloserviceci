@@ -8,6 +8,10 @@
     .section-title h2 span {
         color: #3601c6;
     }
+    label{
+        color: #000;
+        font-weight: bold;
+    }
 
     .section-title h2 {
         margin: 15px 0 0 0;
@@ -22,7 +26,7 @@
     }
 
     section {
-        padding: 60px 0;
+        /* padding: 60px 0; */
         margin-top: -10rem;
     }
 
@@ -163,10 +167,14 @@
         cursor: pointer;
     }
 
+    /* .mt-1 {
+    margin-top: -2.75rem !important;
+} */
+
 </style>
 
 <!-- Debut du formulaire-->
-<section id="book-a-table" class="book-a-table">
+<section id="book-a-table" class="book-a-table mt-1">
     <div class="container">
         <div class="section-title">
             <div class="form-group ">
@@ -208,7 +216,7 @@
 
             <div class="row">
                 <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                    <label for=""><span style="color: red">*</span> Nom :</label>
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Nom :</label>
                     <input type="text" name="nom" class="form-control  @error('nom') is-invalid @enderror" id="nom" placeholder="Saisissez votre nom ">
                     @error('nom')
                         <span class="text-danger">{{ $message }}</span>
@@ -216,7 +224,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                    <label for=""> <span style="color: red">*</span> Prénom(s) :</label>
+                    <label for="" class="fw-bold"> <span style="color: red">*</span> Prénom(s) :</label>
                     <input type="text" name="prenoms" class="form-control  @error('prenoms') is-invalid @enderror" id="prenoms" 
                     placeholder="Saisissez votre prénom">
                     @error('prenoms')
@@ -225,66 +233,123 @@
                 </div>
                 
                 <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <label for=""><span style="color: red">*</span> Téléphone :</label>
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Téléphone :</label>
                     <input type="tel" name="telephone" class="form-control @error('telephone') is-invalid @enderror" id="telephone" placeholder="Saisissez votre numéro de téléphone">
                     @error('telephone')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-               
+
                 <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                    <label for=""> Email :</label>
+                    <label for="" class="fw-bold">Vous habitez ? :</label>
+                    <select name="house_id" id="house_id" class="form-select form-select-lg mb-3">
+                        <option value="">--- Sélectionnez une option ---</option>
+                            @if (!is_null($houses))
+                                @foreach ($houses as $house)
+                                    <option value="{{ $house->id }}"
+                                        {{ !is_null(old('libelle')) ? 'selected' : '' }}>
+                                        {{ Str::ucfirst($house->libelle) }}
+                                    </option>
+                                @endforeach
+                            @endif
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
+                    <label for="" class="fw-bold">Nombre de Pièces:</label>
+                    <select name="nbre_piece" id="nbre_piece" class="form-select form-select-lg mb-3">
+                        <option value="">--- Sélectionnez une option ---</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
+                    <label for="" class="fw-bold">Votre logement a une surface de:</label>
+                    <select name="surface_piece_id" id="surface_piece_id" class="form-select form-select-lg mb-3">
+                        <option value="">--- Sélectionnez une option ---</option>
+                            @if (!is_null($surface_pieces))
+                                @foreach ($surface_pieces as $surface_piece)
+                                    <option value="{{ $surface_piece->id }}"
+                                        {{ !is_null(old('libelle_surface_piece')) ? 'selected' : '' }}>
+                                        {{ Str::ucfirst($surface_piece->libelle_surface_piece) }}
+                                    </option>
+                                @endforeach
+                            @endif
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-6 form-group mt-md-0">
+                    <label for="" class="fw-bold">Vous vivez ?:</label>
+                    <select name="situation_live_id" id="situation_live_id" class="form-select form-select-lg mb-3">
+                        <option value="">--- Sélectionnez une option ---</option>
+                            @if (!is_null($situa_houses))
+                                @foreach ($situa_houses as $situa_house)
+                                    <option value="{{ $situa_house->id }}"
+                                        {{ !is_null(old('libelle')) ? 'selected' : '' }}>
+                                        {{ Str::ucfirst($situa_house->libelle) }}
+                                    </option>
+                                @endforeach
+                            @endif
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-6 form-group mt-md-0">
+                    <label for="" class="fw-bold"> Email :</label>
                     <input type="email" name="email" class="form-control" id="email" 
                     placeholder="Saisissez votre email">
                 </div>
-              
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <label for="ville_id"><span style="color: red">*</span> Sélectionnez la ville : </label>
-                    <select name="ville_id" id="ville_id" class="form-select form-select-lg mb-3
-                @error('ville_id') is-invalid @enderror">
-                <option value="">-- Sélectionnez une option --- </option>
-                @if (!is_null($villes))
-                    @foreach ($villes as $city)
-                        <option value="{{ $city->id }}"
-                            {{ !is_null(old('libelle')) ? 'selected' : '' }}>
-                            {{ Str::ucfirst($city->libelle) }}
-                        </option>
-                    @endforeach
-                @endif
-                </select>
+
+                <div class="col-lg-4 col-md-6 form-group mt-md-0">
+                    <label for="" class="fw-bold">Villes:</label>
+                    <select name="ville_id" id="ville_id" class="form-select form-select-lg mb-3">
+                        <option value="">--- Sélectionnez une option ---</option>
+                            @if (!is_null($villes))
+                                @foreach ($villes as $city)
+                                    <option value="{{ $city->id }}"
+                                        {{ !is_null(old('libelle')) ? 'selected' : '' }}>
+                                        {{ Str::ucfirst($city->libelle) }}
+                                    </option>
+                                @endforeach
+                            @endif
+                    </select>
                     @error('libelle')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-
-              
-
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <label for=""><span style="color: red">*</span> Sélectionnez le mode de prestation : </label>
+                
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Sélectionnez le mode de prestation : </label>
                     <select name="mode_departement_id" id="mode_departement_id" class="@error('mode_departement_id') is-invalid @enderror form-select form-select-lg mb-3">
                         <option value="">--- Sélectionnez une option ---</option>
-                        @if (!is_null($departmodes))
+                        @if (!is_null($modedepartements))
                             @foreach ($modedepartements as $modedepartement)
-                                <option value="{{ $modedepartement->id }}"
-                                    {{ $modedepartement->id == $modedepartement->id ? 'selected' : ''}}>
+                                <option value="{{ $modedepartement->id }}" 
+                                    {{ $modedepartement->id == $recup_mode_devis->id ? 'selected' : ''}} >
                                     {{ Str::ucfirst($modedepartement->libelle) }}
                                 </option>
                             @endforeach
                         @endif
                     </select>
+                 
                     @error('mode_departement_id')
                             <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <label for=""><span style="color: red">*</span> Sélectionnez la prestation : </label>
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Sélectionnez la prestation : </label>
                     <select name="departement_id" id="departement_id" class="@error('departement_id') is-invalid @enderror form-select form-select-lg mb-3">
-                        <option value="">--- Sélectionnez une option ---</option>
-                        @if (!is_null($departmodes))
+                    <option value="">--- Sélectionnez une option ---</option>
+                        @if (!is_null($departements))
                             @foreach ($departements as $departement)
                                 <option value="{{ $departement->id }}"
-                                    {{ !is_null(old('departements')) ? 'selected' : '' }}>
+                                    {{ $departement->id == $recup_departement->id ? 'selected' : ''}}>
                                     {{ Str::ucfirst($departement->libelle) }}
                                 </option>
                             @endforeach
@@ -295,12 +360,11 @@
                     @enderror
                 </div>
 
-
-                <div class="col-lg-4 col-md-6 form-group mt-0">
-                    <label for="libelle"><span style="color: red">*</span> 
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label for="libelle" class="fw-bold"><span style="color: red">*</span> 
                         Sélectionnez la commune: </label>
                     <div id="getCommune">
-                        <select class="form-control make commune_id @error('commune_id') is-invalid @enderror" name="commune_id">
+                        <select class="form-select form-select-lg mb-3 form-control make commune_id @error('commune_id') is-invalid @enderror" name="commune_id">
                             <option label=""></option>
                          </select>
                         @error('commune_id')
@@ -308,9 +372,9 @@
                         @enderror
                     </div>
                 </div>
-             
+
                 <div class="col-lg-4 col-md-6 form-group">
-                    <label for=""><span style="color: red">*</span> Quartier :</label>
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Quartier : </label>
                     <input type="text" name="quartier" 
                     class="form-control form-control-lg @error('quartier') is-invalid @enderror" id="quartier" 
                     placeholder="Saisissez votre quartier !">
@@ -318,32 +382,40 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-               
-                <div class="col-lg-6 col-md-6 form-group mt-md-0">
-                    <label for=""><span style="color: red">*</span> Date d'exécution :</label>
-                    <input type="date" name="date_execution" class="form-control  @error('date_execution') is-invalid @enderror" id="date_execution">
+
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label for="" class="fw-bold"><span style="color: red">*</span> Date d'exécution : </label>
+                    <input type="date" name="date_execution" 
+                    class="form-control form-control-lg @error('date_execution') is-invalid @enderror" 
+                    placeholder="Saisissez votre quartier !">
                     @error('date_execution')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-               
-                <div class="col-lg-6 col-md-6 form-group mt-md-0">
-                    <label for="">Heure exécution :</label>
-                    <input type="time" name="heure_execution" class="form-control" id="heure_execution">
 
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label for="" class="fw-bold"><span style="color: red">*</span> 
+                        Heure d'exécution : </label>
+                    <input type="time" name="heure_execution" 
+                    class="form-control form-control-lg @error('quartier') is-invalid @enderror" id="heure_execution" 
+                    placeholder="Saisissez votre quartier !">
+                    @error('heure_execution')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             
                 <div class="form-group mt-3">
-                    <label for="besoin">Plus d'information</label>
+                    <label for="besoin" class="fw-bold">Plus d'information</label>
                     <textarea class="form-control" name="description_devis" rows="5" 
                     placeholder="Donnez-nous plus d'information"></textarea>
                 </div>
             </div>
-            <div class="text-center"><button type="submit">Envoyer la demande</button></div>
+            <div class="text-center"><button type="submit">Je demande mon devis</button></div>
         </form>
     </div><br><br>
 </section>
 <!--Fin duformulaire-->
+
 @yield('js')
 @endsection
 

@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MenageOccasionnel extends Model
+class SituationLive extends Model
 {
     use HasFactory;
-    protected $table = "menage_occasionnels";
+    protected $table = "situation_lives";
     protected $guarded = ['id'];
-    protected $fillable = ["slug", "libelle", "image_menage", "details", "user_id"];
+    protected $fillable = ["libelle", "user_id"];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    
+    public function devis(){
+        return $this->hasMany(Devi::class);
     }
 }

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('quartier')->default(NULL)->nullable();
             $table->string('photo')->nullable();
             $table->foreignId('domaine_id')->nullable()->default(NULL);
-            $table->string('annee_experience')->default(NULL)->nullable();;
+            $table->string('annee_experience')->default(NULL)->nullable();
             $table->float('pretention_salairiale')->nullable();
             $table->string('zone')->default(NULL)->nullable();
             $table->string('contact_urgence')->default(NULL)->nullable();

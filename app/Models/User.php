@@ -45,6 +45,5 @@ class User extends Authenticatable
     public function villes(){
         return $this->hasMany(Ville::class, "user_id");
     }
-
-    
+  
 }

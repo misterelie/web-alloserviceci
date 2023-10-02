@@ -25,9 +25,9 @@ class Commune extends Model
         return $this->belongsTo(ville::class, "ville_id");
     }
 
-    // public function villes(){
-    //     return $this->belongsToMany(Ville::class);
-    // }
+    public function devis(){
+        return $this->hasMany(Devi::class);
+    }
 
     
 }
